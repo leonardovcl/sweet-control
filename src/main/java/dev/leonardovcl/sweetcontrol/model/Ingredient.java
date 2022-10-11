@@ -1,12 +1,13 @@
 package dev.leonardovcl.sweetcontrol.model;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.Transient;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotBlank;
 
 @Entity
@@ -17,38 +18,29 @@ public class Ingredient {
 	private Long id;
 	
 	@NotBlank
-	@Column(name = "inventory_entry")
-	@ManyToOne
-	private Inventory inventoryEntry;
+	@Column(name = "ingredient_name", length = 200)
+	private String name;
 	
-	@NotBlank
-	@Column(name = "ingredient_amount")
-	private Double amount;
+	@Column(name = "ingredient_description", length = 200)
+	private String description;
 	
-	@NotBlank
-	@Column(name = "ingredient_amount_type")
-	private AmountType amountType;
+	@OneToMany(mappedBy = "ingredient")
+	private List<Inventory> inventoryEntries;
 	
-	public enum AmountType {
-		KG, G, ML, L;
-	}
-	
-	@NotBlank
-	@Column(name = "ingredient_price")
-	private Double price;
-	
-	@Transient
-	private Double pricePerAmount;
+	@OneToMany(mappedBy = "ingredientEntry")
+	private List<RecipeIngredient> ingredientRecipes;
 	
 	public Ingredient() {
 		
 	}
 	
-	public Ingredient (Inventory inventoryEntry, Double amount, Double price) {
-		this.setInvententoryEntry(inventoryEntry);
-		this.setAmount(amount);
-		this.setPrice(price);
-		this.setPricePerAmount();
+	public Ingredient (String name) {
+		this.name = name;
+	}
+	
+	public Ingredient (String name, String description) {
+		this.name = name;
+		this.description = description;
 	}
 	
 	public Long getId() {
@@ -59,46 +51,36 @@ public class Ingredient {
 		this.id = id;
 	}
 	
-	public Inventory getInventoryEntry() {
-		return inventoryEntry;
+	public String getName() {
+		return name;
 	}
 	
-	public void setInvententoryEntry(Inventory inventoryEntry) {
-		this.inventoryEntry = inventoryEntry;
+	public void setName(String name) {
+		this.name = name;
 	}
 	
-	public Double getAmount() {
-		return amount;
+	public String getDescription() {
+		return description;
 	}
 	
-	public void setAmount(Double amount) {
-		this.amount = amount;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 	
-	public AmountType getAmountType() {
-		return amountType;
+	public List<Inventory> getInventoryEntries() {
+		return inventoryEntries;
 	}
 	
-	public void setAmountType(AmountType amountType) {
-		this.amountType = amountType;
+	public void setInventoryEntries(List<Inventory> inventoryEntries) {
+		this.inventoryEntries = inventoryEntries;
 	}
 	
-	public Double getPrice() {
-		return price;
+	public List<RecipeIngredient> getIngredientRecipes() {
+		return ingredientRecipes;
 	}
 	
-	public void setPrice(Double price) {
-		this.price = price;
-	}
-	
-	public Double getPricePerAmount() {
-		return pricePerAmount;
-	}
-	
-	public void setPricePerAmount() {
-		if (amount != 0) {
-			pricePerAmount = price / amount; 
-		}
+	public void setIngredientRecipes(List<RecipeIngredient> ingredientRecipes) {
+		this.ingredientRecipes = ingredientRecipes;
 	}
 	
 }

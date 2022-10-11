@@ -25,7 +25,7 @@ public class Recipe {
 	private String description;
 	
 	@OneToMany(mappedBy = "recipe")
-	private List<RecipeInventory> recipeInventories;
+	private List<RecipeIngredient> recipeIngredients;
 	
 	 public Recipe() {
 		 
@@ -64,12 +64,12 @@ public class Recipe {
 		this.description = description;
 	}
 	
-	public List<RecipeInventory> getRecipeInventories() {
-		return recipeInventories;
+	public List<RecipeIngredient> getRecipeInventories() {
+		return recipeIngredients;
 	}
 	
-	public void setRecipeInventories(List<RecipeInventory> recipeInventories) {
-		this.recipeInventories = recipeInventories;
+	public void setRecipeIngredients(List<RecipeIngredient> recipeIngredients) {
+		this.recipeIngredients = recipeIngredients;
 	}
 	
 	public Double recipeTotalCost() {
