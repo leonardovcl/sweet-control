@@ -12,4 +12,4 @@ target/
 .springBeans
 .sts4-cache
 
-*/application.properties
+src/main/resources/application.properties
