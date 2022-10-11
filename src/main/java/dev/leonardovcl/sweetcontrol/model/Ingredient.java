@@ -26,6 +26,14 @@ public class Ingredient {
 	private Double amount;
 	
 	@NotBlank
+	@Column(name = "ingredient_amount_type")
+	private AmountType amountType;
+	
+	public enum AmountType {
+		KG, G, ML, L;
+	}
+	
+	@NotBlank
 	@Column(name = "ingredient_price")
 	private Double price;
 	
@@ -47,6 +55,10 @@ public class Ingredient {
 		return id;
 	}
 	
+	public void setId(Long id) {
+		this.id = id;
+	}
+	
 	public Inventory getInventoryEntry() {
 		return inventoryEntry;
 	}
@@ -61,6 +73,14 @@ public class Ingredient {
 	
 	public void setAmount(Double amount) {
 		this.amount = amount;
+	}
+	
+	public AmountType getAmountType() {
+		return amountType;
+	}
+	
+	public void setAmountType(AmountType amountType) {
+		this.amountType = amountType;
 	}
 	
 	public Double getPrice() {
