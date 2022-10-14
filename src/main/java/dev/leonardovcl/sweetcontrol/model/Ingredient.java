@@ -35,12 +35,12 @@ public class Ingredient {
 	}
 	
 	public Ingredient (String name) {
-		this.name = name;
+		this.setName(name);
 	}
 	
 	public Ingredient (String name, String description) {
-		this.name = name;
-		this.description = description;
+		this.setName(name);
+		this.setDescription(description);
 	}
 	
 	public Long getId() {
@@ -81,6 +81,20 @@ public class Ingredient {
 	
 	public void setIngredientRecipes(List<RecipeIngredient> ingredientRecipes) {
 		this.ingredientRecipes = ingredientRecipes;
+	}
+	
+	@Override
+	public String toString() {
+		StringBuilder objString = new StringBuilder();
+		objString.append("[Ingredient ").append("#").append(this.getId()).append("] ");
+		objString.append(this.getName()).append(" ");
+		objString.append("(").append(this.getDescription()).append(")");
+		
+		objString.append(" [@");
+		objString.append(Integer.toHexString(System.identityHashCode(this)));
+		objString.append("]");
+				
+		return objString.toString();
 	}
 	
 }
