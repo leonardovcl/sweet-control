@@ -72,9 +72,35 @@ public class Recipe {
 		this.recipeIngredients = recipeIngredients;
 	}
 	
-	public Double recipeTotalCost() {
+	public Double getRecipeTotalCost() {
 		// TODO: Implement Total cost evaluation!
 		Double totalCost = 0.00;
+		
+		for (RecipeIngredient recipeIngredient: recipeIngredients) {
+			
+			Ingredient ingredient = recipeIngredient.getIngredientEntry();
+			Double totalIngredientAmount = 0.00;
+			
+			List<Inventory> inventoryEntries = ingredient.getInventoryEntries();
+			
+			for (Inventory inventoryEntry: inventoryEntries) {
+				Double amountNeeded = recipeIngredient.getRecipeIngredientAmount() - totalIngredientAmount;
+				
+				if (inventoryEntry.getAmount() < amountNeeded) {
+					totalIngredientAmount += inventoryEntry.getAmount();
+					totalCost += inventoryEntry.getAmount() * inventoryEntry.getPricePerAmount();
+				} else {
+					totalIngredientAmount += amountNeeded;
+					totalCost += amountNeeded * inventoryEntry.getPricePerAmount();
+				}
+				
+				if (totalIngredientAmount.doubleValue() == 
+					recipeIngredient.getRecipeIngredientAmount().doubleValue()) {
+					break;
+				}
+			}
+		}
+		
 		return totalCost;
 	}
 	
