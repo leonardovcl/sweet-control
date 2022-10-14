@@ -29,7 +29,7 @@ public class Inventory {
 	private AmountType amountType;
 	
 	public enum AmountType {
-		KG, G, ML, L;
+		KG, G, ML, L, UN;
 	}
 	
 	@NotBlank
@@ -91,6 +91,45 @@ public class Inventory {
 	
 	public void setPrice(Double price) {
 		this.price = price;
+	}
+	
+	@Override
+	public String toString() {
+		StringBuilder objString = new StringBuilder();
+		objString.append("[Inventory ").append("#").append(this.getId()).append("] ");
+		objString.append("Ingredient: (#").append(this.getIngredient().getId()).append(") ").append(this.getIngredient().getName()).append(" ");
+		objString.append("(").append(this.getAmount()).append(" ");
+		
+		switch (this.getAmountType()) {
+		case KG:
+			objString.append("Kg");
+			break;
+		case G:
+			objString.append("g");
+			break;
+		case L:
+			objString.append("L");
+			break;
+		case ML:
+			objString.append("mL");
+			break;
+		case UN:
+			objString.append("Un");
+			break;
+			
+		default:
+			break;
+		}
+		
+		objString.append(" | R$ ");
+		objString.append(this.getPrice());
+		objString.append(")");
+		
+		objString.append(" [@");
+		objString.append(Integer.toHexString(System.identityHashCode(this)));
+		objString.append("]");
+				
+		return objString.toString();
 	}
 	
 	public Double getPricePerAmount() {
