@@ -72,8 +72,21 @@ public class Recipe {
 		this.recipeIngredients = recipeIngredients;
 	}
 	
+	@Override
+	public String toString() {
+		StringBuilder objString = new StringBuilder();
+		objString.append("[Recipe ").append("#").append(this.getId()).append("] ");
+		objString.append(this.getName()).append(" ");
+		objString.append("(").append(this.getDescription()).append(")");
+		
+		objString.append(" [@");
+		objString.append(Integer.toHexString(System.identityHashCode(this)));
+		objString.append("]");
+				
+		return objString.toString();
+	}
+	
 	public Double getRecipeTotalCost() {
-		// TODO: Implement Total cost evaluation!
 		Double totalCost = 0.00;
 		
 		for (RecipeIngredient recipeIngredient: recipeIngredients) {
