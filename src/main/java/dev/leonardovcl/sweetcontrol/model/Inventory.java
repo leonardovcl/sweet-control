@@ -21,7 +21,7 @@ public class Inventory {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	@DateTimeFormat(pattern = "yyyy-MM-dd 'at' HH:mm:ss z")
 	@Temporal(TemporalType.DATE)
 	private Date inclusionDate;
 	
@@ -160,6 +160,18 @@ public class Inventory {
 			return price / amount;
 		} else {
 			return null;
+		}
+	}
+	
+public String getPricePerAmountAsString() {
+		
+		price = getPricePerAmount();
+		
+		if (price != null) {
+			String priceString = String.format("%.2f", price);
+			return priceString;
+		} else {
+			return "";
 		}
 	}
 	
