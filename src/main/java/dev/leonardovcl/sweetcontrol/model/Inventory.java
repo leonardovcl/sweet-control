@@ -1,5 +1,6 @@
 package dev.leonardovcl.sweetcontrol.model;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 import javax.persistence.Column;
@@ -8,6 +9,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 public class Inventory {
@@ -16,16 +21,19 @@ public class Inventory {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-//	@NotBlank
-//	@Column(name = "ingredient_type")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	@Temporal(TemporalType.DATE)
+	private LocalDateTime inclusionDate;
+	
 	@ManyToOne
 	private Ingredient ingredient;
 	
-//	@NotBlank
 	@Column(name = "ingredient_amount")
 	private Double amount;
 	
-//	@NotBlank
+	@Column(name = "ingredient_amount_left")
+	private Double amountLeft;
+	
 	@Column(name = "ingredient_amount_type")
 	private AmountType amountType;
 	
@@ -33,23 +41,25 @@ public class Inventory {
 		kg, g, mL, L, Un;
 	}
 	
-//	@NotBlank
 	@Column(name = "ingredient_price")
 	private Double price;
 	
 	public Inventory() {
-		
+		this.inclusionDate = LocalDateTime.now();
 	}
 	
 	public Inventory (Ingredient ingredient, Double amount, Double price) {
+		this.inclusionDate = LocalDateTime.now();
 		this.setIngredient(ingredient);
 		this.setAmount(amount);
+		this.setAmountLeft(amount);
 		this.setPrice(price);
 	}
 	
 	public Inventory (Ingredient ingredient, Double amount, AmountType amountType, Double price) {
 		this.setIngredient(ingredient);
 		this.setAmount(amount);
+		this.setAmountLeft(amount);
 		this.setAmountType(amountType);
 		this.setPrice(price);
 	}
@@ -60,6 +70,14 @@ public class Inventory {
 	
 	public void setId(Long id) {
 		this.id = id;
+	}
+	
+	public LocalDateTime getInclusionDate() {
+		return inclusionDate;
+	}
+	
+	public void setInclusionDate(LocalDateTime inclusionDate) {
+		this.inclusionDate = inclusionDate;
 	}
 	
 	public Ingredient getIngredient() {
@@ -76,6 +94,14 @@ public class Inventory {
 	
 	public void setAmount(Double amount) {
 		this.amount = amount;
+	}
+	
+	public Double getAmountLeft() {
+		return amountLeft;
+	}
+	
+	public void setAmountLeft(Double amountLeft) {
+		this.amountLeft = amountLeft;
 	}
 	
 	public AmountType getAmountType() {
