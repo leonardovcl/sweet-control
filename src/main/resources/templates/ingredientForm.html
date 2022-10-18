@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+  <head>
+  	<meta charset="UTF-8">
+    <title>Sweet Control</title>
+  </head>
+
+  <body>
+  
+    <form method="POST" th:action="@{/ingredients/register}" th:object="${ingredient}" id="ingredientForm">
+      <h1>Register New Ingredient</h1>
+
+      <label for="name">Name: </label>
+      <input type="text" th:field="*{name}">
+      <br/>
+      <br/>
+      <label for="description">Description: </label>
+      <input type="text" th:field="*{description}"/>
+      <br/>
+      <br/>
+
+      <input type="submit" value="Register"/>
+    </form>
+    
+    <br/>
+    <a th:href="@{/ingredients}">View Ingredients</a>
+    <br/>
+    <a th:href="@{/}">Home</a>
+  
+  </body>
+
+</html>

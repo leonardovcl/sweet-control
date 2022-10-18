@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+  <head>
+  	<meta charset="UTF-8">
+    <title>Sweet Control</title>
+  </head>
+
+  <body>
+  
+    <h1>Sweet Control</h1>
+    <h3>Ingredients List:</h3>
+    
+    <ol>
+    <li th:each="ingredient : ${ingredientList}">
+		<span th:text="${ingredient.name}">Name</span>
+        <span th:text="${ingredient.description}">Description</span>
+        <a th:href="@{/inventories/{idIngredient}(idIngredient=${ingredient.id})}">Inventories</a>
+        <a th:href="@{/ingredients/edit/{idIngredient}(idIngredient=${ingredient.id})}">Edit</a>
+        <a th:href="@{/ingredients/delete/{idIngredient}(idIngredient=${ingredient.id})}">Delete</a>
+	</li>
+	</ol>
+    
+    <form method="POST" th:action ="@{/ingredients}" id="filterList">
+      <h5>Filter Results</h5>
+
+      <label for="filterByName">Name: </label>
+      <input type="text" name ="nameLike" th:value="${nameLike}">
+      <br/>
+      <br/>
+      <input type="submit" value="Filter Results"/>
+    </form>
+    
+    <a th:href="@{/ingredients}">Clear Filter</a>
+    <br/>
+    <br/>
+    
+    <a th:href="@{/ingredients/register}">Register Ingredient</a>
+    <br/>
+    <a th:href="@{/inventories/register}">Register Inventory</a>
+    <br/>
+    <a th:href="@{/}">Home</a>
+  
+  </body>
+
+</html>
