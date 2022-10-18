@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+  <head>
+  	<meta charset="UTF-8">
+    <title>Sweet Control</title>
+  </head>
+
+  <body>
+  
+    <form method="POST" th:object="${recipe}" id="recipeForm" name="recipeForm">
+      <h1>Recipe Ingredients</h1>
+
+      <label for="id">Id: </label>
+      <input type="text" th:field="*{id}" readonly="readonly">
+      <br/>
+      <br/>
+      <label for="name">Name: </label>
+      <input type="text" th:field="*{name}" readonly="readonly">
+      <br/>
+      <br/>
+      <label for="description">Description: </label>
+      <input type="text" th:field="*{description}" readonly="readonly">
+      <br/>
+      <br/>
+    </form>
+    
+    <h3>Ingredients List:</h3>
+    
+    <ol>
+    <li th:each="recipeIngredient : ${recipeIngredientList}">
+		<span th:text="${recipeIngredient.getIngredientEntry().name}">Name</span>
+        <span th:text="${recipeIngredient.getRecipeIngredientAmount()}">Amount</span>
+        <span th:text="${recipeIngredient.getRecipeIngredientAmountType().name()}">Measure Unity</span>
+        <a th:href="@{/inventories/{idIngredient}(idIngredient=${recipeIngredient.getIngredientEntry().id})}">Inventories</a>
+        <a th:href="@{/recipe_ingredients/edit/{idRecipeIngredient}(idRecipeIngredient=${recipeIngredient.id})}">Edit</a>
+        <a th:href="@{/recipe_ingredients/delete/{idRecipeIngredient}(idRecipeIngredient=${recipeIngredient.id})}">Delete</a>
+	</li>
+	</ol>
+    
+    <form method="POST" id="recipeIngredientForm" name="recipeIngredientForm">
+      <label for="ingredient">Ingredient: </label>
+	<select th:value="${ingredient}" id="ingredient" name="ingredient">
+		<option th:each = "i : ${ingredientList}" th:value="${i.id}" th:text="${i.name}">
+	</select>
+      <label for="amount">Amount: </label>
+      <input type="text" name="amount" th:value="${amount}"/>
+	<label for="amountType">Measure Unity: </label>
+	<select th:value="${amountType}" name="amountType" id="amountType">
+		<option th:each = "u : ${T(dev.leonardovcl.sweetcontrol.model.Inventory.AmountType).values()}" th:value="${u}" th:text="${u.name()}">
+	</select>
+      <br/>
+      <br/>
+
+      <input type="submit" value="Add Ingredient"/>
+    </form>
+    
+    <br/>
+    <a th:href="@{/recipes}">View Recipes</a>
+    <br/>
+    <a th:href="@{/}">Home</a>
+  
+  </body>
+</html>

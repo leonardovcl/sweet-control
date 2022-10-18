@@ -8,8 +8,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.validation.constraints.NotBlank;
-
 import dev.leonardovcl.sweetcontrol.model.Inventory.AmountType;
 
 @Entity
@@ -27,11 +25,9 @@ public class RecipeIngredient {
 	@JoinColumn(name = "ingredient_id")
 	private Ingredient ingredientEntry;
 	
-	@NotBlank
 	@Column(name = "recipe_ingredient_amount")
 	private Double recipeIngredientAmount;
 	
-	@NotBlank
 	@Column(name = "recipe_ingredient_amount_type")
 	private AmountType recipeIngredientAmountType;
 	
