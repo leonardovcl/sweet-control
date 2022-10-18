@@ -19,7 +19,10 @@
       <br/>
       <br/>
       <label for="amount">Amount: </label>
-      <input type="text" th:field="*{amount}"/>
+      <input type="text" th:field="*{amount}" id="amount" onchange="amountLeftSet()"/>
+      
+      <label for="amountLeft">Amount Left: </label>
+      <input type="text" th:field="*{amountLeft}" id="amountLeft"/>
       <br/>
       <br/>
       <label for="amountType">Measure Unity: </label>
@@ -40,6 +43,13 @@
     <a th:href="@{/ingredients}">View Ingredients</a>
     <br/>
     <a th:href="@{/}">Home</a>
+    
+    <script>
+		function amountLeftSet() {
+  			var amount = document.getElementById("amount").value;
+  			document.getElementById("amountLeft").value = amount;
+		}
+	</script>
   
   </body>
 
