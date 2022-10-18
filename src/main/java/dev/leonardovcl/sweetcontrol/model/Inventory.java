@@ -1,6 +1,6 @@
 package dev.leonardovcl.sweetcontrol.model;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.Objects;
 
 import javax.persistence.Column;
@@ -23,7 +23,7 @@ public class Inventory {
 	
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	@Temporal(TemporalType.DATE)
-	private LocalDateTime inclusionDate;
+	private Date inclusionDate;
 	
 	@ManyToOne
 	private Ingredient ingredient;
@@ -45,11 +45,11 @@ public class Inventory {
 	private Double price;
 	
 	public Inventory() {
-		this.inclusionDate = LocalDateTime.now();
+		this.inclusionDate = new Date();
 	}
 	
 	public Inventory (Ingredient ingredient, Double amount, Double price) {
-		this.inclusionDate = LocalDateTime.now();
+		this.inclusionDate = new Date();
 		this.setIngredient(ingredient);
 		this.setAmount(amount);
 		this.setAmountLeft(amount);
@@ -72,11 +72,11 @@ public class Inventory {
 		this.id = id;
 	}
 	
-	public LocalDateTime getInclusionDate() {
+	public Date getInclusionDate() {
 		return inclusionDate;
 	}
 	
-	public void setInclusionDate(LocalDateTime inclusionDate) {
+	public void setInclusionDate(Date inclusionDate) {
 		this.inclusionDate = inclusionDate;
 	}
 	
