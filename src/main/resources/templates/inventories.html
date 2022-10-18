@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+  <head>
+  	<meta charset="UTF-8">
+    <title>Sweet Control</title>
+  </head>
+
+  <body>
+  
+    <h1>Sweet Control</h1>
+    <h3>Inventories List:</h3>
+    
+    <ol>
+    <li th:each="inventory : ${inventoryList}">
+		<span th:text="${inventory.ingredient.name}">Name</span>
+        <span th:text="${inventory.amount}">Amount</span>
+        <span th:text="${inventory.amountType.name()}">Amount Type</span>
+        <span th:text="${inventory.price}">Price</span>
+        <span th:text="${inventory.getPricePerAmount()}">Price per amount</span>
+        <a th:href="@{/inventories/edit/{idInventory}(idInventory=${inventory.id})}">Edit</a>
+        <a th:href="@{/inventories/delete/{idInventory}(idInventory=${inventory.id})}">Delete</a>
+	</li>
+	</ol>
+    
+    <a th:href="@{/inventories/register/{idIngredient}(idIngredient=${idIngredient})}">Register Inventory</a>
+    <br/>
+    <a th:href="@{/ingredients}">View Ingredients</a>
+    <br/>
+    <a th:href="@{/}">Home</a>
+  
+  </body>
+
+</html>

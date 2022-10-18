@@ -8,7 +8,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.validation.constraints.NotBlank;
 
 @Entity
 public class Inventory {
@@ -17,24 +16,24 @@ public class Inventory {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@NotBlank
-	@Column(name = "ingredient_type")
+//	@NotBlank
+//	@Column(name = "ingredient_type")
 	@ManyToOne
 	private Ingredient ingredient;
 	
-	@NotBlank
+//	@NotBlank
 	@Column(name = "ingredient_amount")
 	private Double amount;
 	
-	@NotBlank
+//	@NotBlank
 	@Column(name = "ingredient_amount_type")
 	private AmountType amountType;
 	
 	public enum AmountType {
-		KG, G, ML, L, UN;
+		kg, g, mL, L, Un;
 	}
 	
-	@NotBlank
+//	@NotBlank
 	@Column(name = "ingredient_price")
 	private Double price;
 	
@@ -117,29 +116,7 @@ public class Inventory {
 		StringBuilder objString = new StringBuilder();
 		objString.append("[Inventory ").append("#").append(this.getId()).append("] ");
 		objString.append("Ingredient: (#").append(this.getIngredient().getId()).append(") ").append(this.getIngredient().getName()).append(" ");
-		objString.append("(").append(this.getAmount()).append(" ");
-		
-		switch (this.getAmountType()) {
-		case KG:
-			objString.append("Kg");
-			break;
-		case G:
-			objString.append("g");
-			break;
-		case L:
-			objString.append("L");
-			break;
-		case ML:
-			objString.append("mL");
-			break;
-		case UN:
-			objString.append("Un");
-			break;
-			
-		default:
-			break;
-		}
-		
+		objString.append("(").append(this.getAmount()).append(" ").append(this.getAmountType().name());
 		objString.append(" | R$ ");
 		objString.append(this.getPrice());
 		objString.append(")");
