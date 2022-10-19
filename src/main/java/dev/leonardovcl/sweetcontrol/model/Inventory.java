@@ -163,7 +163,7 @@ public class Inventory {
 		}
 	}
 	
-public String getPricePerAmountAsString() {
+	public String getPricePerAmountAsString() {
 		
 		price = getPricePerAmount();
 		
