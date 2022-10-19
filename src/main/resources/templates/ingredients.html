@@ -25,6 +25,9 @@
     <form method="POST" th:action ="@{/ingredients}" id="filterList">
       <h5>Filter Results</h5>
 
+      <label for="filterById">Id: </label>
+      <input type="text" name ="idFilter" th:value="${idFilter}">
+      
       <label for="filterByName">Name: </label>
       <input type="text" name ="nameLike" th:value="${nameLike}">
       <br/>

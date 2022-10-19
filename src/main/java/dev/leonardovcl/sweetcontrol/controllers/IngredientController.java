@@ -1,5 +1,7 @@
 package dev.leonardovcl.sweetcontrol.controllers;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import javax.validation.Valid;
@@ -30,9 +32,25 @@ public class IngredientController {
 	}
 	
 	@PostMapping
-	public String showIngredientsWithFilter(@RequestParam("nameLike") String nameLike, Model model) {
-		System.out.println("Aqui: " + nameLike);
-		model.addAttribute("ingredientList", ingredientRepository.findByNameContainingIgnoreCase(nameLike));
+	public String showIngredientsWithFilter(@RequestParam(value = "nameLike", required = false) String nameLike,
+											@RequestParam(value = "idFilter", required = false) Long idFilter,
+											Model model) {
+		
+		List<Ingredient> ingredientList = new ArrayList<>();
+		
+		if (idFilter != null) {
+			Ingredient ingredientById = ingredientRepository.findById(idFilter).isPresent() ? ingredientRepository.findById(idFilter).get() : null;
+			
+			if (ingredientById != null) {
+				ingredientList.add(ingredientById);
+			}
+		} else if (!nameLike.isBlank()) {
+			ingredientList = ingredientRepository.findByNameContainingIgnoreCase(nameLike);
+		} else {
+			ingredientList = (List<Ingredient>) ingredientRepository.findAll();
+		}
+		
+		model.addAttribute("ingredientList", ingredientList);
 		return "ingredients";
 	}
 	
