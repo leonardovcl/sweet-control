@@ -1,5 +1,7 @@
 package dev.leonardovcl.sweetcontrol.controllers;
 
+import java.util.ArrayList;
+import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,7 @@ import dev.leonardovcl.sweetcontrol.model.RecipeIngredient;
 import dev.leonardovcl.sweetcontrol.model.repository.IngredientRepository;
 import dev.leonardovcl.sweetcontrol.model.repository.RecipeIngredientRepository;
 import dev.leonardovcl.sweetcontrol.model.repository.RecipeRepository;
+import dev.leonardovcl.sweetcontrol.services.RecipeService;
 
 @Controller
 @RequestMapping("/recipes")
@@ -32,15 +35,44 @@ public class RecipeController {
 	@Autowired
 	private RecipeIngredientRepository recipeIngredientRepository;
 	
+	@Autowired
+	private RecipeService recipeService;
+	
 	@GetMapping
 	public String showRecipes(Model model) {
+		model.addAttribute("ingredientList", ingredientRepository.findAll());
 		model.addAttribute("recipeList", recipeRepository.findAll());
 		return "recipes";
 	}
 	
 	@PostMapping
-	public String showRecipesWithFilter(@RequestParam("nameLike") String nameLike, Model model) {
-		model.addAttribute("recipeList", recipeRepository.findByNameContainingIgnoreCase(nameLike));
+	public String showRecipesWithFilter(@RequestParam(value = "nameLike", required = false) String nameLike,
+										@RequestParam(value = "idFilter", required = false) Long idFilter,
+										@RequestParam(value = "idIngredientFilter", required = false) Long idIngredientFilter,
+										Model model) {
+		
+		List<Recipe> recipeList = new ArrayList<>();
+		
+		if(idFilter != null) {
+			Recipe recipeById = recipeRepository.findById(idFilter).isPresent() ? recipeRepository.findById(idFilter).get() : null;
+			
+			if(recipeById != null) {
+				recipeList.add(recipeById);
+			}
+		} else if (!nameLike.isBlank() && idIngredientFilter == null) {
+			recipeList = recipeRepository.findByNameContainingIgnoreCase(nameLike);
+		} else if (nameLike.isBlank() && idIngredientFilter != null) {
+			recipeList = recipeService.findRecipeByIngredient(idIngredientFilter);
+		} else if (!nameLike.isBlank() && idIngredientFilter != null) {
+			recipeList = recipeService.findRecipeByIngredientAndNameContaining(idIngredientFilter, nameLike);
+		} else {
+			recipeList = (List<Recipe>) recipeRepository.findAll();
+		}
+		
+		model.addAttribute("idIngredientFilter", idIngredientFilter);
+		model.addAttribute("recipeList", recipeList);
+		model.addAttribute("ingredientList", ingredientRepository.findAll());
+		
 		return "recipes";
 	}
 	

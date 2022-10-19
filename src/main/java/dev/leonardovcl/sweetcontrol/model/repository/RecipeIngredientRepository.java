@@ -9,4 +9,6 @@ import dev.leonardovcl.sweetcontrol.model.RecipeIngredient;
 public interface RecipeIngredientRepository extends PagingAndSortingRepository<RecipeIngredient, Long> {
 
 	public List<RecipeIngredient> findByRecipeId(Long idRecipe);
+	
+	public List<RecipeIngredient> findByIngredientEntryId(Long idIngredient);
 }
