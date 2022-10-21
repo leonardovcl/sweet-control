@@ -3,6 +3,7 @@ package dev.leonardovcl.sweetcontrol.model;
 import java.util.List;
 import java.util.Objects;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -25,10 +26,10 @@ public class Ingredient {
 	@Column(name = "ingredient_description", length = 200)
 	private String description;
 	
-	@OneToMany(mappedBy = "ingredient")
+	@OneToMany(mappedBy = "ingredient", cascade = CascadeType.ALL)
 	private List<Inventory> inventoryEntries;
 	
-	@OneToMany(mappedBy = "ingredientEntry")
+	@OneToMany(mappedBy = "ingredientEntry", cascade = CascadeType.ALL)
 	private List<RecipeIngredient> ingredientRecipes;
 	
 	public Ingredient() {
