@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import dev.leonardovcl.sweetcontrol.model.Inventory;
 import dev.leonardovcl.sweetcontrol.model.repository.IngredientRepository;
 import dev.leonardovcl.sweetcontrol.model.repository.InventoryRepository;
+import dev.leonardovcl.sweetcontrol.model.repository.UsedInventoryRepository;
 
 @Controller
 @RequestMapping("/inventories")
@@ -26,10 +27,13 @@ public class InventoryController {
 	@Autowired
 	private IngredientRepository ingredientRepository;
 	
+	@Autowired
+	private UsedInventoryRepository usedInventoryRepository;
+	
 	@GetMapping("/{idIngredient}")
 	public String showInventories(@PathVariable("idIngredient") Long idIngredient, Model model) {
 		model.addAttribute("idIngredient", idIngredient);
-		model.addAttribute("inventoryList", inventoryRepository.findByIngredientId(idIngredient));
+		model.addAttribute("inventoryList", inventoryRepository.findByIngredientIdAndActiveTrue(idIngredient));
 		return "inventories";
 	}
 	
@@ -64,6 +68,12 @@ public class InventoryController {
 	
 	@GetMapping("/edit/{idInventory}")
 	public String showInventoryUpdateForm(@PathVariable("idInventory") Long idInventory, Model model) {
+		
+		if(usedInventoryRepository.existsByInventoryEntryId(idInventory)) {
+			model.addAttribute("idInventory", idInventory);
+			return "inventoryUpdateError";
+		}
+		
 		Optional<Inventory> inventory = inventoryRepository.findById(idInventory);
 		model.addAttribute("inventory", inventory);
 		model.addAttribute("ingredientList", ingredientRepository.findAll());
@@ -74,6 +84,15 @@ public class InventoryController {
 	public String updateInventory(@PathVariable("idInventory") Long idInventory, @Valid Inventory inventory) {
 		String idIngredient = Long.toString(inventory.getIngredient().getId());
 		inventoryRepository.save(inventory);
+		return "redirect:/inventories/" + idIngredient;
+	}
+	
+	@GetMapping("/edit/inventoryUpdateError/{idInventory}")
+	public String showInventoryUpdateError(@PathVariable("idInventory") Long idInventory) {
+		
+		Inventory inventory = inventoryRepository.findById(idInventory).get();
+		String idIngredient = Long.toString(inventory.getIngredient().getId());
+		
 		return "redirect:/inventories/" + idIngredient;
 	}
 	

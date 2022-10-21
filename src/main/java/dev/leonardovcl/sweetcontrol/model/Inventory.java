@@ -1,14 +1,17 @@
 package dev.leonardovcl.sweetcontrol.model;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -28,6 +31,9 @@ public class Inventory {
 	@ManyToOne
 	private Ingredient ingredient;
 	
+	@Column(name = "inventory_active")
+	private Boolean active;
+	
 	@Column(name = "ingredient_amount")
 	private Double amount;
 	
@@ -44,12 +50,17 @@ public class Inventory {
 	@Column(name = "ingredient_price")
 	private Double price;
 	
+	@OneToMany(mappedBy = "inventoryEntry", cascade = CascadeType.ALL)
+	private List<UsedInventory> usedInventoryList;
+	
 	public Inventory() {
 		this.inclusionDate = new Date();
+		this.active = true;
 	}
 	
 	public Inventory (Ingredient ingredient, Double amount, Double price) {
 		this.inclusionDate = new Date();
+		this.active = true;
 		this.setIngredient(ingredient);
 		this.setAmount(amount);
 		this.setAmountLeft(amount);
@@ -88,6 +99,14 @@ public class Inventory {
 		this.ingredient = ingredient;
 	}
 	
+	public Boolean isActive() {
+		return active;
+	}
+	
+	public void setActive(Boolean active) {
+		this.active = active;
+	}
+	
 	public Double getAmount() {
 		return amount;
 	}
@@ -119,7 +138,15 @@ public class Inventory {
 	public void setPrice(Double price) {
 		this.price = price;
 	}
-	
+
+	public List<UsedInventory> getUsedInventoryList() {
+		return usedInventoryList;
+	}
+
+	public void setUsedInventoryList(List<UsedInventory> usedInventoryList) {
+		this.usedInventoryList = usedInventoryList;
+	}
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);
