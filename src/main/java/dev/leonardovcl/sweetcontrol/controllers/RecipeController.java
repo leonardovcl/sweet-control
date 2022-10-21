@@ -133,4 +133,10 @@ public class RecipeController {
 		return "redirect:/recipes";
 	}
 	
+	@GetMapping("/cook/{recipeId}")
+	public String cookRecipe(@PathVariable("recipeId") Long recipeId) {
+		recipeService.cookRecipe(recipeId);
+		return "redirect:/cookedrecipes";
+	}
+	
 }

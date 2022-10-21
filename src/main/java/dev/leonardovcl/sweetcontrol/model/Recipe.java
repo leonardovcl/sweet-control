@@ -3,6 +3,7 @@ package dev.leonardovcl.sweetcontrol.model;
 import java.util.List;
 import java.util.Objects;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -25,8 +26,11 @@ public class Recipe {
 	@Column(name = "recipet_description", length = 200)
 	private String description;
 	
-	@OneToMany(mappedBy = "recipe")
+	@OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
 	private List<RecipeIngredient> recipeIngredients;
+	
+	@OneToMany(mappedBy = "recipeEntry", cascade = CascadeType.ALL)
+	private List<CookedRecipe> cookedRecipeList;
 	
 	 public Recipe() {
 		 
@@ -65,7 +69,7 @@ public class Recipe {
 		this.description = description;
 	}
 	
-	public List<RecipeIngredient> getRecipeInventories() {
+	public List<RecipeIngredient> getRecipeIngredients() {
 		return recipeIngredients;
 	}
 	
@@ -73,6 +77,14 @@ public class Recipe {
 		this.recipeIngredients = recipeIngredients;
 	}
 	
+	public List<CookedRecipe> getRecipeMadeList() {
+		return cookedRecipeList;
+	}
+
+	public void setRecipeMadeList(List<CookedRecipe> cookedRecipeList) {
+		this.cookedRecipeList = cookedRecipeList;
+	}
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);
@@ -102,37 +114,6 @@ public class Recipe {
 		objString.append("]");
 				
 		return objString.toString();
-	}
-	
-	public Double getRecipeTotalCost() {
-		Double totalCost = 0.00;
-		
-		for (RecipeIngredient recipeIngredient: recipeIngredients) {
-			
-			Ingredient ingredient = recipeIngredient.getIngredientEntry();
-			Double totalIngredientAmount = 0.00;
-			
-			List<Inventory> inventoryEntries = ingredient.getInventoryEntries();
-			
-			for (Inventory inventoryEntry: inventoryEntries) {
-				Double amountNeeded = recipeIngredient.getRecipeIngredientAmount() - totalIngredientAmount;
-				
-				if (inventoryEntry.getAmount() < amountNeeded) {
-					totalIngredientAmount += inventoryEntry.getAmount();
-					totalCost += inventoryEntry.getAmount() * inventoryEntry.getPricePerAmount();
-				} else {
-					totalIngredientAmount += amountNeeded;
-					totalCost += amountNeeded * inventoryEntry.getPricePerAmount();
-				}
-				
-				if (totalIngredientAmount.doubleValue() == 
-					recipeIngredient.getRecipeIngredientAmount().doubleValue()) {
-					break;
-				}
-			}
-		}
-		
-		return totalCost;
 	}
 	
 }
