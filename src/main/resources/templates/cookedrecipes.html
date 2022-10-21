@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+  <head>
+  	<meta charset="UTF-8">
+    <title>Sweet Control</title>
+  </head>
+
+  <body>
+  
+    <h1>Sweet Control</h1>
+    <h3>Recipes List:</h3>
+    
+    <ol>
+    <li th:each="cookedRecipe : ${cookedRecipeList}">
+		<span th:text="${cookedRecipe.recipeEntry.name}">Name</span>
+        <span th:text="${cookedRecipe.recipeEntry.description}">Description</span>
+        <span th:text="${cookedRecipe.makingDate}">Making Date</span>
+        <span th:text="${cookedRecipe.recipeEntryTotalCost}">Total Cost</span>
+        <a th:href="@{/cookedrecipes/{cookedRecipeId}(cookedRecipeId=${cookedRecipe.id})}">Revert</a>
+	</li>
+	</ol>
+    
+    <form method="POST" th:action ="@{/cookedrecipes}" id="filterList">
+      <h5>Filter Results</h5>
+
+      <label for="filterByRecipeId">Id: </label>
+      <input type="text" name ="idFilter" th:value="${idFilter}">
+      
+      <label for="filterByRecipeName">Name: </label>
+      <input type="text" name ="nameLike" th:value="${nameLike}"> 
+	
+      <br/>
+      <br/>
+      <input type="submit" value="Filter Results"/>
+    </form>
+    
+    <a th:href="@{/cookedrecipes}">Clear Filter</a>
+    <br/>
+    <br/>
+    
+    <a th:href="@{/recipes}">View Recipes</a>
+    <br/>
+    <a th:href="@{/}">Home</a>
+  
+  </body>
+</html>
