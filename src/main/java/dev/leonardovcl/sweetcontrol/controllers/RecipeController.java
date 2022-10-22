@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import dev.leonardovcl.sweetcontrol.model.Ingredient;
-import dev.leonardovcl.sweetcontrol.model.Inventory.AmountType;
 import dev.leonardovcl.sweetcontrol.model.Recipe;
 import dev.leonardovcl.sweetcontrol.model.RecipeIngredient;
 import dev.leonardovcl.sweetcontrol.model.repository.IngredientRepository;
@@ -99,14 +98,13 @@ public class RecipeController {
 	@PostMapping("/{idRecipe}")
 	public String registerRecipeIngredient(@PathVariable("idRecipe") Long idRecipe, 
 											@RequestParam("ingredient") Long idIngredient,
-											@RequestParam("amount") Double amount,
-											@RequestParam("amountType") AmountType amountType, 
+											@RequestParam("amount") Double amount, 
 											Model model) {
 		
 		Recipe recipe = recipeRepository.findById(idRecipe).get();
 		Ingredient ingredient = ingredientRepository.findById(idIngredient).get();
 		
-		RecipeIngredient recipeIngredient = new RecipeIngredient(recipe, ingredient, amount, amountType);
+		RecipeIngredient recipeIngredient = new RecipeIngredient(recipe, ingredient, amount);
 		recipeIngredientRepository.save(recipeIngredient);
 		
 		model.addAttribute("recipeIngredientList", recipeIngredientRepository.findByRecipeId(idRecipe));

@@ -12,8 +12,8 @@
     <h1>Sweet Control</h1>
     <h3>Recipes List:</h3>
     
-    <ol>
-    <li id="recipeList" th:each="recipe : ${recipeList}">
+    <ol id="recipeList">
+    <li th:each="recipe : ${recipeList}">
 		<span th:text="${recipe.name}">Name</span>
         <span th:text="${recipe.description}">Description</span>
         <span id="totalCost" th:text="${@recipeService.calculateRecipeTotalCost(recipe.id).recipeTotalCost}">Total Cost</span>
@@ -60,11 +60,14 @@
     <script>
 		function isCookable() {
   			
-  			var totalCost = document.getElementById("totalCost").textContent;
-  			
-			if (totalCost == "0.0") {
-  				document.getElementById("cookButton").hidden = true;
-  				document.getElementById("recipeList").innerHTML += "<a href='#'>Can't Cook!</a>";
+  			for (const li of document.querySelectorAll('#recipeList>li')) {
+				  
+				if (li.getElementsByTagName('span')[2].textContent == "0.0") {
+					
+					buttonElem = li.getElementsByTagName('a')[3];
+					buttonElem.href = "#";
+					buttonElem.textContent = "Can't Cook!";
+  				}
 			}
 		}
 	</script>
