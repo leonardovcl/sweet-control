@@ -18,7 +18,7 @@
       <br/>
 	<label for="ingredient">Ingredient: </label>
 	<select th:field="*{ingredient}" id="ingredient">
-		<option th:each = "i : ${ingredientList}" th:value="${i.id}" th:text="${i.name}">
+		<option th:value="*{ingredient.id}" th:text="*{ingredient.name}">
 	</select>
       <br/>
       <br/>
@@ -29,9 +29,9 @@
       <input type="text" th:field="*{amountLeft}" id="amountLeft"/>
       <br/>
       <br/>
-      <label for="amountType">Measure Unity: </label>
-	<select th:field="*{amountType}" id="amountType">
-		<option th:each = "u : ${T(dev.leonardovcl.sweetcontrol.model.Inventory.AmountType).values()}" th:value="${u}" th:text="${u.name()}">
+     <label for="amountType">Measure Unity: </label>
+	<select id="amountType">
+		<option th:text="*{ingredient.amountType.name()}">
 	</select>
       <br/>
       <br/>

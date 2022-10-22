@@ -13,8 +13,9 @@
       <h1>Register New Inventory</h1>
 
 	<label for="ingredient">Ingredient: </label>
-	<select th:field="*{ingredient}" id="ingredient">
-		<option th:each = "i : ${ingredientList}" th:value="${i.id}" th:text="${i.name}">
+	<select th:field="*{ingredient}" onchange="amountTypeSet(this)">
+		<option value="">-- Ingredient --</option>
+		<option th:each = "i : ${ingredientList}" th:value="${i.id}" th:text="${i.name}" th:data-amount-type="${i.amountType.name()}">
 	</select>
       <br/>
       <br/>
@@ -26,8 +27,8 @@
       <br/>
       <br/>
       <label for="amountType">Measure Unity: </label>
-	<select th:field="*{amountType}" id="amountType">
-		<option th:each = "u : ${T(dev.leonardovcl.sweetcontrol.model.Inventory.AmountType).values()}" th:value="${u}" th:text="${u.name()}">
+	<select id="amountType">
+		<option value = ""></option>
 	</select>
       <br/>
       <br/>
@@ -48,6 +49,14 @@
 		function amountLeftSet() {
   			var amount = document.getElementById("amount").value;
   			document.getElementById("amountLeft").value = amount;
+		}
+	</script>
+	
+	<script>
+		function amountTypeSet(ingredient) {
+  			var opt = ingredient.options[ingredient.selectedIndex];
+  			var amountType = opt.dataset.amountType
+  			document.getElementById("amountType").options[0].innerHTML = amountType;
 		}
 	</script>
   

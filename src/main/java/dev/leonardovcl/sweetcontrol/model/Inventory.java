@@ -40,13 +40,6 @@ public class Inventory {
 	@Column(name = "ingredient_amount_left")
 	private Double amountLeft;
 	
-	@Column(name = "ingredient_amount_type")
-	private AmountType amountType;
-	
-	public enum AmountType {
-		kg, g, mL, L, Un;
-	}
-	
 	@Column(name = "ingredient_price")
 	private Double price;
 	
@@ -64,14 +57,6 @@ public class Inventory {
 		this.setIngredient(ingredient);
 		this.setAmount(amount);
 		this.setAmountLeft(amount);
-		this.setPrice(price);
-	}
-	
-	public Inventory (Ingredient ingredient, Double amount, AmountType amountType, Double price) {
-		this.setIngredient(ingredient);
-		this.setAmount(amount);
-		this.setAmountLeft(amount);
-		this.setAmountType(amountType);
 		this.setPrice(price);
 	}
 	
@@ -123,14 +108,6 @@ public class Inventory {
 		this.amountLeft = amountLeft;
 	}
 	
-	public AmountType getAmountType() {
-		return amountType;
-	}
-	
-	public void setAmountType(AmountType amountType) {
-		this.amountType = amountType;
-	}
-	
 	public Double getPrice() {
 		return price;
 	}
@@ -169,7 +146,7 @@ public class Inventory {
 		StringBuilder objString = new StringBuilder();
 		objString.append("[Inventory ").append("#").append(this.getId()).append("] ");
 		objString.append("Ingredient: (#").append(this.getIngredient().getId()).append(") ").append(this.getIngredient().getName()).append(" ");
-		objString.append("(").append(this.getAmount()).append(" ").append(this.getAmountType().name());
+		objString.append("(").append(this.getAmount()).append(" ").append(this.getIngredient().getAmountType().name());
 		objString.append(" | R$ ");
 		objString.append(this.getPrice());
 		objString.append(")");

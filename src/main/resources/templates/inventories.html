@@ -16,7 +16,7 @@
     <li th:each="inventory : ${inventoryList}">
 		<span th:text="${inventory.ingredient.name}">Name</span>
         <span th:text="${inventory.amountLeft} + '/' + ${inventory.amount}">Amount</span>
-        <span th:text="${inventory.amountType.name()}">Amount Type</span>
+        <span th:text="${inventory.ingredient.amountType.name()}">Amount Type</span>
         <span th:text="${inventory.price}">Price</span>
         <span th:text="${inventory.getPricePerAmountAsString()}">Price per amount</span>
         <a th:href="@{/inventories/edit/{idInventory}(idInventory=${inventory.id})}">Edit</a>

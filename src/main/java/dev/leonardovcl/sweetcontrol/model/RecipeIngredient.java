@@ -7,7 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import dev.leonardovcl.sweetcontrol.model.Inventory.AmountType;
+import dev.leonardovcl.sweetcontrol.model.Ingredient.AmountType;
 
 @Entity
 public class RecipeIngredient {
@@ -34,11 +34,11 @@ public class RecipeIngredient {
 		
 	}
 	
-	public RecipeIngredient(Recipe recipe, Ingredient ingredientEntry, Double recipeIngredientAmount, AmountType recipeIngredientAmountType) {
+	public RecipeIngredient(Recipe recipe, Ingredient ingredientEntry, Double recipeIngredientAmount) {
 		this.setRecipe(recipe);
 		this.setIngredientEntry(ingredientEntry);
 		this.setRecipeIngredientAmount(recipeIngredientAmount);
-		this.setRecipeIngredientAmountType(recipeIngredientAmountType);
+		this.setRecipeIngredientAmountType(ingredientEntry.getAmountType());
 	}
 	
 	public Long getId() {

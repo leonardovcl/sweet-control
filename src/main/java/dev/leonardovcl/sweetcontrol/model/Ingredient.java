@@ -26,6 +26,13 @@ public class Ingredient {
 	@Column(name = "ingredient_description", length = 200)
 	private String description;
 	
+	@Column(name = "ingredient_amount_type")
+	private AmountType amountType;
+	
+	public enum AmountType {
+		kg, g, mL, L, Un;
+	}
+	
 	@OneToMany(mappedBy = "ingredient", cascade = CascadeType.ALL)
 	private List<Inventory> inventoryEntries;
 	
@@ -69,6 +76,14 @@ public class Ingredient {
 		this.description = description;
 	}
 	
+	public AmountType getAmountType() {
+		return amountType;
+	}
+	
+	public void setAmountType(AmountType amountType) {
+		this.amountType = amountType;
+	}
+	
 	public List<Inventory> getInventoryEntries() {
 		return inventoryEntries;
 	}
@@ -107,6 +122,7 @@ public class Ingredient {
 		StringBuilder objString = new StringBuilder();
 		objString.append("[Ingredient ").append("#").append(this.getId()).append("] ");
 		objString.append(this.getName()).append(" ");
+		objString.append("{").append(this.getAmountType().name()).append("}");
 		objString.append("(").append(this.getDescription()).append(")");
 		
 		objString.append(" [@");

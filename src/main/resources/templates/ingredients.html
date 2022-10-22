@@ -16,6 +16,7 @@
     <li th:each="ingredient : ${ingredientList}">
 		<span th:text="${ingredient.name}">Name</span>
         <span th:text="${ingredient.description}">Description</span>
+        <span th:text="'(' + ${ingredient.getAmountType().name()} + ')'">Measure Unity</span>
         <a th:href="@{/inventories/{idIngredient}(idIngredient=${ingredient.id})}">Inventories</a>
         <a th:href="@{/ingredients/edit/{idIngredient}(idIngredient=${ingredient.id})}">Edit</a>
         <a th:href="@{/ingredients/delete/{idIngredient}(idIngredient=${ingredient.id})}">Delete</a>

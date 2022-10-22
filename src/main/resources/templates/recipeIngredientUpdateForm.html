@@ -13,9 +13,8 @@
     
     <form method="POST" th:object="${recipeIngredient}" id="recipeIngredientForm" name="recipeIngredientForm">
        <label for="recipe">Recipe: </label>
-      
     <select th:field="*{recipe}" id="recipe" name="recipe" readonly="readonly">
-		<option th:value="${recipe.id}" th:text="${recipe.name}">
+		<option th:value="*{recipe.id}" th:text="*{recipe.name}">
 	</select>
 
 	<input type="text" name="id" th:field="*{id}" readonly="readonly" hidden>
@@ -23,7 +22,7 @@
       <br/>
       <label for="ingredient">Ingredient: </label>
 	<select th:field="*{ingredientEntry}" id="ingredient" name="ingredient" required>
-		<option th:each = "i : ${ingredientList}" th:value="${i.id}" th:text="${i.name}">
+		<option th:value="*{ingredientEntry.id}" th:text="*{ingredientEntry.name}">
 		<span name="ingredientId" id="ingredientId" th:text="${i.id}"></span>
 	</select>
 	<br/>
@@ -31,8 +30,8 @@
       <label for="amount">Amount: </label>
       <input type="text" name="amount" th:field="*{recipeIngredientAmount}"/>
 	<label for="amountType">Measure Unity: </label>
-	<select th:field="*{recipeIngredientAmountType}" name="amountType" id="amountType" required>
-		<option th:each = "u : ${T(dev.leonardovcl.sweetcontrol.model.Inventory.AmountType).values()}" th:value="${u}" th:text="${u.name()}">
+	<select name="amountType" id="amountType" required>
+		<option th:text="*{ingredientEntry.amountType.name()}">
 	</select>
       <br/>
       <br/>

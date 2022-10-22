@@ -1,7 +1,5 @@
 package dev.leonardovcl.sweetcontrol.controllers;
 
-import java.util.Optional;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import dev.leonardovcl.sweetcontrol.model.Ingredient;
 import dev.leonardovcl.sweetcontrol.model.Inventory;
 import dev.leonardovcl.sweetcontrol.model.repository.IngredientRepository;
 import dev.leonardovcl.sweetcontrol.model.repository.InventoryRepository;
@@ -51,17 +50,17 @@ public class InventoryController {
 		return "redirect:/inventories/" + idIngredient;
 	}
 	
-	@GetMapping("/register/{idInventory}")
-	public String showInventoryRegisterForm(@PathVariable("idInventory") Long idInventory, Model model) {
+	@GetMapping("/register/{idIngredient}")
+	public String showInventoryRegisterForm(@PathVariable("idIngredient") Long idIngredient, Model model) {
 		Inventory inventoryObj = new Inventory();
-		inventoryObj.setIngredient(ingredientRepository.findById(idInventory).get());
+		Ingredient ingredientObj = ingredientRepository.findById(idIngredient).get();
+		inventoryObj.setIngredient(ingredientObj);
 		model.addAttribute("inventory", inventoryObj);
 		return "inventoryForm";
 	}
 	
-	@PostMapping("/register/{idInventory}")
-	public String registerInventory(@PathVariable("idInventory") Long idInventory, @Valid Inventory inventory) {
-		String idIngredient = Long.toString(inventory.getIngredient().getId());
+	@PostMapping("/register/{idIngredient}")
+	public String registerInventory(@PathVariable("idIngredient") Long idIngredient, @Valid Inventory inventory) {
 		inventoryRepository.save(inventory);
 		return "redirect:/inventories/" + idIngredient;
 	}
@@ -74,7 +73,7 @@ public class InventoryController {
 			return "inventoryUpdateError";
 		}
 		
-		Optional<Inventory> inventory = inventoryRepository.findById(idInventory);
+		Inventory inventory = inventoryRepository.findById(idInventory).get();
 		model.addAttribute("inventory", inventory);
 		model.addAttribute("ingredientList", ingredientRepository.findAll());
 		return "inventoryUpdateForm";
