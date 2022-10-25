@@ -9,7 +9,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import dev.leonardovcl.sweetcontrol.model.CookedRecipe;
 import dev.leonardovcl.sweetcontrol.model.repository.CookedRecipeRepository;
+import dev.leonardovcl.sweetcontrol.model.repository.RecipeRepository;
+import dev.leonardovcl.sweetcontrol.model.repository.UsedInventoryRepository;
 import dev.leonardovcl.sweetcontrol.services.RecipeService;
 
 @Controller
@@ -20,6 +23,12 @@ public class CookedRecipeController {
 	private CookedRecipeRepository cookedRecipeRepository;
 	
 	@Autowired
+	UsedInventoryRepository usedInventoryRepository;
+	
+	@Autowired
+	RecipeRepository recipeRepository;
+	
+	@Autowired
 	private RecipeService recipeService;
 	
 	@GetMapping
@@ -27,7 +36,7 @@ public class CookedRecipeController {
 		
 		model.addAttribute("cookedRecipeList", cookedRecipeRepository.findAllByOrderByIdDesc());
 		
-		return "cookedrecipes";
+		return "cookedRecipes";
 	}
 	
 	@PostMapping
@@ -43,7 +52,21 @@ public class CookedRecipeController {
 			model.addAttribute("cookedRecipeList", cookedRecipeRepository.findAllByOrderByIdDesc());
 		}
 		
-		return "cookedrecipes";
+		return "cookedRecipes";
+	}
+	
+	@GetMapping("/detail/{cookedRecipeId}")
+	public String detailCookedRecipe(@PathVariable("cookedRecipeId") Long cookedRecipeId, Model model) {
+		
+		CookedRecipe cookedRecipe = cookedRecipeRepository.findById(cookedRecipeId).get();
+		Long recipeId = cookedRecipe.getRecipeEntry().getId();
+		
+		model.addAttribute("cookedRecipe", cookedRecipe);
+		model.addAttribute("recipe", recipeRepository.findById(recipeId));
+//		model.addAttribute("recipeIngredientList", recipeIngredientRepository.findByRecipeId(recipeId));
+		model.addAttribute("usedInventoriesList", usedInventoryRepository.findByCookedRecipeEntryId(cookedRecipeId));
+		
+		return "cookedRecipesDetail";
 	}
 	
 	@GetMapping("/revert/{cookedRecipeId}")
