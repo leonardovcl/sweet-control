@@ -46,12 +46,19 @@ public class CookedRecipeController {
 		return "cookedrecipes";
 	}
 	
-	@GetMapping("/{cookedRecipeId}")
-	public String revertCookedRecipes(@PathVariable("cookedRecipeId") Long cookedRecipeId) {
+	@GetMapping("/revert/{cookedRecipeId}")
+	public String revertCookedRecipe(@PathVariable("cookedRecipeId") Long cookedRecipeId) {
 		
 		recipeService.revertCookRecipe(cookedRecipeId);
 		
 		return "redirect:/cookedrecipes";
 	}
 	
+	@GetMapping("/delete/{cookedRecipeId}")
+	public String deleteCookedRecipe(@PathVariable("cookedRecipeId") Long cookedRecipeId) {
+	
+		recipeService.deleteCookedRecipe(cookedRecipeId);
+		
+		return "redirect:/cookedrecipes";
+	}
 }

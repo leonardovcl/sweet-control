@@ -12,4 +12,6 @@ public interface UsedInventoryRepository extends PagingAndSortingRepository<Used
 	
 	public Boolean existsByInventoryEntryId(Long inventoryEntryId);
 	
+	public List<UsedInventory> findByInventoryEntryId(Long inventoryEntryId);
+	
 }

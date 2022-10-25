@@ -75,6 +75,10 @@ public class RecipeService {
 		
 		List<RecipeIngredient> recipeIngredientList = recipeIngredientRepository.findByRecipeId(recipeId);
 		
+		if(recipeIngredientList.size() == 0) {
+			recipesLeft = 0;
+		}
+		
 		for(RecipeIngredient recipeIngredient: recipeIngredientList) {
 			
 			Long ingredientId = recipeIngredient.getIngredientEntry().getId();
@@ -213,6 +217,26 @@ public class RecipeService {
 			inventory.setActive(true);
 			
 			inventoryRepository.save(inventory);
+			
+			usedInventoryRepository.delete(usedInventory);
+		}
+		
+		cookedRecipeRepository.deleteById(cookedRecipeId);
+	}
+	
+	public void deleteCookedRecipe(Long cookedRecipeId) {
+		
+		List<UsedInventory> usedInventories = usedInventoryRepository.findByCookedRecipeEntryId(cookedRecipeId);
+		
+		for(UsedInventory usedInventory: usedInventories) {
+			
+			Inventory inventory = usedInventory.getInventoryEntry();
+			List<UsedInventory> usedInventoriesList = usedInventoryRepository.findByInventoryEntryId(inventory.getId());
+			
+			if(inventory.isActive() == false && usedInventoriesList.size() == 1) {
+				
+				inventoryRepository.delete(inventory);
+			}
 			
 			usedInventoryRepository.delete(usedInventory);
 		}

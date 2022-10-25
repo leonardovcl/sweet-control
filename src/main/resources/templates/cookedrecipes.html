@@ -10,7 +10,7 @@
   <body>
   
     <h1>Sweet Control</h1>
-    <h3>Recipes List:</h3>
+    <h3>Cooked Recipes List:</h3>
     
     <ol>
     <li th:each="cookedRecipe : ${cookedRecipeList}">
@@ -18,7 +18,9 @@
         <span th:text="${cookedRecipe.recipeEntry.description}">Description</span>
         <span th:text="${cookedRecipe.makingDate}">Making Date</span>
         <span th:text="${cookedRecipe.recipeEntryTotalCost}">Total Cost</span>
-        <a th:href="@{/cookedrecipes/{cookedRecipeId}(cookedRecipeId=${cookedRecipe.id})}">Revert</a>
+        <a th:href="@{/cookedrecipes/revert/{cookedRecipeId}(cookedRecipeId=${cookedRecipe.id})}">Revert</a>
+        <a th:href="@{/cookedrecipes/detail/{cookedRecipeId}(cookedRecipeId=${cookedRecipe.id})}">Details</a>
+        <a th:href="@{/cookedrecipes/delete/{cookedRecipeId}(cookedRecipeId=${cookedRecipe.id})}">Delete</a>
 	</li>
 	</ol>
     
@@ -35,6 +37,8 @@
       <br/>
       <input type="submit" value="Filter Results"/>
     </form>
+    
+    <h3>Cooked Recipes List:</h3>
     
     <a th:href="@{/cookedrecipes}">Clear Filter</a>
     <br/>
