@@ -5,6 +5,8 @@
   <head>
   	<meta charset="UTF-8">
     <title>Sweet Control</title>
+    
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
   </head>
 
   <body>
@@ -15,7 +17,7 @@
     <ol>
     <li th:each="ingredient : ${ingredientList}">
 		<span th:text="${ingredient.name}">Name</span>
-        <span th:text="${ingredient.description}">Description</span>
+		<i class="fa fa-question-circle" th:title="${ingredient.description}"></i>
         <span th:text="${@ingredientService.getIngredientTotalAmount(ingredient.id)}">Total Amount Left</span>
         <span th:text="'(' + ${ingredient.getAmountType().name()} + ')'">Measure Unity</span>
         <a th:href="@{/inventories/{idIngredient}(idIngredient=${ingredient.id})}">Inventories</a>
