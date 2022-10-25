@@ -17,6 +17,7 @@
 		<span th:text="${recipe.name}">Name</span>
         <span th:text="${recipe.description}">Description</span>
         <span id="totalCost" th:text="${@recipeService.calculateRecipeTotalCost(recipe.id).recipeTotalCost}">Total Cost</span>
+        <span id="recipesLeft" th:text="${@recipeService.calculateRecipesLeft(recipe.id)}">Recipes Left</span>
         <a th:href="@{/recipes/{idRecipe}(idRecipe=${recipe.id})}">Ingredients</a>
         <a th:href="@{/recipes/edit/{idRecipe}(idRecipe=${recipe.id})}">Edit</a>
         <a th:href="@{/recipes/delete/{idRecipe}(idRecipe=${recipe.id})}">Delete</a>

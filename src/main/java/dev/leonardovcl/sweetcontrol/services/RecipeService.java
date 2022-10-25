@@ -35,6 +35,9 @@ public class RecipeService {
 	InventoryRepository inventoryRepository;
 	
 	@Autowired
+	IngredientService ingredientService;
+	
+	@Autowired
 	CookedRecipeRepository cookedRecipeRepository;
 	
 	@Autowired
@@ -64,6 +67,27 @@ public class RecipeService {
 				.toList();
 		
 		return recipeList;
+	}
+	
+	public Integer calculateRecipesLeft(Long recipeId) {
+		
+		Integer recipesLeft = 100000;
+		
+		List<RecipeIngredient> recipeIngredientList = recipeIngredientRepository.findByRecipeId(recipeId);
+		
+		for(RecipeIngredient recipeIngredient: recipeIngredientList) {
+			
+			Long ingredientId = recipeIngredient.getIngredientEntry().getId();
+			Double ingredientAmountPerRecipe = recipeIngredient.getRecipeIngredientAmount();
+			
+			Double ingredientAmountLeft = ingredientService.getIngredientTotalAmount(ingredientId);
+			
+			Integer recipesLeftPerIngredient = (int) (ingredientAmountLeft / ingredientAmountPerRecipe);
+			
+			recipesLeft = Integer.min(recipesLeft, recipesLeftPerIngredient);
+		}
+		
+		return recipesLeft;
 	}
 	
 	private class RecipeTotalCostReturn {
