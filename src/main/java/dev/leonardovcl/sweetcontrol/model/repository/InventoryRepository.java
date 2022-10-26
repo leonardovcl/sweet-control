@@ -9,6 +9,6 @@ public interface InventoryRepository extends JpaRepository<Inventory, Long> {
 
 	public List<Inventory> findByIngredientIdAndActiveTrue(Long idIngredient);
 	
-	public List<Inventory> findByIngredientIdAndActiveTrueOrderByInclusionDateAsc(Long idIngredient);
+	public List<Inventory> findByIngredientIdAndActiveTrueOrderByExpirationDateAsc(Long idIngredient);
 	
 }

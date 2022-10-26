@@ -32,7 +32,7 @@ public class InventoryController {
 	@GetMapping("/{idIngredient}")
 	public String showInventories(@PathVariable("idIngredient") Long idIngredient, Model model) {
 		model.addAttribute("idIngredient", idIngredient);
-		model.addAttribute("inventoryList", inventoryRepository.findByIngredientIdAndActiveTrue(idIngredient));
+		model.addAttribute("inventoryList", inventoryRepository.findByIngredientIdAndActiveTrueOrderByExpirationDateAsc(idIngredient));
 		return "inventories";
 	}
 	

@@ -19,6 +19,7 @@
         <span th:text="${inventory.ingredient.amountType.name()}">Amount Type</span>
         <span th:text="${inventory.price}">Price</span>
         <span th:text="${inventory.getPricePerAmountAsString()}">Price per amount</span>
+        <span type="Date" th:text="${inventory.getExpirationDate()}">Expiration Date</span>
         <a th:href="@{/inventories/edit/{idInventory}(idInventory=${inventory.id})}">Edit</a>
         <a th:href="@{/inventories/delete/{idInventory}(idInventory=${inventory.id})}">Delete</a>
 	</li>

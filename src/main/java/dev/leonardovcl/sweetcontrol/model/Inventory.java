@@ -43,6 +43,10 @@ public class Inventory {
 	@Column(name = "ingredient_price")
 	private Double price;
 	
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	@Temporal(TemporalType.DATE)
+	private Date expirationDate;
+	
 	@OneToMany(mappedBy = "inventoryEntry", cascade = CascadeType.ALL)
 	private List<UsedInventory> usedInventoryList;
 	
@@ -58,6 +62,16 @@ public class Inventory {
 		this.setAmount(amount);
 		this.setAmountLeft(amount);
 		this.setPrice(price);
+	}
+	
+	public Inventory (Ingredient ingredient, Double amount, Double price, Date expirationDate) {
+		this.inclusionDate = new Date();
+		this.active = true;
+		this.setIngredient(ingredient);
+		this.setAmount(amount);
+		this.setAmountLeft(amount);
+		this.setPrice(price);
+		this.setExpirationDate(expirationDate);
 	}
 	
 	public Long getId() {
@@ -114,6 +128,14 @@ public class Inventory {
 	
 	public void setPrice(Double price) {
 		this.price = price;
+	}
+
+	public Date getExpirationDate() {
+		return expirationDate;
+	}
+
+	public void setExpirationDate(Date expirationDate) {
+		this.expirationDate = expirationDate;
 	}
 
 	public List<UsedInventory> getUsedInventoryList() {
