@@ -130,7 +130,7 @@ public class RecipeService {
 			Long ingredientId = recipeIngredient.getIngredientEntry().getId();
 			Double ingredientAmount = recipeIngredient.getRecipeIngredientAmount();
 
-			List<Inventory> ingredientInventoryList = inventoryRepository.findByIngredientIdAndActiveTrueOrderByInclusionDateAsc(ingredientId);
+			List<Inventory> ingredientInventoryList = inventoryRepository.findByIngredientIdAndActiveTrueOrderByExpirationDateAsc(ingredientId);
 
 			for(Inventory ingredientInventory: ingredientInventoryList) {
 
