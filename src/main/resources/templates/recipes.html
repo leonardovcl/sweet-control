@@ -13,7 +13,7 @@
     <h3>Recipes List:</h3>
     
     <ol id="recipeList">
-    <li th:each="recipe : ${recipeList}">
+    <li th:each="recipe : ${recipeList.content}">
 		<span th:text="${recipe.name}">Name</span>
         <span th:text="${recipe.description}">Description</span>
         <span id="totalCost" th:text="${@recipeService.calculateRecipeTotalCost(recipe.id).recipeTotalCost}">Total Cost</span>
@@ -24,8 +24,23 @@
         <a id="cookButton" th:href="@{/recipes/cook/{idRecipe}(idRecipe=${recipe.id})}">Cook!</a>
 	</li>
 	</ol>
+	
+	<span th:if="${recipeList.hasPrevious()}">
+         <a th:href="@{/recipes(page=${recipeList.number-1}, idFilter=${idFilter}, nameLike=${nameLike}, idIngredientFilter=${idIngredientFilter})}">Previous</a>
+	</span>
+     
+ 
+ 	<span th:if="${recipeList.totalPages > 0}">
+	    <th:block th:each="i: ${#numbers.sequence(0, recipeList.totalPages - 1)}"> 
+	            <a th:href="@{/recipes(page=${i}, idFilter=${idFilter}, nameLike=${nameLike}, idIngredientFilter=${idIngredientFilter})}">[[ ${i} + 1 ]]</a>
+	    </th:block>
+	</span>
     
-    <form method="POST" th:action ="@{/recipes}" id="filterList">
+    <span th:if="${recipeList.hasNext()}">
+         <a th:href="@{/recipes(page=${recipeList.number+1}, idFilter=${idFilter}, nameLike=${nameLike}, idIngredientFilter=${idIngredientFilter})}">Next</a>
+     </span>
+    
+    <form method="GET" th:action ="@{/recipes}" id="filterList">
       <h5>Filter Results</h5>
 
       <label for="filterById">Id: </label>

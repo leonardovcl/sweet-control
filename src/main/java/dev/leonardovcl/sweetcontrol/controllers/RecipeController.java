@@ -5,6 +5,11 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -38,39 +43,54 @@ public class RecipeController {
 	private RecipeService recipeService;
 	
 	@GetMapping
-	public String showRecipes(Model model) {
-		model.addAttribute("ingredientList", ingredientRepository.findAll());
-		model.addAttribute("recipeList", recipeRepository.findAll());
-		return "recipes";
-	}
-	
-	@PostMapping
-	public String showRecipesWithFilter(@RequestParam(value = "nameLike", required = false) String nameLike,
-										@RequestParam(value = "idFilter", required = false) Long idFilter,
-										@RequestParam(value = "idIngredientFilter", required = false) Long idIngredientFilter,
-										Model model) {
+	public String showRecipes(
+			@RequestParam(value = "page", required = false,  defaultValue = "0") int page,
+			@RequestParam(value = "size", required = false, defaultValue = "5") int size,
+			@RequestParam(value = "idFilter", required = false) Long idFilter,
+			@RequestParam(value = "nameLike", required = false, defaultValue = "") String nameLike,
+			@RequestParam(value = "idIngredientFilter", required = false) Long idIngredientFilter,
+			Model model) {
 		
-		List<Recipe> recipeList = new ArrayList<>();
+		Pageable pageable = PageRequest.of(page, size, Sort.by("id"));
+		Page<Recipe> recipeList = null;
+		
+		List<Recipe> recipeArrayList = new ArrayList<>();
 		
 		if(idFilter != null) {
 			Recipe recipeById = recipeRepository.findById(idFilter).isPresent() ? recipeRepository.findById(idFilter).get() : null;
 			
 			if(recipeById != null) {
-				recipeList.add(recipeById);
+				recipeArrayList.add(recipeById);
 			}
+			
+			recipeList = new PageImpl<Recipe>(recipeArrayList, pageable, recipeArrayList.size());
+			
 		} else if (!nameLike.isBlank() && idIngredientFilter == null) {
-			recipeList = recipeRepository.findByNameContainingIgnoreCase(nameLike);
+			
+			recipeList = recipeRepository.findByNameContainingIgnoreCase(nameLike, pageable);
+			
 		} else if (nameLike.isBlank() && idIngredientFilter != null) {
-			recipeList = recipeService.findRecipeByIngredient(idIngredientFilter);
+			
+			recipeArrayList = recipeService.findRecipeByIngredient(idIngredientFilter);
+			recipeList = new PageImpl<Recipe>(recipeArrayList, pageable, recipeArrayList.size());
+			
 		} else if (!nameLike.isBlank() && idIngredientFilter != null) {
-			recipeList = recipeService.findRecipeByIngredientAndNameContaining(idIngredientFilter, nameLike);
+			
+			recipeArrayList = recipeService.findRecipeByIngredientAndNameContaining(idIngredientFilter, nameLike);
+			recipeList = new PageImpl<Recipe>(recipeArrayList, pageable, recipeArrayList.size());
+			
 		} else {
-			recipeList = (List<Recipe>) recipeRepository.findAll();
+			
+			recipeList = recipeRepository.findAll(pageable);
+			
 		}
 		
-		model.addAttribute("idIngredientFilter", idIngredientFilter);
 		model.addAttribute("recipeList", recipeList);
 		model.addAttribute("ingredientList", ingredientRepository.findAll());
+		
+		model.addAttribute("idFilter", idFilter);
+		model.addAttribute("nameLike", nameLike);
+		model.addAttribute("idIngredientFilter", idIngredientFilter);
 		
 		return "recipes";
 	}
