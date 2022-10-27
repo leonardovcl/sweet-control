@@ -109,17 +109,18 @@ public class RecipeController {
 	
 	@GetMapping("/{idRecipe}")
 	public String showRecipeIngredientForm(@PathVariable("idRecipe") Long idRecipe, Model model) {
+		
 		model.addAttribute("recipeIngredientList", recipeIngredientRepository.findByRecipeId(idRecipe));
 		model.addAttribute("recipe", recipeRepository.findById(idRecipe));
 		model.addAttribute("ingredientList", ingredientRepository.findAll());
+		
 		return "recipeIngredientForm";
 	}
 	
 	@PostMapping("/{idRecipe}")
 	public String registerRecipeIngredient(@PathVariable("idRecipe") Long idRecipe, 
 											@RequestParam("ingredient") Long idIngredient,
-											@RequestParam("amount") Double amount, 
-											Model model) {
+											@RequestParam("amount") Double amount) {
 		
 		Recipe recipe = recipeRepository.findById(idRecipe).get();
 		Ingredient ingredient = ingredientRepository.findById(idIngredient).get();
@@ -127,10 +128,7 @@ public class RecipeController {
 		RecipeIngredient recipeIngredient = new RecipeIngredient(recipe, ingredient, amount);
 		recipeIngredientRepository.save(recipeIngredient);
 		
-		model.addAttribute("recipeIngredientList", recipeIngredientRepository.findByRecipeId(idRecipe));
-		model.addAttribute("recipe", recipe);
-		model.addAttribute("ingredientList", ingredientRepository.findAll());
-		return "redirect:/recipes/" + Long.toString(idRecipe);
+		return "redirect:/recipes/" + idRecipe;
 	}
 	
 	@GetMapping("/edit/{idRecipe}")
