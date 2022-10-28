@@ -90,9 +90,7 @@ public class RecipeController {
 			recipeListHolder.resort();
 			recipeListHolder.setPage(page);
 			
-			model.addAttribute("recipeList", recipeListHolder);
-			
-			return "recipesFilter";
+			recipeList = new PageImpl<>(recipeListHolder.getPageList(), pageable, recipeArrayList.size());
 			
 		} else if (!nameLike.isBlank() && idIngredientFilter != null) {
 			
@@ -102,9 +100,7 @@ public class RecipeController {
 			recipeListHolder.resort();
 			recipeListHolder.setPage(page);
 			
-			model.addAttribute("recipeList", recipeListHolder);
-			
-			return "recipesFilter";
+			recipeList = new PageImpl<>(recipeListHolder.getPageList(), pageable, recipeArrayList.size());
 			
 		} else {
 			
