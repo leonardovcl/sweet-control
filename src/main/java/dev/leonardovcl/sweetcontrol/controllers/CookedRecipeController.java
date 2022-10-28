@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.support.MutableSortDefinition;
 import org.springframework.beans.support.PagedListHolder;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -44,7 +45,7 @@ public class CookedRecipeController {
 	private CookedRecipeService cookedRecipeService;
 	
 	@GetMapping
-	public Object showCookedRecipes(
+	public String showCookedRecipes(
 			@RequestParam(value = "page", required = false,  defaultValue = "0") int page,
 			@RequestParam(value = "size", required = false, defaultValue = "5") int size,
 			@RequestParam(value = "idFilter", required = false) Long idFilter,
@@ -83,9 +84,7 @@ public class CookedRecipeController {
 			cookedRecipeListHolder.resort();
 			cookedRecipeListHolder.setPage(page);
 			
-			model.addAttribute("cookedRecipeList", cookedRecipeListHolder);
-			
-			return "cookedRecipesFilter";
+			cookedRecipeList = new PageImpl<>(cookedRecipeListHolder.getPageList(), pageable, cookedRecipeArrayList.size());
 		
 		} else if (!nameLike.isBlank() && idIngredientFilter != null) {
 			
@@ -95,9 +94,7 @@ public class CookedRecipeController {
 			cookedRecipeListHolder.resort();
 			cookedRecipeListHolder.setPage(page);
 			
-			model.addAttribute("cookedRecipeList", cookedRecipeListHolder);
-			
-			return "cookedRecipesFilter";
+			cookedRecipeList = new PageImpl<>(cookedRecipeListHolder.getPageList(), pageable, cookedRecipeArrayList.size());
 			
 		} else {
 			
