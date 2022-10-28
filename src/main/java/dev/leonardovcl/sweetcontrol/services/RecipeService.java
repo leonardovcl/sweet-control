@@ -62,9 +62,11 @@ public class RecipeService {
 		
 		List<Recipe> recipeByIngredientList = findRecipeByIngredient(idIngredientFilter);
 		
-		List<Recipe> recipeList = recipeByIngredientList.stream()
+		List<Recipe> recipeList = new ArrayList<>();
+		
+		recipeByIngredientList.stream()
 				.filter(recipe -> recipe.getName().toLowerCase().contains(likePattern.toLowerCase()))
-				.toList();
+				.forEach(recipe -> recipeList.add(recipe));
 		
 		return recipeList;
 	}
@@ -200,47 +202,5 @@ public class RecipeService {
 
 			inventoryRepository.save(recipeInventory);
 		}
-	}
-	
-	public void revertCookRecipe(Long cookedRecipeId) {
-
-		List<UsedInventory> usedInventoryList = usedInventoryRepository.findByCookedRecipeEntryId(cookedRecipeId);
-		
-		for(UsedInventory usedInventory: usedInventoryList) {
-
-			Inventory inventory = usedInventory.getInventoryEntry();
-			Double amountUsed = usedInventory.getInventoryEntryAmount();
-
-			Double amountLeft = inventory.getAmountLeft();
-			
-			inventory.setAmountLeft(amountLeft + amountUsed);
-			inventory.setActive(true);
-			
-			inventoryRepository.save(inventory);
-			
-			usedInventoryRepository.delete(usedInventory);
-		}
-		
-		cookedRecipeRepository.deleteById(cookedRecipeId);
-	}
-	
-	public void deleteCookedRecipe(Long cookedRecipeId) {
-		
-		List<UsedInventory> usedInventories = usedInventoryRepository.findByCookedRecipeEntryId(cookedRecipeId);
-		
-		for(UsedInventory usedInventory: usedInventories) {
-			
-			Inventory inventory = usedInventory.getInventoryEntry();
-			List<UsedInventory> usedInventoriesList = usedInventoryRepository.findByInventoryEntryId(inventory.getId());
-			
-			if(inventory.isActive() == false && usedInventoriesList.size() == 1) {
-				
-				inventoryRepository.delete(inventory);
-			}
-			
-			usedInventoryRepository.delete(usedInventory);
-		}
-		
-		cookedRecipeRepository.deleteById(cookedRecipeId);
 	}
 }

@@ -13,7 +13,7 @@
     <h3>Recipes List:</h3>
     
     <ol id="recipeList">
-    <li th:each="recipe : ${recipeList.content}">
+    <li th:each="recipe : ${recipeList.getPageList()}">
 		<span th:text="${recipe.name}">Name</span>
         <span th:text="${recipe.description}">Description</span>
         <span id="totalCost" th:text="${@recipeService.calculateRecipeTotalCost(recipe.id).recipeTotalCost}">Total Cost</span>
@@ -25,18 +25,18 @@
 	</li>
 	</ol>
 	
-	<span th:if="${recipeList.hasPrevious()}">
+	<span th:if="${!recipeList.isFirstPage()}">
          <a th:href="@{/recipes(page=${recipeList.number-1}, idFilter=${idFilter}, nameLike=${nameLike}, idIngredientFilter=${idIngredientFilter})}">Previous</a>
 	</span>
      
  
- 	<span th:if="${recipeList.totalPages > 1}">
-	    <th:block th:each="i: ${#numbers.sequence(0, recipeList.totalPages - 1)}"> 
+ 	<span th:if="${recipeList.getPageCount() > 1}">
+	    <th:block th:each="i: ${#numbers.sequence(0, recipeList.getPageCount() - 1)}"> 
 	            <a th:href="@{/recipes(page=${i}, idFilter=${idFilter}, nameLike=${nameLike}, idIngredientFilter=${idIngredientFilter})}">[[ ${i} + 1 ]]</a>
 	    </th:block>
 	</span>
     
-    <span th:if="${recipeList.hasNext()}">
+    <span th:if="${!recipeList.isLastPage()}">
          <a th:href="@{/recipes(page=${recipeList.number+1}, idFilter=${idFilter}, nameLike=${nameLike}, idIngredientFilter=${idIngredientFilter})}">Next</a>
      </span>
     

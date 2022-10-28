@@ -5,6 +5,8 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.support.MutableSortDefinition;
+import org.springframework.beans.support.PagedListHolder;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -51,8 +53,18 @@ public class RecipeController {
 			@RequestParam(value = "idIngredientFilter", required = false) Long idIngredientFilter,
 			Model model) {
 		
+		model.addAttribute("ingredientList", ingredientRepository.findAll());
+		
+		model.addAttribute("idFilter", idFilter);
+		model.addAttribute("nameLike", nameLike);
+		model.addAttribute("idIngredientFilter", idIngredientFilter);
+		
 		Pageable pageable = PageRequest.of(page, size, Sort.by("id"));
 		Page<Recipe> recipeList = null;
+		
+		PagedListHolder<Recipe> recipeListHolder = new PagedListHolder<>();
+		recipeListHolder.setPageSize(size);
+		recipeListHolder.setSort(new MutableSortDefinition("id", true, true));
 		
 		List<Recipe> recipeArrayList = new ArrayList<>();
 		
@@ -64,6 +76,7 @@ public class RecipeController {
 			}
 			
 			recipeList = new PageImpl<Recipe>(recipeArrayList, pageable, recipeArrayList.size());
+
 			
 		} else if (!nameLike.isBlank() && idIngredientFilter == null) {
 			
@@ -72,12 +85,26 @@ public class RecipeController {
 		} else if (nameLike.isBlank() && idIngredientFilter != null) {
 			
 			recipeArrayList = recipeService.findRecipeByIngredient(idIngredientFilter);
-			recipeList = new PageImpl<Recipe>(recipeArrayList, pageable, recipeArrayList.size());
+			
+			recipeListHolder.setSource(recipeArrayList);
+			recipeListHolder.resort();
+			recipeListHolder.setPage(page);
+			
+			model.addAttribute("recipeList", recipeListHolder);
+			
+			return "recipesFilter";
 			
 		} else if (!nameLike.isBlank() && idIngredientFilter != null) {
 			
 			recipeArrayList = recipeService.findRecipeByIngredientAndNameContaining(idIngredientFilter, nameLike);
-			recipeList = new PageImpl<Recipe>(recipeArrayList, pageable, recipeArrayList.size());
+			
+			recipeListHolder.setSource(recipeArrayList);
+			recipeListHolder.resort();
+			recipeListHolder.setPage(page);
+			
+			model.addAttribute("recipeList", recipeListHolder);
+			
+			return "recipesFilter";
 			
 		} else {
 			
@@ -86,11 +113,6 @@ public class RecipeController {
 		}
 		
 		model.addAttribute("recipeList", recipeList);
-		model.addAttribute("ingredientList", ingredientRepository.findAll());
-		
-		model.addAttribute("idFilter", idFilter);
-		model.addAttribute("nameLike", nameLike);
-		model.addAttribute("idIngredientFilter", idIngredientFilter);
 		
 		return "recipes";
 	}
