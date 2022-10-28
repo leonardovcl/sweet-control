@@ -68,10 +68,12 @@ public class InventoryController {
 	@GetMapping("/edit/{idInventory}")
 	public String showInventoryUpdateForm(@PathVariable("idInventory") Long idInventory, Model model) {
 		
-		if(usedInventoryRepository.existsByInventoryEntryId(idInventory)) {
-			model.addAttribute("idInventory", idInventory);
-			return "inventoryUpdateError";
-		}
+//		if(usedInventoryRepository.existsByInventoryEntryId(idInventory)) {
+//			model.addAttribute("idInventory", idInventory);
+//			return "inventoryUpdateError";
+//		}
+		
+		model.addAttribute("usedInventoryExists", usedInventoryRepository.existsByInventoryEntryId(idInventory));
 		
 		Inventory inventory = inventoryRepository.findById(idInventory).get();
 		model.addAttribute("inventory", inventory);

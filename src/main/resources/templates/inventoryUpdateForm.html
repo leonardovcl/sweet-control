@@ -43,6 +43,12 @@
       <input type="date" th:field="*{expirationDate}"/>
       <br/>
       <br/>
+      
+      <span th:if="${usedInventoryExists}">
+	    <p>*** Beware ***</p>
+	    <p>Current Inventory was already used in a Cooked Recipe!</p>
+	    <p>Changes may lead to inconsistencies!</p>
+	</span>
 
       <input type="submit" value="Edit"/>
     </form>
