@@ -1,19 +1,28 @@
 package dev.leonardovcl.sweetcontrol.controllers;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.support.MutableSortDefinition;
+import org.springframework.beans.support.PagedListHolder;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import dev.leonardovcl.sweetcontrol.model.CookedRecipe;
 import dev.leonardovcl.sweetcontrol.model.repository.CookedRecipeRepository;
+import dev.leonardovcl.sweetcontrol.model.repository.IngredientRepository;
 import dev.leonardovcl.sweetcontrol.model.repository.RecipeRepository;
 import dev.leonardovcl.sweetcontrol.model.repository.UsedInventoryRepository;
-import dev.leonardovcl.sweetcontrol.services.RecipeService;
+import dev.leonardovcl.sweetcontrol.services.CookedRecipeService;
 
 @Controller
 @RequestMapping("/cookedrecipes")
@@ -23,34 +32,79 @@ public class CookedRecipeController {
 	private CookedRecipeRepository cookedRecipeRepository;
 	
 	@Autowired
-	UsedInventoryRepository usedInventoryRepository;
+	private IngredientRepository ingredientRepository;
 	
 	@Autowired
-	RecipeRepository recipeRepository;
+	private UsedInventoryRepository usedInventoryRepository;
 	
 	@Autowired
-	private RecipeService recipeService;
+	private RecipeRepository recipeRepository;
+	
+	@Autowired
+	private CookedRecipeService cookedRecipeService;
 	
 	@GetMapping
-	public String showCookedRecipes(Model model) {
+	public Object showCookedRecipes(
+			@RequestParam(value = "page", required = false,  defaultValue = "0") int page,
+			@RequestParam(value = "size", required = false, defaultValue = "5") int size,
+			@RequestParam(value = "idFilter", required = false) Long idFilter,
+			@RequestParam(value = "nameLike", required = false, defaultValue = "") String nameLike,
+			@RequestParam(value = "idIngredientFilter", required = false) Long idIngredientFilter,
+			Model model) {
 		
-		model.addAttribute("cookedRecipeList", cookedRecipeRepository.findAllByOrderByIdDesc());
+		model.addAttribute("ingredientList", ingredientRepository.findAll());
 		
-		return "cookedRecipes";
-	}
-	
-	@PostMapping
-	public String showCookedRecipesWithFilter(@RequestParam(value = "idFilter", required = false) Long idFilter,
-											@RequestParam(value = "nameLike", required = false) String nameLike,
-											Model model) {
+		model.addAttribute("idFilter", idFilter);
+		model.addAttribute("nameLike", nameLike);
+		model.addAttribute("idIngredientFilter", idIngredientFilter);
+		
+		Pageable pageable = PageRequest.of(page, size, Sort.by("id"));
+		Page<CookedRecipe> cookedRecipeList = null;
+		
+		PagedListHolder<CookedRecipe> cookedRecipeListHolder = new PagedListHolder<>();
+		cookedRecipeListHolder.setPageSize(size);
+		cookedRecipeListHolder.setSort(new MutableSortDefinition("id", true, true));
+		
+		List<CookedRecipe> cookedRecipeArrayList = new ArrayList<>();
 		
 		if(idFilter != null) {
-			model.addAttribute("cookedRecipeList", cookedRecipeRepository.findByRecipeEntryIdOrderByIdDesc(idFilter));
-		} else if (nameLike != null) {
-			model.addAttribute("cookedRecipeList", cookedRecipeRepository.findByRecipeEntryNameContainingOrderByIdDesc(nameLike));
+			
+			cookedRecipeList = cookedRecipeRepository.findByRecipeEntryIdOrderByIdDesc(idFilter, pageable);
+			
+		} else if (!nameLike.isBlank() && idIngredientFilter == null) {
+			
+			cookedRecipeList = cookedRecipeRepository.findByRecipeEntryNameContainingOrderByIdDesc(nameLike, pageable);
+			
+		} else if (nameLike.isBlank() && idIngredientFilter != null) {
+			
+			cookedRecipeArrayList = cookedRecipeService.findCookedRecipeByIngredient(idIngredientFilter);
+			
+			cookedRecipeListHolder.setSource(cookedRecipeArrayList);
+			cookedRecipeListHolder.resort();
+			cookedRecipeListHolder.setPage(page);
+			
+			model.addAttribute("cookedRecipeList", cookedRecipeListHolder);
+			
+			return "cookedRecipesFilter";
+		
+		} else if (!nameLike.isBlank() && idIngredientFilter != null) {
+			
+			cookedRecipeArrayList = cookedRecipeService.findCookedRecipeByIngredientAndNameContaining(idIngredientFilter, nameLike);
+			
+			cookedRecipeListHolder.setSource(cookedRecipeArrayList);
+			cookedRecipeListHolder.resort();
+			cookedRecipeListHolder.setPage(page);
+			
+			model.addAttribute("cookedRecipeList", cookedRecipeListHolder);
+			
+			return "cookedRecipesFilter";
+			
 		} else {
-			model.addAttribute("cookedRecipeList", cookedRecipeRepository.findAllByOrderByIdDesc());
+			
+			cookedRecipeList = cookedRecipeRepository.findAllByOrderByIdDesc(pageable);
 		}
+		
+		model.addAttribute("cookedRecipeList", cookedRecipeList);
 		
 		return "cookedRecipes";
 	}
@@ -63,7 +117,6 @@ public class CookedRecipeController {
 		
 		model.addAttribute("cookedRecipe", cookedRecipe);
 		model.addAttribute("recipe", recipeRepository.findById(recipeId));
-//		model.addAttribute("recipeIngredientList", recipeIngredientRepository.findByRecipeId(recipeId));
 		model.addAttribute("usedInventoriesList", usedInventoryRepository.findByCookedRecipeEntryId(cookedRecipeId));
 		
 		return "cookedRecipesDetail";
@@ -72,7 +125,7 @@ public class CookedRecipeController {
 	@GetMapping("/revert/{cookedRecipeId}")
 	public String revertCookedRecipe(@PathVariable("cookedRecipeId") Long cookedRecipeId) {
 		
-		recipeService.revertCookRecipe(cookedRecipeId);
+		cookedRecipeService.revertCookedRecipe(cookedRecipeId);
 		
 		return "redirect:/cookedrecipes";
 	}
@@ -80,7 +133,7 @@ public class CookedRecipeController {
 	@GetMapping("/delete/{cookedRecipeId}")
 	public String deleteCookedRecipe(@PathVariable("cookedRecipeId") Long cookedRecipeId) {
 	
-		recipeService.deleteCookedRecipe(cookedRecipeId);
+		cookedRecipeService.deleteCookedRecipe(cookedRecipeId);
 		
 		return "redirect:/cookedrecipes";
 	}

@@ -13,7 +13,7 @@
     <h3>Cooked Recipes List:</h3>
     
     <ol>
-    <li th:each="cookedRecipe : ${cookedRecipeList.content}">
+    <li th:each="cookedRecipe : ${cookedRecipeList.getPageList()}">
 		<span th:text="${cookedRecipe.recipeEntry.name}">Name</span>
         <span th:text="${cookedRecipe.recipeEntry.description}">Description</span>
         <span th:text="${cookedRecipe.makingDate}">Making Date</span>
@@ -24,19 +24,19 @@
 	</li>
 	</ol>
 	
-	<span th:if="${cookedRecipeList.hasPrevious()}">
-         <a th:href="@{/cookedrecipes(page=${cookedRecipeList.number-1}, idFilter=${idFilter}, nameLike=${nameLike}, idIngredientFilter=${idIngredientFilter})}">Previous</a>
+	<span th:if="${!cookedRecipeList.isFirstPage()}">
+         <a th:href="@{/cookedrecipes(page=${cookedRecipeList.getPage()-1}, idFilter=${idFilter}, nameLike=${nameLike}, idIngredientFilter=${idIngredientFilter})}">Previous</a>
 	</span>
      
  
- 	<span th:if="${cookedRecipeList.totalPages > 1}">
-	    <th:block th:each="i: ${#numbers.sequence(0, cookedRecipeList.totalPages - 1)}"> 
+ 	<span th:if="${cookedRecipeList.getPageCount() > 1}">
+	    <th:block th:each="i: ${#numbers.sequence(0, cookedRecipeList.getPageCount() - 1)}"> 
 	            <a th:href="@{/cookedrecipes(page=${i}, idFilter=${idFilter}, nameLike=${nameLike}, idIngredientFilter=${idIngredientFilter})}">[[ ${i} + 1 ]]</a>
 	    </th:block>
 	</span>
     
-    <span th:if="${cookedRecipeList.hasNext()}">
-         <a th:href="@{/cookedrecipes(page=${cookedRecipeList.number+1}, idFilter=${idFilter}, nameLike=${nameLike}, idIngredientFilter=${idIngredientFilter})}">Next</a>
+    <span th:if="${!cookedRecipeList.isLastPage()}">
+         <a th:href="@{/cookedrecipes(page=${cookedRecipeList.getPage()+1}, idFilter=${idFilter}, nameLike=${nameLike}, idIngredientFilter=${idIngredientFilter})}">Next</a>
      </span>
     
     <form method="GET" th:action ="@{/cookedrecipes}" id="filterList">
