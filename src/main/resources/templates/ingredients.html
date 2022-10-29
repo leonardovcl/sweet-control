@@ -15,7 +15,7 @@
     <h3>Ingredients List:</h3>
     
     <ol>
-    <li th:each="ingredient : ${ingredientList}">
+    <li th:each="ingredient : ${ingredientList.content}">
 		<span th:text="${ingredient.name}">Name</span>
 		<i class="fa fa-question-circle" th:title="${ingredient.description}"></i>
         <span th:text="${@ingredientService.getIngredientTotalAmount(ingredient.id)}">Total Amount Left</span>
@@ -25,8 +25,23 @@
         <a th:href="@{/ingredients/delete/{idIngredient}(idIngredient=${ingredient.id})}">Delete</a>
 	</li>
 	</ol>
+	
+	<span th:if="${ingredientList.hasPrevious()}">
+         <a th:href="@{/ingredients(page=${ingredientList.number-1}, idFilter=${idFilter}, nameLike=${nameLike})}">Previous</a>
+	</span>
+     
+ 
+ 	<span th:if="${ingredientList.totalPages > 1}">
+	    <th:block th:each="i: ${#numbers.sequence(0, ingredientList.totalPages - 1)}"> 
+	            <a th:href="@{/ingredients(page=${i}, idFilter=${idFilter}, nameLike=${nameLike})}">[[ ${i} + 1 ]]</a>
+	    </th:block>
+	</span>
     
-    <form method="POST" th:action ="@{/ingredients}" id="filterList">
+    <span th:if="${ingredientList.hasNext()}">
+         <a th:href="@{/ingredients(page=${ingredientList.number+1}, idFilter=${idFilter}, nameLike=${nameLike})}">Next</a>
+     </span>
+    
+    <form method="GET" th:action ="@{/ingredients}" id="filterList">
       <h5>Filter Results</h5>
 
       <label for="filterById">Id: </label>

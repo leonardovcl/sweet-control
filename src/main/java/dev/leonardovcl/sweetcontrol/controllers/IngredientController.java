@@ -7,6 +7,11 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,31 +31,39 @@ public class IngredientController {
 	private IngredientRepository ingredientRepository;
 	
 	@GetMapping
-	public String showIngredients(Model model) {
-		model.addAttribute("ingredientList", ingredientRepository.findAll());
-		return "ingredients";
-	}
-	
-	@PostMapping
-	public String showIngredientsWithFilter(@RequestParam(value = "nameLike", required = false) String nameLike,
-											@RequestParam(value = "idFilter", required = false) Long idFilter,
-											Model model) {
+	public String showIngredients(
+			@RequestParam(value = "page", required = false,  defaultValue = "0") int page,
+			@RequestParam(value = "size", required = false, defaultValue = "5") int size,
+			@RequestParam(value = "nameLike", required = false, defaultValue = "") String nameLike,
+			@RequestParam(value = "idFilter", required = false) Long idFilter,
+			Model model) {
 		
-		List<Ingredient> ingredientList = new ArrayList<>();
+		Pageable pageable = PageRequest.of(page, size, Sort.by("id"));
+	
+		Page<Ingredient> ingredientList;
+		
+		List<Ingredient> ingredientArrayList = new ArrayList<>();
 		
 		if (idFilter != null) {
 			Ingredient ingredientById = ingredientRepository.findById(idFilter).isPresent() ? ingredientRepository.findById(idFilter).get() : null;
 			
 			if (ingredientById != null) {
-				ingredientList.add(ingredientById);
+				ingredientArrayList.add(ingredientById);
 			}
+			
+			ingredientList = new PageImpl<>(ingredientArrayList, pageable, ingredientArrayList.size());
+			
 		} else if (!nameLike.isBlank()) {
-			ingredientList = ingredientRepository.findByNameContainingIgnoreCase(nameLike);
+			ingredientList = ingredientRepository.findByNameContainingIgnoreCase(nameLike, pageable);
 		} else {
-			ingredientList = (List<Ingredient>) ingredientRepository.findAll();
+			ingredientList = ingredientRepository.findAll(pageable);
 		}
 		
 		model.addAttribute("ingredientList", ingredientList);
+		
+		model.addAttribute("idFilter", idFilter);
+		model.addAttribute("nameLike", nameLike);
+		
 		return "ingredients";
 	}
 	
