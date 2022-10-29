@@ -13,7 +13,7 @@
     <h3>Inventories List:</h3>
     
     <ol>
-    <li th:each="inventory : ${inventoryList}">
+    <li th:each="inventory : ${inventoryList.content}">
 		<span th:text="${inventory.ingredient.name}">Name</span>
         <span th:text="${inventory.amountLeft} + '/' + ${inventory.amount}">Amount</span>
         <span th:text="${inventory.ingredient.amountType.name()}">Amount Type</span>
@@ -24,6 +24,23 @@
         <a th:href="@{/inventories/delete/{idInventory}(idInventory=${inventory.id})}">Delete</a>
 	</li>
 	</ol>
+	
+	<span th:if="${inventoryList.hasPrevious()}">
+         <a th:href="@{/inventories/{idIngredient}(idIngredient=${idIngredient}, page=${inventoryList.number-1})}">Previous</a>
+	</span>
+     
+ 
+ 	<span th:if="${inventoryList.totalPages > 1}">
+	    <th:block th:each="i: ${#numbers.sequence(0, inventoryList.totalPages - 1)}"> 
+	            <a th:href="@{/inventories/{idIngredient}(idIngredient=${idIngredient}, page=${i})}">[[ ${i} + 1 ]]</a>
+	    </th:block>
+	</span>
+    
+    <span th:if="${inventoryList.hasNext()}">
+         <a th:href="@{/inventories/{idIngredient}(idIngredient=${idIngredient}, page=${inventoryList.number+1})}">Next</a>
+     </span>
+     <br/>
+     <br/>
     
     <a th:href="@{/inventories/register/{idIngredient}(idIngredient=${idIngredient})}">Register Inventory</a>
     <br/>

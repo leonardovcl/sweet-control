@@ -3,12 +3,15 @@ package dev.leonardovcl.sweetcontrol.controllers;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import dev.leonardovcl.sweetcontrol.model.Ingredient;
 import dev.leonardovcl.sweetcontrol.model.Inventory;
@@ -30,9 +33,19 @@ public class InventoryController {
 	private UsedInventoryRepository usedInventoryRepository;
 	
 	@GetMapping("/{idIngredient}")
-	public String showInventories(@PathVariable("idIngredient") Long idIngredient, Model model) {
+	public String showInventories(
+			@PathVariable("idIngredient") Long idIngredient,
+			@RequestParam(value = "page", required = false,  defaultValue = "0") int page,
+			@RequestParam(value = "size", required = false, defaultValue = "5") int size,
+			Model model) {
+		
+		Pageable pageable = PageRequest.of(page, size);
+		
 		model.addAttribute("idIngredient", idIngredient);
-		model.addAttribute("inventoryList", inventoryRepository.findByIngredientIdAndActiveTrueOrderByExpirationDateAsc(idIngredient));
+		model.addAttribute("inventoryList", inventoryRepository.findByIngredientIdAndActiveTrueOrderByExpirationDateAsc(idIngredient, pageable));
+		
+		System.out.println(inventoryRepository.findByIngredientIdAndActiveTrueOrderByExpirationDateAsc(idIngredient, pageable));
+		
 		return "inventories";
 	}
 	
@@ -68,11 +81,6 @@ public class InventoryController {
 	@GetMapping("/edit/{idInventory}")
 	public String showInventoryUpdateForm(@PathVariable("idInventory") Long idInventory, Model model) {
 		
-//		if(usedInventoryRepository.existsByInventoryEntryId(idInventory)) {
-//			model.addAttribute("idInventory", idInventory);
-//			return "inventoryUpdateError";
-//		}
-		
 		model.addAttribute("usedInventoryExists", usedInventoryRepository.existsByInventoryEntryId(idInventory));
 		
 		Inventory inventory = inventoryRepository.findById(idInventory).get();
@@ -85,15 +93,6 @@ public class InventoryController {
 	public String updateInventory(@PathVariable("idInventory") Long idInventory, @Valid Inventory inventory) {
 		String idIngredient = Long.toString(inventory.getIngredient().getId());
 		inventoryRepository.save(inventory);
-		return "redirect:/inventories/" + idIngredient;
-	}
-	
-	@GetMapping("/edit/inventoryUpdateError/{idInventory}")
-	public String showInventoryUpdateError(@PathVariable("idInventory") Long idInventory) {
-		
-		Inventory inventory = inventoryRepository.findById(idInventory).get();
-		String idIngredient = Long.toString(inventory.getIngredient().getId());
-		
 		return "redirect:/inventories/" + idIngredient;
 	}
 	
