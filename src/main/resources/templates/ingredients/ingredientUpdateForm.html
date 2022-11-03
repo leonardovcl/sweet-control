@@ -10,13 +10,13 @@
 		<div class="main-content">
 	    	<div class="container">
 	    
-	    		<p class="title-text">Ingredients List</p>
+	    		<p class="title-text">Ingredient</p>
 	    		
 	    		<form method="POST" th:action="@{/ingredients/edit/{idIngredient}(idIngredient=${idIngredient})}" th:object="${ingredient}" id="ingredientForm">
 
 					<div class="row bottom-margin-5">
 						<div class="col-2">
-							<label class="form-text" for="id">Ingredient ID:</label>
+							<label class="form-text" for="id">ID:</label>
 						</div>
 						<div class="col-1">
 		      				<input class="form-control form-control-sm" type="text" th:field="*{id}" readonly>
@@ -25,7 +25,7 @@
 					
 					<div class="row bottom-margin-5">
 						<div class="col-2">
-							<label class="form-text" for="name">Ingredient Name:</label>
+							<label class="form-text" for="name">Name:</label>
 						</div>
 						<div class="col-4">
 		      				<input class="form-control form-control-sm" type="text" th:field="*{name}">
