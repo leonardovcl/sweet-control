@@ -2,8 +2,6 @@ package dev.leonardovcl.sweetcontrol.controllers;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,12 +62,12 @@ public class IngredientController {
 		model.addAttribute("idFilter", idFilter);
 		model.addAttribute("nameLike", nameLike);
 		
-		return "ingredients";
+		return "/ingredients/ingredients";
 	}
 	
 	@GetMapping("/register")
 	public String showIngredientRegisterForm(Ingredient ingredient) {
-		return "ingredientForm";
+		return "/ingredients/ingredientForm";
 	}
 	
 	@PostMapping("/register")
@@ -80,9 +78,9 @@ public class IngredientController {
 	
 	@GetMapping("/edit/{idIngredient}")
 	public String showIngredientUpdateForm(@PathVariable("idIngredient") Long idIngredient, Model model) {
-		Optional<Ingredient> ingredient = ingredientRepository.findById(idIngredient);
+		Ingredient ingredient = ingredientRepository.findById(idIngredient).get();
 		model.addAttribute("ingredient", ingredient);
-		return "ingredientUpdateForm";
+		return "/ingredients/ingredientUpdateForm";
 	}
 	
 	@PostMapping("/edit/{idIngredient}")
