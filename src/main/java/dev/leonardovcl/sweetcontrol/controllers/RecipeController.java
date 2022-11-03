@@ -110,13 +110,13 @@ public class RecipeController {
 		
 		model.addAttribute("recipeList", recipeList);
 		
-		return "recipes";
+		return "recipes/recipes";
 	}
 	
 	@GetMapping("/register")
 	public String showRecipeRegisterForm(Model model) {
 		model.addAttribute("recipe", new Recipe());
-		return "recipeForm";
+		return "recipes/recipeForm";
 	}
 	
 	@PostMapping("/register")
@@ -152,7 +152,7 @@ public class RecipeController {
 	@GetMapping("/edit/{idRecipe}")
 	public String showRecipeUpdateForm(@PathVariable("idRecipe") Long idRecipe, Model model) {
 		model.addAttribute("recipe", recipeRepository.findById(idRecipe));
-		return "recipeUpdateForm";
+		return "recipes/recipeUpdateForm";
 	}
 	
 	@PostMapping("/edit/{idRecipe}")

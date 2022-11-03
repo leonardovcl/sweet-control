@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en-us" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+	<head th:insert="base.html :: head"></head>
+
+	<body onload="isCookable()">
+	  
+	    <header th:insert="base.html :: header"></header>
+	    
+		<div class="main-content">
+	    	<div class="container">
+	    
+	    		<p class="title-text">Recipes List</p>
+
+	    		<table id="recipeTable" class="table table-striped table-responsive">
+	    			<thead class="thead-dark">
+	    				<tr>
+	      					<th style="width:auto" scope="col">ID</th>
+	      					<th style="width:auto" scope="col">Name</th>
+	      					<th style="width:auto" scope="col">Total Cost</th>
+	      					<th style="width:auto" scope="col">Recipes Left</th>
+	      					<th style="width:auto" scope="col"></th>
+	    				</tr>
+	  				</thead>
+	  				<tbody>
+	  					<tr th:each="recipe : ${recipeList.content}">
+							<td scope="row" th:text="'#' + ${recipe.id}"></td>
+	 						<td scope="row">
+	 							<span th:text="${recipe.name}"></span> 
+	 							<sup><i class="fa-solid fa-circle-info fa-lg" th:title="${recipe.description}"></i></sup>
+	 						</td>
+	 						<td scope="row"
+	 							th:text="'R$ ' + ${#numbers.formatDecimal(@recipeService.calculateRecipeTotalCost(recipe.id).recipeTotalCost, 1, 2)}">
+							</td>
+	 						<td scope="row"
+	 							id="recipesLeft" th:text="${@recipeService.calculateRecipesLeft(recipe.id)}">
+							</td>
+	 						<td scope="row" align="right">
+	 							<div class="last-row">
+		 							<a th:href="@{/recipes/{idRecipe}(idRecipe=${recipe.id})}" class="btn btn-outline-danger btn-sm">Ingredients</a> &nbsp;
+		 							<a id="cookButton" th:href="@{/recipes/cook/{idRecipe}(idRecipe=${recipe.id})}" class="btn btn-outline-success btn-sm">Cook!</a> &nbsp;
+		    						<a th:href="@{/recipes/edit/{idRecipe}(idRecipe=${recipe.id})}" title="Edit"><i class="fa-solid fa-pen-to-square fa-lg"></i></a> &nbsp;
+		    						<a th:href="@{/recipes/delete/{idRecipe}(idRecipe=${recipe.id})}" title="Delete"><i class="fa-solid fa-xmark fa-lg"></i></a>
+	    						</div>
+	    					</td>
+						</tr>
+					</tbody>
+	    		</table>
+
+				<div>
+				<span th:if="${recipeList.hasPrevious()}">
+					<a th:href="@{/recipes(page=${recipeList.number-1}, idFilter=${idFilter}, nameLike=${nameLike}, idIngredientFilter=${idIngredientFilter})}"><i class="fa-solid fa-angle-left fa-lg"></i></a>
+				</span>
+	 
+				<span th:if="${recipeList.totalPages > 1}">
+					<th:block th:each="i: ${#numbers.sequence(0, recipeList.totalPages - 1)}"> 
+						<a class="badge bg-primary text-wrap" th:href="@{/recipes(page=${i}, idFilter=${idFilter}, nameLike=${nameLike}, idIngredientFilter=${idIngredientFilter})}">[[ ${i} + 1 ]]</a>
+					</th:block>
+				</span>
+	    
+				<span th:if="${recipeList.hasNext()}">
+					<a th:href="@{/recipes(page=${recipeList.number+1}, idFilter=${idFilter}, nameLike=${nameLike}, idIngredientFilter=${idIngredientFilter})}"><i class="fa-solid fa-angle-right fa-lg"></i></a>
+				</span>
+				</div>
+	    
+	    		<br>
+
+	    		<form method="GET" th:action ="@{/recipes}" id="filterList">
+					<div class="row gx-1">
+						<div class="col-sm-1">
+							<input class="form-control form-control-sm" type="text" name ="idFilter" th:value="${idFilter}" placeholder="Id">
+						</div>
+	      
+						<div class="col-sm-2">
+							<input class="form-control form-control-sm" type="text" name ="nameLike" th:value="${nameLike}" placeholder="Name">
+						</div>
+						
+						<div class="col-auto">
+							<select class="form-select form-select-sm" id="filterByIngredient" th:name="idIngredientFilter">
+    							<option value="">-- Ingredient --</option>
+								<option th:each = "i : ${ingredientList}" th:value="${i.id}" th:text="${i.name}"></option>
+							</select>
+						</div>
+
+						<div class="col-sm-3">
+							<input style="margin-left: 10px;" class="btn btn-outline-success btn-sm" type="submit" value="Filter Results"/>
+	      					<a style="margin-left: 5px;" class="btn btn-outline-secondary btn-sm" th:href="@{/recipes}">Clear Filter</a>
+	      				</div>
+	      			</div>
+	    		</form>
+
+	    		<br>
+
+	    		<div>
+	    			<a class="btn btn-outline-dark btn-sm" th:href="@{/recipes/register}">Register Recipe</a>
+	    			<a class="btn btn-outline-dark btn-sm" th:href="@{/ingredients/register}">Register Ingredient</a>
+	    			<a class="btn btn-outline-dark btn-sm" th:href="@{/cookedrecipes}">View Cooked Recipes</a>
+	    		</div>
+			</div>
+	    </div>
+	    
+	    <footer th:insert="base.html :: footer"></footer>
+	    
+	    <div th:insert="base.html :: javascript"></div>
+	    
+		<script>
+			function isCookable() {
+
+				for(row of document.getElementById("recipeTable").rows) {
+					if(row.getElementsByTagName('a').length > 0) {
+						if(row.cells[2].textContent === "R$ 0.00") {
+							row.getElementsByTagName('a')[1].textContent = "Can't Cook!";
+							row.getElementsByTagName('a')[1].href = "#";
+							row.getElementsByTagName('a')[1].className = "btn btn-outline-secondary btn-sm";
+						}
+					}
+				}
+			}
+		</script>
+
+	</body>
+</html>

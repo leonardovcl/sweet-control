@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en-us" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+	<head th:insert="base.html :: head"></head>
+
+	<body>
+	  
+	    <header th:insert="base.html :: header"></header>
+	    
+		<div class="main-content">
+	    	<div class="container">
+	    
+	    		<p class="title-text">Register New Recipe</p>
+  
+    			<form method="POST" th:action="@{/recipes/register}" th:object="${recipe}" id="recipeForm">
+    			
+					<div class="row bottom-margin-5">
+						<div class="col-2">
+							<label class="form-text" for="name">Recipe Name:</label>
+						</div>
+						<div class="col-4">
+		      				<input class="form-control form-control-sm" type="text" th:field="*{name}">
+		      			</div>
+		      		</div>
+		      		
+					<div class="row bottom-margin-5">
+		      			<div class="col-2">
+							<label class="form-text" for="description">Description:</label>
+						</div>
+						<div class="col-6">
+		      				<input class="form-control form-control-sm" type="text" th:field="*{description}"/>
+		      			</div>
+		      		</div>
+
+		      		<div class="row  top-margin-15">
+		      			<div class="col">
+			      			<input class="btn btn-outline-secondary btn-sm" type="submit" value="Register"/>
+			      		</div>
+			      	</div>
+
+				</form>
+
+				<br>
+	    	
+	    		<div>
+	    			<a class="btn btn-outline-dark btn-sm" th:href="@{/recipes}">View Recipes</a>
+	    		</div>
+			</div>
+	    </div>
+	    
+	    <footer th:insert="base.html :: footer"></footer>
+	    
+	    <div th:insert="base.html :: javascript"></div>
+
+	</body>
