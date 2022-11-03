@@ -1,30 +1,21 @@
 <!DOCTYPE html>
+<html lang="en-us" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+	<head th:insert="base.html :: head"></head>
 
-  <head>
-  	<meta charset="UTF-8">
-    <title>Sweet Control</title>
-  </head>
-
-  <body>
+	<body>
   
-    <h1>Sweet Control</h1>
-    <h3>Inventory control system for bakeries.</h3>
+    	<header th:insert="base.html :: header"></header>
     
-    <a th:href="@{/ingredients}">View Ingredients</a>
-    <br/>
-    <a th:href="@{/ingredients/register}">Register Ingredient</a>
-    <br/>
-    <br/>
-    <a th:href="@{/recipes}">View Recipes</a>
-    <br/>
-    <a th:href="@{/recipes/register}">Register Recipe</a>
-    <br/>
-    <br/>
-    <a th:href="@{/cookedrecipes}">Cooked Recipes</a>
+    	<div class="main-content">
+    	<div class="container">
+    	<h3>Inventory control system for bakeries.</h3>
+    	</div>
+    	</div>
     
+    	<footer th:insert="base.html :: footer"></footer>
+    
+    	<div th:insert="base.html :: javascript"></div>
   
-  </body>
-
+	</body>
 </html>

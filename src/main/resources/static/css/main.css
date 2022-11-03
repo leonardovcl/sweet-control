@@ -1,0 +1,199 @@
+.navbar-brand img {
+    width: 75%;
+    height: auto;
+}
+
+/* Navigation Bar */
+.navbar {
+	background-color: #F9DCDF;
+}
+
+/*#F4C1C5  #efcacd #FCEEEF #FAE4E6 #F5EAEB #FFF7F7*/ 
+
+.nav-link {
+	color: #793e21;
+	font-weight: bold;
+}
+
+/* Dropdown Button */
+.dropbtn {
+  background-color: #F9DCDF;
+/*  color: rgba(0, 0, 0, 0.55);*/
+  color: #793e21;
+  padding: 8px;
+  font-size: 16px;
+  border: none;
+  font-weight: bold;
+}
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #FFF7F7;
+  border-radius: 8px;
+  min-width: 125px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+  color: #793e21;
+  font-size: 12px;
+  padding: 8px;
+  text-decoration: none;
+  display: block;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {color: #e85992;}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {display: block;}
+
+/* Change the background color of the dropdown button when the dropdown content is shown */
+.dropdown:hover .dropbtn {color: #e85992;}
+
+/* Change color of dropdown links on hover */
+.nav-item a:hover {color: #e85992;}
+
+body {
+	background-color: #F5EAEB;
+}
+
+.title-text {
+	color: #793E21;
+	font-weight: bold;
+	font-size: 32px;
+}
+
+.form-text {
+	color: #793E21;
+	font-weight: bold;
+	font-size: 16px;
+}
+
+.fa-heart {
+	color: red;
+}
+
+.fa-circle-info {
+	color: #E85992;
+}
+
+.fa-pen-to-square {
+	color: blue;
+}
+
+.fa-xmark {
+	color: red;
+}
+
+.fa-angle-right {
+	color: #E85992;
+}
+
+.fa-angle-left {
+	color: #E85992;
+}
+
+.main-content {
+	padding-top: 110px;
+}
+
+.table {
+/*    min-width: 50%;*/
+    width: auto;
+    font-size: 15px;
+    color: #000;
+/*    background-color: #FFF3F5;*/
+}
+
+.thead-dark {
+	background-color: #E85992;
+	color: white;
+}
+
+.table-striped>tbody>tr:nth-child(odd)>td, 
+.table-striped>tbody>tr:nth-child(odd)>th {
+   background-color: #FFF;
+   font-size: 15px;
+   color: #000;
+ }
+ 
+ .bottom-margin-5 {
+	 margin-bottom: 5px;
+ }
+ 
+  .top-margin-15 {
+	 margin-top: 15px;
+ }
+
+.btn-outline-danger {
+	color: #E85992;
+	border-color: #E85992;
+}
+
+.btn-outline-danger:hover {
+	background-color: #E85992;
+	border-color: #E85992;
+}
+
+.btn-outline-dark {
+	color: #793e21;
+	border-color: #793e21;
+}
+
+.btn-outline-dark:hover {
+	background-color: #793e21;
+	border-color: #793e21;
+}
+
+.bg-primary {
+	background-color: #E85992 !important;
+	color: white;
+}
+
+.bg-primary:hover {
+	color: #000;
+}
+
+.btn {
+	font-size: 12px;
+}
+
+.form-control-sm {
+	font-size: 12px;
+}
+
+/* Footer Area Start */
+.footer-area {
+  position: relative;
+}
+
+#copyright .copyright-content {
+  border-top: 1px solid #402212;
+  padding: 10px 0px 0px 0px;
+  margin: 25px 0px 0px 0px;
+}
+
+#copyright p {
+  color: #793e21;
+  text-align: center;
+  font-size: 14px;
+}
+
+#copyright p a {
+  color: #793e21;
+}
+
+#copyright p a:hover {
+  color: #d2738d;
+}
