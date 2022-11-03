@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en-us" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+	<head th:insert="base.html :: head"></head>
+
+	<body>
+	  
+	    <header th:insert="base.html :: header"></header>
+	    
+		<div class="main-content">
+	    	<div class="container">
+	    
+	    		<p class="title-text">Register New Inventory</p>
+  
+    	<form method="POST" th:object="${inventory}" id="inventoryForm">
+
+					<div class="row bottom-margin-5">
+						<div class="col-2">
+							<label class="form-text" for="ingredient">Ingredient:</label>
+						</div>
+						<div class="col-auto">
+		      				<select class="form-select form-select-sm" th:field="*{ingredient}" onchange="amountTypeSet(this)">
+								<option th:value="*{ingredient.id}" th:text="*{ingredient.name}" readonly="readonly">
+							</select>
+		      			</div>
+		      		</div>
+		      		
+					<div class="row bottom-margin-5">
+		      			<div class="col-2">
+							<label class="form-text" for="totalAmount">Total Amount:</label>
+						</div>
+						<div class="col-sm-1">
+		      				<input class="form-control form-control-sm" type="text" th:field="*{amount}" id="amount" onchange="amountLeftSet()">
+		      			</div>
+		      			<div class="col-auto">
+		      				<select class="form-select form-select-sm" id="amountType">
+								<option th:text="*{ingredient.amountType.name()}">
+							</select>
+						</div>
+		      		</div>
+		      		
+					<div class="row bottom-margin-5">
+		      			<div class="col-2">
+							<label class="form-text" for="amountLeft">Amount Left:</label>
+						</div>
+						<div class="col-sm-1">
+							<input class="form-control form-control-sm" type="text" th:field="*{amountLeft}" id="amountLeft">
+		      			</div>
+		      			<div class="col-auto">
+		      				<select class="form-select form-select-sm" id="amountTypeLeft">
+								<option th:text="*{ingredient.amountType.name()}">
+							</select>
+						</div>
+		      		</div>
+
+		      		<div class="row bottom-margin-5">
+						<div class="col-2">
+							<label class="form-text" for="price">Price:</label>
+						</div>
+						<div class="col-sm-auto">
+		      				<p style="margin-bottom: 0px;">R$</p>
+		      			</div>
+						<div class="col-sm-1">
+		      				<input class="form-control form-control-sm" type="text" th:field="*{price}">
+		      			</div>
+		      		</div>
+		      		
+		      		<div class="row bottom-margin-5">
+						<div class="col-2">
+							<label class="form-text" for="expirationDate">Expiration Date:</label>
+						</div>
+						<div class="col-auto">
+		      				<input class="form-control form-control-sm" type="date" th:field="*{expirationDate}">
+		      			</div>
+		      		</div>
+
+					<div class="row  top-margin-15">
+		      			<div class="col">
+			      			<input class="btn btn-outline-secondary btn-sm" type="submit" value="Register"/>
+			      		</div>
+			      	</div>
+				</form>
+
+				<br>
+	    	
+	    		<div>
+	    			<a class="btn btn-outline-dark btn-sm" th:href="@{/ingredients}">View Ingredients</a>
+	    			<a class="btn btn-outline-dark btn-sm" th:href="@{/inventories/{ingredientId}(ingredientId=${inventory.ingredient.id})}">View Inventory</a>
+	    		</div>
+			</div>
+	    </div>
+	    
+	    <footer th:insert="base.html :: footer"></footer>
+	    
+	    <div th:insert="base.html :: javascript"></div>
+	    
+		<script>
+			function amountLeftSet() {
+  				var amount = document.getElementById("amount").value;
+  				document.getElementById("amountLeft").value = amount;
+			}
+		</script>
+
+	</body>
+</html>

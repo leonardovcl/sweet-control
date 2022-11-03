@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en-us" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+	<head th:insert="base.html :: head"></head>
+
+	<body>
+	  
+	    <header th:insert="base.html :: header"></header>
+	    
+		<div class="main-content">
+	    	<div class="container">
+	    
+	    		<p class="title-text">Inventory</p>
+  
+    			<form method="POST" th:action="@{/inventories/edit/{inventoryId}(inventoryId=${inventory.id})}" th:object="${inventory}" id="inventoryForm">
+    			
+					<div class="row bottom-margin-5">
+						<div class="col-2">
+							<label class="form-text" for="id">ID:</label>
+						</div>
+						<div class="col-1">
+		      				<input class="form-control form-control-sm" type="text" th:field="*{id}" readonly>
+		      			</div>
+		      		</div>
+					
+					<div class="row bottom-margin-5">
+						<div class="col-2">
+							<label class="form-text" for="ingredient">Ingredient:</label>
+						</div>
+						<div class="col-auto">
+		      				<select class="form-select form-select-sm" th:field="*{ingredient}" id="ingredient">
+								<option th:value="*{ingredient.id}" th:text="*{ingredient.name}">
+							</select>
+		      			</div>
+		      		</div>
+		      		
+					<div class="row bottom-margin-5">
+		      			<div class="col-2">
+							<label class="form-text" for="amountLeft">Amount:</label>
+						</div>
+						<div class="col-sm-1">
+							<input class="form-control form-control-sm" type="text" th:field="*{amountLeft}" id="amountLeft">
+		      			</div>
+		      			<div class="col-auto">
+		      				<p style="margin-bottom: 0px;">/</p>
+		      			</div>
+		      			<div class="col-sm-1">
+		      				<input class="form-control form-control-sm" type="text" th:field="*{amount}" id="amount">
+		      			</div>
+		      			<div class="col-auto">
+		      				<select class="form-select form-select-sm" id="amountType">
+								<option th:text="*{ingredient.amountType.name()}">
+							</select>
+						</div>
+		      		</div>
+		      		
+		      		<div class="row bottom-margin-5">
+						<div class="col-2">
+							<label class="form-text" for="price">Price:</label>
+						</div>
+						<div class="col-sm-auto">
+		      				<p style="margin-bottom: 0px;">R$</p>
+		      			</div>
+						<div class="col-sm-1">
+		      				<input class="form-control form-control-sm" type="text" th:field="*{price}">
+		      			</div>
+		      		</div>
+		      		
+		      		<div class="row bottom-margin-5">
+						<div class="col-2">
+							<label class="form-text" for="expirationDate">Expiration Date:</label>
+						</div>
+						<div class="col-auto">
+		      				<input class="form-control form-control-sm" type="date" th:field="*{expirationDate}">
+		      			</div>
+		      		</div>
+
+					<div class="row  top-margin-15">
+		      			<div class="col">
+			      			<input class="btn btn-outline-secondary btn-sm" type="submit" value="Edit"/>
+			      		</div>
+			      	</div>
+    			</form>
+    
+     			<br/>
+     
+	    		<div>
+	    			<a class="btn btn-outline-dark btn-sm" th:href="@{/inventories/{idIngredient}(idIngredient=${inventory.ingredient.id})}">View Inventories</a>
+	    			<a class="btn btn-outline-dark btn-sm" th:href="@{/ingredients}">View Ingredients</a>
+	    		</div>
+  			</div>
+	    </div>
+	    
+	    <footer th:insert="base.html :: footer"></footer>
+	    
+	    <div th:insert="base.html :: javascript"></div>
+	    
+      	<span th:if="${usedInventoryExists}">
+			<script>
+				if(!confirm("<<< Beware! >>>\n\nCurrent Inventory was already used in a Cooked Recipe!\n\nChanges may lead to inconsistencies!")) {
+					history.back();
+				}
+			</script>
+		</span>
+
+	</body>
+</html>

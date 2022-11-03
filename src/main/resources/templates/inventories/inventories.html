@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en-us" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+	<head th:insert="base.html :: head"></head>
+
+	<body>
+	  
+	    <header th:insert="base.html :: header"></header>
+	    
+		<div class="main-content">
+	    	<div class="container">
+	    
+	    		<p class="title-text">Inventories List</p>
+	    		
+	    		<table class="table table-striped table-responsive">
+	    			<thead class="thead-dark">
+	    				<tr>
+	      					<th style="width:auto" scope="col">ID</th>
+	      					<th style="width:auto" scope="col">Ingredient</th>
+	      					<th style="width:auto" scope="col">Amount</th>
+	      					<th style="width:auto" scope="col">Total Price</th>
+	      					<th style="width:auto" scope="col">Price/Amount</th>
+	      					<th style="width:auto" scope="col">Expiration Date</th>
+	      					<th style="width:auto" scope="col"></th>
+	    				</tr>
+	  				</thead>
+	  				<tbody>
+						<tr th:each="inventory : ${inventoryList.content}">
+							<td scope="row" th:text="'#' + ${inventory.id}"></td>
+	 						<td scope="row" th:text="'[#' + ${idIngredient} + '] ' + ${inventory.ingredient.name}"></td>
+	 						<td scope="row" th:text="${inventory.amountLeft} + '/' + ${inventory.amount} + ' ' + ${inventory.ingredient.amountType.name()}"></td>
+	 						<td scope="row" th:text="'R$ ' + ${inventory.price}"></td>
+	 						<td scope="row" th:text="'R$ ' + ${inventory.getPricePerAmountAsString()} + '/' + ${inventory.ingredient.amountType.name()}"></td>
+	 						<td scope="row" type="Date" th:text="${inventory.getExpirationDate()}"></td>
+	 						<td scope="row" align="right">
+	 							<div class="last-row">
+		 							<a th:href="@{/inventories/edit/{idInventory}(idInventory=${inventory.id})}" title="Edit"><i class="fa-solid fa-pen-to-square fa-lg"></i></a> &nbsp;
+		    						<a th:href="@{/inventories/delete/{idInventory}(idInventory=${inventory.id})}" title="Delete"><i class="fa-solid fa-xmark fa-lg"></i></a>
+	    						</div>
+	    					</td>
+						</tr>
+					</tbody>
+	    		</table>
+	    		
+				<div>
+				<span th:if="${inventoryList.hasPrevious()}">
+					<a th:href="@{/inventories/{idIngredient}(idIngredient=${idIngredient}, page=${inventoryList.number-1})}"><i class="fa-solid fa-angle-left fa-lg"></i></a>
+				</span>
+	 
+				<span th:if="${inventoryList.totalPages > 1}">
+					<th:block th:each="i: ${#numbers.sequence(0, inventoryList.totalPages - 1)}"> 
+						<a class="badge bg-primary text-wrap" th:href="@{/inventories/{idIngredient}(idIngredient=${idIngredient}, page=${i})}">[[ ${i} + 1 ]]</a>
+					</th:block>
+				</span>
+	    
+				<span th:if="${inventoryList.hasNext()}">
+					<a th:href="@{/inventories/{idIngredient}(idIngredient=${idIngredient}, page=${inventoryList.number+1})}"><i class="fa-solid fa-angle-right fa-lg"></i></a>
+				</span>
+				</div>
+				
+     			<br/>
+     
+	    		<div>
+	    			<a class="btn btn-outline-dark btn-sm" th:href="@{/inventories/register/{idIngredient}(idIngredient=${idIngredient})}">Register Inventor</a>
+	    			<a class="btn btn-outline-dark btn-sm" th:href="@{/ingredients}">View Ingredients</a>
+	    		</div>
+  
+			</div>
+	    </div>
+	    
+	    <footer th:insert="base.html :: footer"></footer>
+	    
+	    <div th:insert="base.html :: javascript"></div>
+
+	</body>
+</html>

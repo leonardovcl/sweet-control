@@ -46,14 +46,14 @@ public class InventoryController {
 		
 		System.out.println(inventoryRepository.findByIngredientIdAndActiveTrueOrderByExpirationDateAsc(idIngredient, pageable));
 		
-		return "inventories";
+		return "inventories/inventories";
 	}
 	
 	@GetMapping("/register")
 	public String showInventoryGenericRegisterForm(Model model) {
 		model.addAttribute("inventory", new Inventory());
 		model.addAttribute("ingredientList", ingredientRepository.findAll());
-		return "inventoryGenericForm";
+		return "inventories/inventoryGenericForm";
 	}
 	
 	@PostMapping("/register")
@@ -69,7 +69,7 @@ public class InventoryController {
 		Ingredient ingredientObj = ingredientRepository.findById(idIngredient).get();
 		inventoryObj.setIngredient(ingredientObj);
 		model.addAttribute("inventory", inventoryObj);
-		return "inventoryForm";
+		return "inventories/inventoryForm";
 	}
 	
 	@PostMapping("/register/{idIngredient}")
@@ -86,7 +86,7 @@ public class InventoryController {
 		Inventory inventory = inventoryRepository.findById(idInventory).get();
 		model.addAttribute("inventory", inventory);
 		model.addAttribute("ingredientList", ingredientRepository.findAll());
-		return "inventoryUpdateForm";
+		return "inventories/inventoryUpdateForm";
 	}
 	
 	@PostMapping("/edit/{idInventory}")
