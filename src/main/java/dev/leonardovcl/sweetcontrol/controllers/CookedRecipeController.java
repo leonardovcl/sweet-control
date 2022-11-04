@@ -103,7 +103,7 @@ public class CookedRecipeController {
 		
 		model.addAttribute("cookedRecipeList", cookedRecipeList);
 		
-		return "cookedRecipes";
+		return "cookedrecipes/cookedRecipes";
 	}
 	
 	@GetMapping("/detail/{cookedRecipeId}")
@@ -113,10 +113,10 @@ public class CookedRecipeController {
 		Long recipeId = cookedRecipe.getRecipeEntry().getId();
 		
 		model.addAttribute("cookedRecipe", cookedRecipe);
-		model.addAttribute("recipe", recipeRepository.findById(recipeId));
+		model.addAttribute("recipe", recipeRepository.findById(recipeId).get());
 		model.addAttribute("usedInventoriesList", usedInventoryRepository.findByCookedRecipeEntryId(cookedRecipeId));
 		
-		return "cookedRecipesDetail";
+		return "cookedrecipes/cookedRecipesDetail";
 	}
 	
 	@GetMapping("/revert/{cookedRecipeId}")

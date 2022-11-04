@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en-us" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+	<head th:insert="base.html :: head"></head>
+
+	<body onload="isCookable()">
+	  
+	    <header th:insert="base.html :: header"></header>
+	    
+		<div class="main-content">
+	    	<div class="container">
+	    
+	    		<p class="title-text">Cooked Recipes List</p>
+
+	    		<table id="recipeTable" class="table table-striped table-responsive">
+	    			<thead class="thead-dark">
+	    				<tr>
+	      					<th style="width:auto" scope="col">ID</th>
+	      					<th style="width:auto" scope="col">Name</th>
+	      					<th style="width:auto" scope="col">Making Date</th>
+	      					<th style="width:auto" scope="col">Total Cost</th>
+	      					<th style="width:auto" scope="col"></th>
+	    				</tr>
+	  				</thead>
+	  				<tbody>
+	  					<tr th:each="cookedRecipe : ${cookedRecipeList.content}">
+							<td scope="row" th:text="'#' + ${cookedRecipe.id}"></td>
+	 						<td scope="row">
+	 							<span th:text="${cookedRecipe.recipeEntry.name}"></span> 
+	 							<sup><i class="fa-solid fa-circle-info fa-lg" th:title="${cookedRecipe.recipeEntry.description}"></i></sup>
+	 						</td>
+	 						<td scope="row" th:text="${cookedRecipe.makingDate}"></td>
+	 						<td scope="row"
+	 							th:text="'R$ ' + ${#numbers.formatDecimal(cookedRecipe.recipeEntryTotalCost, 1, 2)}">
+							</td>
+	 						<td scope="row" align="right">
+	 							<div class="last-row">
+		 							<a th:href="@{/cookedrecipes/revert/{cookedRecipeId}(cookedRecipeId=${cookedRecipe.id})}" title="Revert"><i class="fa-solid fa-clock-rotate-left"></i></a> &nbsp;
+		    						<a th:href="@{/cookedrecipes/detail/{cookedRecipeId}(cookedRecipeId=${cookedRecipe.id})}" title="Details"><i class="fa-solid fa-magnifying-glass"></i></i></a> &nbsp;
+		    						<a th:href="@{/cookedrecipes/delete/{cookedRecipeId}(cookedRecipeId=${cookedRecipe.id})}" title="Delete"><i class="fa-solid fa-xmark fa-lg"></i></a>
+	    						</div>
+	    					</td>
+						</tr>
+					</tbody>
+	    		</table>
+
+				<div>
+				<span th:if="${cookedRecipeList.hasPrevious()}">
+					<a th:href="@{/cookedrecipes(page=${cookedRecipeList.number-1}, idFilter=${idFilter}, nameLike=${nameLike}, idIngredientFilter=${idIngredientFilter})}"><i class="fa-solid fa-angle-left fa-lg"></i></a>
+				</span>
+	 
+				<span th:if="${cookedRecipeList.totalPages > 1}">
+					<th:block th:each="i: ${#numbers.sequence(0, cookedRecipeList.totalPages - 1)}"> 
+						<a class="badge bg-primary text-wrap" th:href="@{/cookedrecipes(page=${i}, idFilter=${idFilter}, nameLike=${nameLike}, idIngredientFilter=${idIngredientFilter})}">[[ ${i} + 1 ]]</a>
+					</th:block>
+				</span>
+	    
+				<span th:if="${cookedRecipeList.hasNext()}">
+					<a th:href="@{/cookedrecipes(page=${cookedRecipeList.number+1}, idFilter=${idFilter}, nameLike=${nameLike}, idIngredientFilter=${idIngredientFilter})}"><i class="fa-solid fa-angle-right fa-lg"></i></a>
+				</span>
+				</div>
+	    
+	    		<br>
+
+				<form method="GET" th:action ="@{/cookedrecipes}" id="filterList">
+					<div class="row gx-1">
+						<div class="col-sm-1">
+							<input class="form-control form-control-sm" type="text" name ="idFilter" th:value="${idFilter}" placeholder="Id">
+						</div>
+	      
+						<div class="col-sm-2">
+							<input class="form-control form-control-sm" type="text" name ="nameLike" th:value="${nameLike}" placeholder="Name">
+						</div>
+						
+						<div class="col-auto">
+							<select class="form-select form-select-sm" id="filterByIngredient" th:name="idIngredientFilter">
+    							<option value="">-- Ingredient --</option>
+								<option th:each = "i : ${ingredientList}" th:value="${i.id}" th:text="${i.name}"></option>
+							</select>
+						</div>
+
+						<div class="col-sm-3">
+							<input style="margin-left: 10px;" class="btn btn-outline-success btn-sm" type="submit" value="Filter Results"/>
+	      					<a style="margin-left: 5px;" class="btn btn-outline-secondary btn-sm" th:href="@{/cookedrecipes}">Clear Filter</a>
+	      				</div>
+	      			</div>
+	    		</form>
+
+	    		<br>
+
+	    		<div>
+	    			<a class="btn btn-outline-dark btn-sm" th:href="@{/recipes}">View Recipes</a>
+	    		</div>
+			</div>
+	    </div>
+	    
+	    <footer th:insert="base.html :: footer"></footer>
+	    
+	    <div th:insert="base.html :: javascript"></div>
+
+	</body>
+</html>

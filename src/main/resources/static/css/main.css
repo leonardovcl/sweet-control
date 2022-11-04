@@ -74,8 +74,20 @@ body {
 	font-size: 32px;
 }
 
+.middle-text {
+	color: #E85992;
+	font-weight: bold;
+	font-size: 20px;
+}
+
 .subtitle-text {
 	color: #793E21;
+	font-weight: bold;
+	font-size: 16px;
+}
+
+.subtitle-text-brown {
+	color: #402212;
 	font-weight: bold;
 	font-size: 16px;
 }
@@ -100,6 +112,10 @@ body {
 
 .fa-xmark {
 	color: red;
+}
+
+.fa-clock-rotate-left {
+	color: #402212;
 }
 
 .fa-angle-right {
