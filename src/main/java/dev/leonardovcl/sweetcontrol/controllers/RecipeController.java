@@ -129,10 +129,10 @@ public class RecipeController {
 	public String showRecipeIngredientForm(@PathVariable("idRecipe") Long idRecipe, Model model) {
 		
 		model.addAttribute("recipeIngredientList", recipeIngredientRepository.findByRecipeId(idRecipe));
-		model.addAttribute("recipe", recipeRepository.findById(idRecipe));
+		model.addAttribute("recipe", recipeRepository.findById(idRecipe).get());
 		model.addAttribute("ingredientList", ingredientRepository.findAll());
 		
-		return "recipeIngredientForm";
+		return "recipes/recipeingredients/recipeIngredientForm";
 	}
 	
 	@PostMapping("/{idRecipe}")

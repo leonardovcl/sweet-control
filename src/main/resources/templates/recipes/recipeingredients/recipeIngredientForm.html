@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en-us" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+	<head th:insert="base.html :: head"></head>
+
+	<body>
+	  
+	    <header th:insert="base.html :: header"></header>
+	    
+		<div class="main-content">
+	    	<div class="container">
+	    
+	    		<table id="recipeTable" class="table table-striped table-responsive">
+	    			<thead class="thead-dark">
+	    				<tr>
+	      					<th style="width:auto" scope="col">Recipe</th>
+	    				</tr>
+	  				</thead>
+	  				<tbody>
+	  					<tr>
+							<td scope="row">
+	 							<span th:text="'[#' + ${recipe.id} + '] ' + ${recipe.name}"></span> 
+	 							<sup><i class="fa-solid fa-circle-info fa-lg" th:title="${recipe.description}"></i></sup>
+	 						</td>
+						</tr>
+					</tbody>
+	    		</table>
+	    		
+	    		<p class="subtitle-text">Recipe Ingredients List:</p>
+	    		
+	    		<table class="table table-striped table-responsive">
+	    			<thead class="thead-dark">
+	    				<tr>
+	      					<th style="width:auto" scope="col">Ingredient</th>
+	      					<th style="width:auto" scope="col">Amount</th>
+	      					<th style="width:auto" scope="col"></th>
+	    				</tr>
+	  				</thead>
+	  				<tbody>
+						<tr th:each="recipeIngredient : ${recipeIngredientList}">
+							<td scope="row">
+								<span
+									th:text="'[#' + ${recipeIngredient.getIngredientEntry().id} + '] ' +
+										${recipeIngredient.getIngredientEntry().name}">
+								</span> 
+	 							<sup><i class="fa-solid fa-circle-info fa-lg" th:title="${recipeIngredient.getIngredientEntry().description}"></i></sup>
+							</td>
+	 						<td scope="row"
+	 							th:text="${recipeIngredient.getRecipeIngredientAmount()} +
+										' ' +
+										${recipeIngredient.getIngredientEntry().getAmountType().name()}">
+							</td>
+	 						<td scope="row" align="right">
+	 							<div class="last-row">
+		 							<a th:href="@{/inventories/{idIngredient}(idIngredient=${recipeIngredient.getIngredientEntry().id})}" class="btn btn-outline-danger btn-sm">Inventories</a> &nbsp;
+		    						<a th:href="@{/recipe_ingredients/edit/{idRecipeIngredient}(idRecipeIngredient=${recipeIngredient.id})}" title="Edit"><i class="fa-solid fa-pen-to-square fa-lg"></i></a> &nbsp;
+		    						<a th:href="@{/recipe_ingredients/delete/{idRecipeIngredient}(idRecipeIngredient=${recipeIngredient.id})}" title="Delete"><i class="fa-solid fa-xmark fa-lg"></i></a>
+	    						</div>
+	    					</td>
+						</tr>
+					</tbody>
+	    		</table>
+	    		
+	    		<p class="subtitle-text">Add New Ingredient:</p>
+
+	    		<form method="POST" id="recipeIngredientForm" name="recipeIngredientForm">
+					<div class="row bottom-margin-5">
+						<div class="col-1">
+							<label for="ingredient">Ingredient:</label>
+						</div>
+						<div class="col-auto">
+							<select class="form-select form-select-sm" th:value="${ingredient}" id="ingredient" name="ingredient" onchange="amountTypeSet(this)">
+    							<option value="">-- Ingredient --</option>
+								<option th:each = "i : ${ingredientList}" th:value="${i.id}" th:text="${i.name}" th:data-amount-type="${i.amountType.name()}">
+							</select>
+						</div>
+					</div>
+					
+					<div class="row bottom-margin-5">						
+						<div class="col-1">
+							<label for="amount">Amount:</label>
+						</div>
+						<div class="col-sm-2">
+							<input class="form-control form-control-sm" type="text" name="amount" th:value="${amount}"/>
+						</div>
+						
+						<div class="col-auto">
+							<select class="form-select form-select-sm" id="amountType">
+    							<option value = ""></option>
+							</select>
+						</div>
+					</div>
+
+					<div class="row  top-margin-15">
+						<div class="col">
+			      			<input class="btn btn-outline-secondary btn-sm" type="submit" value="Add Ingredient"/>
+	      				</div>
+	      			</div>
+	    		</form>
+
+    			<br/>
+    			
+    			<div>
+	    			<a class="btn btn-outline-dark btn-sm" th:href="@{/recipes}">View Recipes</a>
+	    			<a class="btn btn-outline-dark btn-sm" th:href="@{/ingredients}">View Ingredients</a>
+	    		</div>
+  			</div>
+	    </div>
+	    
+	    <footer th:insert="base.html :: footer"></footer>
+	    
+	    <div th:insert="base.html :: javascript"></div>
+	    
+		<script>
+			function amountTypeSet(ingredient) {
+  				var opt = ingredient.options[ingredient.selectedIndex];
+  				var amountType = opt.dataset.amountType
+  				document.getElementById("amountType").options[0].innerHTML = amountType;
+			}
+		</script>
+
+	</body>
+</html>

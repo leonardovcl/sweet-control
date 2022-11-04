@@ -23,7 +23,7 @@ public class RecipeIngredientController {
 	@GetMapping("/edit/{idRecipeIngredient}")
 	public String showRecipeIngredientUpdateForm(@PathVariable("idRecipeIngredient") Long idRecipeIngredient, Model model) {
 		model.addAttribute("recipeIngredient", recipeIngredientRepository.findById(idRecipeIngredient).get());
-		return "recipeIngredientUpdateForm";
+		return "recipes/recipeingredients/recipeIngredientUpdateForm";
 	}
 
 	@PostMapping("/edit/{idRecipeIngredient}")
