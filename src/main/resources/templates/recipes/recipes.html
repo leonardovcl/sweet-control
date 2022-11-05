@@ -19,7 +19,11 @@
 	      					<th style="width:auto" scope="col">Name</th>
 	      					<th style="width:auto" scope="col">Total Cost</th>
 	      					<th style="width:auto" scope="col">Recipes Left</th>
-	      					<th style="width:auto" scope="col"></th>
+	      					<th style="width:auto" scope="col">
+	      						<button class="navbar-toggler table-btn" type="button" data-bs-toggle="collapse" data-bs-target="#columnCollapse" aria-controls="columnCollapse" aria-expanded="false" aria-label="Toggle navigation">
+									<i class="fa-solid fa-bars fa-lg"></i>
+								</button>
+	      					</th>
 	    				</tr>
 	  				</thead>
 	  				<tbody>
@@ -36,11 +40,21 @@
 	 							id="recipesLeft" th:text="${@recipeService.calculateRecipesLeft(recipe.id)}">
 							</td>
 	 						<td scope="row" align="right">
-	 							<div class="last-row">
-		 							<a th:href="@{/recipes/{idRecipe}(idRecipe=${recipe.id})}" class="btn btn-outline-danger btn-sm">Ingredients</a> &nbsp;
-		 							<a id="cookButton" th:href="@{/recipes/cook/{idRecipe}(idRecipe=${recipe.id})}" class="btn btn-outline-success btn-sm">Cook!</a> &nbsp;
-		    						<a th:href="@{/recipes/edit/{idRecipe}(idRecipe=${recipe.id})}" title="Edit"><i class="fa-solid fa-pen-to-square fa-lg"></i></a> &nbsp;
-		    						<a th:href="@{/recipes/delete/{idRecipe}(idRecipe=${recipe.id})}" title="Delete"><i class="fa-solid fa-xmark fa-lg"></i></a>
+	 							<div class="collapse last-col" id="columnCollapse">
+		 							<ul id="table-ul">
+		 								<li>
+		 									<a th:href="@{/recipes/{idRecipe}(idRecipe=${recipe.id})}" class="btn btn-outline-danger btn-sm">Ingredients</a> &nbsp;
+		 								</li>
+		 								
+		 								<li>
+		 									<a id="cookButton" th:href="@{/recipes/cook/{idRecipe}(idRecipe=${recipe.id})}" class="btn btn-outline-success btn-sm">Cook!</a> &nbsp;
+		 								</li>
+		 								
+		 								<li>
+		    								<a th:href="@{/recipes/edit/{idRecipe}(idRecipe=${recipe.id})}" title="Edit"><i class="fa-solid fa-pen-to-square fa-lg"></i></a>
+		    								<a th:href="@{/recipes/delete/{idRecipe}(idRecipe=${recipe.id})}" title="Delete"><i class="fa-solid fa-xmark fa-lg"></i></a>
+		 								</li>
+		 							</ul>
 	    						</div>
 	    					</td>
 						</tr>
@@ -67,11 +81,11 @@
 
 	    		<form method="GET" th:action ="@{/recipes}" id="filterList">
 					<div class="row gx-1">
-						<div class="col-sm-1">
+						<div class="col-1">
 							<input class="form-control form-control-sm" type="text" name ="idFilter" th:value="${idFilter}" placeholder="Id">
 						</div>
 	      
-						<div class="col-sm-2">
+						<div class="col-2">
 							<input class="form-control form-control-sm" type="text" name ="nameLike" th:value="${nameLike}" placeholder="Name">
 						</div>
 						
@@ -82,9 +96,9 @@
 							</select>
 						</div>
 
-						<div class="col-sm-3">
+						<div class="col-auto">
 							<input style="margin-left: 10px;" class="btn btn-outline-success btn-sm" type="submit" value="Filter Results"/>
-	      					<a style="margin-left: 5px;" class="btn btn-outline-secondary btn-sm" th:href="@{/recipes}">Clear Filter</a>
+	      					<a style="margin-left: 5px;" class="btn btn-outline-secondary btn-sm" th:href="@{/recipes}">Clear</a>
 	      				</div>
 	      			</div>
 	    		</form>

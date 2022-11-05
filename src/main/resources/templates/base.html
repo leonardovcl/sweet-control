@@ -24,11 +24,11 @@
 	<header id="header-wrap" th:fragment="header">
 		<!-- Navbar Start -->
 		<nav class="navbar navbar-expand-md bg-inverse fixed-top scrolling-navbar">
-			<div class="container">
+			<div class="container-fluid">
 				 <!-- Brand and toggle get grouped for better mobile display -->
-				<a th:href="@{/}" class="navbar-brand"><img th:src="@{/img/sweetControl.png}" alt="Sweet Control"></a>
-				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-					<i class="lni-menu"></i>
+				<a th:href="@{/}" class="navbar-brand"><img class="img-fluid" th:src="@{/img/sweetControl.png}" alt="Sweet Control"></a>
+				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+					<i class="fa-solid fa-bars"></i>
 				</button>
           
 			<div class="collapse navbar-collapse" id="navbarCollapse">
@@ -37,24 +37,20 @@
 						<a class="nav-link" th:href="@{/}">Home</a>
 					</li>
               
-					<li class="nav-item">
-						<div class="dropdown">
-							<button class="dropbtn">Ingredients <i class="fa-solid fa-caret-down"></i></button>
-							<div class="dropdown-content">
-								<a th:href="@{/ingredients}">View Ingredients</a>
-								<a th:href="@{/ingredients/register}">Register Ingredient</a>
-							</div>
-						</div> 
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Ingredients</a>
+                		<div class="dropdown-menu dropdown-menu-right">
+                    		<a class="dropdown-item" th:href="@{/ingredients}">View Ingredients</a>
+                    		<a class="dropdown-item" th:href="@{/ingredients/register}">Register Ingredient</a>
+                		</div>
 					</li>
 					
-					<li class="nav-item">
-						<div class="dropdown">
-							<button class="dropbtn">Recipes <i class="fa-solid fa-caret-down"></i></button>
-							<div class="dropdown-content">
-								<a th:href="@{/recipes}">View Recipes</a>
-								<a th:href="@{/recipes/register}">Register Recipe</a>
-							</div>
-						</div> 
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Recipes</a>
+                		<div class="dropdown-menu dropdown-menu-right">
+                    		<a class="dropdown-item" th:href="@{/recipes}">View Recipes</a>
+                    		<a class="dropdown-item" th:href="@{/recipes/register}">Register Recipe</a>
+                		</div>
 					</li>
 					
 					<li class="nav-item active">
@@ -70,7 +66,7 @@
 
 	<footer id="footer" class="footer-area section-padding" th:fragment="footer">
 		<div id="copyright">
-			<div class="container">
+			<div class="container-fluid">
 				<div class="copyright-content">
 					<p>Copyright <i class="fa-regular fa-copyright"></i>  
 						<script type="text/javascript">document.write(new Date().getFullYear());</script> 

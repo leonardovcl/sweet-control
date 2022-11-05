@@ -15,16 +15,16 @@
     			<form method="POST" th:action="@{/inventories/edit/{inventoryId}(inventoryId=${inventory.id})}" th:object="${inventory}" id="inventoryForm">
     			
 					<div class="row bottom-margin-5">
-						<div class="col-2">
+						<div class="col-auto">
 							<label class="form-text" for="id">ID:</label>
 						</div>
-						<div class="col-1">
+						<div class="col-2">
 		      				<input class="form-control form-control-sm" type="text" th:field="*{id}" readonly>
 		      			</div>
 		      		</div>
 					
 					<div class="row bottom-margin-5">
-						<div class="col-2">
+						<div class="col-auto">
 							<label class="form-text" for="ingredient">Ingredient:</label>
 						</div>
 						<div class="col-auto">
@@ -35,16 +35,16 @@
 		      		</div>
 		      		
 					<div class="row bottom-margin-5">
-		      			<div class="col-2">
+		      			<div class="col-auto">
 							<label class="form-text" for="amountLeft">Amount:</label>
 						</div>
-						<div class="col-sm-1">
+						<div class="col-2">
 							<input class="form-control form-control-sm" type="text" th:field="*{amountLeft}" id="amountLeft">
 		      			</div>
 		      			<div class="col-auto">
 		      				<p style="margin-bottom: 0px;">/</p>
 		      			</div>
-		      			<div class="col-sm-1">
+		      			<div class="col-2">
 		      				<input class="form-control form-control-sm" type="text" th:field="*{amount}" id="amount">
 		      			</div>
 		      			<div class="col-auto">
@@ -55,19 +55,19 @@
 		      		</div>
 		      		
 		      		<div class="row bottom-margin-5">
-						<div class="col-2">
+						<div class="col-auto">
 							<label class="form-text" for="price">Price:</label>
 						</div>
-						<div class="col-sm-auto">
-		      				<p style="margin-bottom: 0px;">R$</p>
+						<div class="col-auto">
+		      				<p class="form-text" style="min-width: 0; margin: 0;">R$</p>
 		      			</div>
-						<div class="col-sm-1">
+						<div class="col-2">
 		      				<input class="form-control form-control-sm" type="text" th:field="*{price}">
 		      			</div>
 		      		</div>
 		      		
 		      		<div class="row bottom-margin-5">
-						<div class="col-2">
+						<div class="col-auto">
 							<label class="form-text" for="expirationDate">Expiration Date:</label>
 						</div>
 						<div class="col-auto">

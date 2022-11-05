@@ -64,17 +64,17 @@
 	    
 	    		<form method="GET" th:action ="@{/ingredients}" id="filterList">
 					<div class="row gx-1">
-						<div class="col-sm-1">
+						<div class="col-1">
 							<input class="form-control form-control-sm" type="text" name ="idFilter" th:value="${idFilter}" placeholder="Id">
 						</div>
 	      
-						<div class="col-sm-2">
+						<div class="col-3">
 							<input class="form-control form-control-sm" type="text" name ="nameLike" th:value="${nameLike}" placeholder="Name">
 						</div>
 			
-						<div class="col-sm-3">
+						<div class="col-auto">
 							<input style="margin-left: 10px;" class="btn btn-outline-success btn-sm" type="submit" value="Filter Results"/>
-	      					<a style="margin-left: 5px;" class="btn btn-outline-secondary btn-sm" th:href="@{/ingredients}">Clear Filter</a>
+	      					<a style="margin-left: 5px;" class="btn btn-outline-secondary btn-sm" th:href="@{/ingredients}">Clear</a>
 	      				</div>
 	      			</div>
 	    		</form>

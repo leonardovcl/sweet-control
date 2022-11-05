@@ -1,6 +1,10 @@
-.navbar-brand img {
-    width: 75%;
-    height: auto;
+/* Base Definitions */
+html {
+    font-size: calc(11px + 0.390625vw);
+}
+
+body {
+	background-color: #F5EAEB;
 }
 
 /* Navigation Bar */
@@ -8,96 +12,97 @@
 	background-color: #F9DCDF;
 }
 
-/*#F4C1C5  #efcacd #FCEEEF #FAE4E6 #F5EAEB #FFF7F7*/ 
+.navbar-brand {
+	max-width: 20rem;
+}
 
-.nav-link {
+/* Change color of nav links on hover */
+.nav-item a:hover {color: #e85992;}
+
+/* Set nav links properties */
+.nav-link, .dropdown-item {
 	color: #793e21;
 	font-weight: bold;
+	font-size: 1.25rem;
 }
 
 /* Dropdown Button */
-.dropbtn {
+.dropdown-toggle {
   background-color: #F9DCDF;
-/*  color: rgba(0, 0, 0, 0.55);*/
-  color: #793e21;
-  padding: 8px;
-  font-size: 16px;
-  border: none;
-  font-weight: bold;
-}
-
-/* The container <div> - needed to position the dropdown content */
-.dropdown {
-  position: relative;
-  display: inline-block;
+  padding: 0.5rem;
 }
 
 /* Dropdown Content (Hidden by Default) */
-.dropdown-content {
+.dropdown-menu {
   display: none;
   position: absolute;
   background-color: #FFF7F7;
-  border-radius: 8px;
-  min-width: 125px;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  border-radius: 0.5rem;
+  box-shadow: 0 0.67rem 1.33rem 0 rgba(0,0,0,0.2);
   z-index: 1;
 }
 
 /* Links inside the dropdown */
-.dropdown-content a {
+.dropdown-menu a {
   color: #793e21;
-  font-size: 12px;
-  padding: 8px;
-  text-decoration: none;
+  font-size: 0.95rem;
+  padding: 0.67rem;
   display: block;
 }
 
 /* Change color of dropdown links on hover */
-.dropdown-content a:hover {color: #e85992;}
+.dropdown-menu a:hover {color: #e85992;}
 
-/* Show the dropdown menu on hover */
-.dropdown:hover .dropdown-content {display: block;}
+/* Change the color of the dropdown button when the dropdown content is shown */
+.dropdown-menu:hover .dropdown-toggle {color: #e85992;}
 
-/* Change the background color of the dropdown button when the dropdown content is shown */
-.dropdown:hover .dropbtn {color: #e85992;}
-
-/* Change color of dropdown links on hover */
-.nav-item a:hover {color: #e85992;}
-
-body {
-	background-color: #F5EAEB;
+/* Main Content */
+.container, .container-fluid {
+	margin-left: 1rem;
+	margin-right: 1rem;
 }
 
+.main-content {
+	padding-top: 100px;
+}
+
+/* Texts */
 .title-text {
 	color: #793E21;
 	font-weight: bold;
-	font-size: 32px;
+	font-size: 2.67rem;
 }
 
 .middle-text {
 	color: #E85992;
 	font-weight: bold;
-	font-size: 20px;
+	font-size: 1.67rem;
 }
 
 .subtitle-text {
 	color: #793E21;
 	font-weight: bold;
-	font-size: 16px;
+	font-size: 1.33rem;
 }
 
 .subtitle-text-brown {
 	color: #402212;
 	font-weight: bold;
-	font-size: 16px;
+	font-size: 1.33rem;
 }
 
 .form-text {
-	color: #793E21;
-	font-weight: bold;
-	font-size: 16px;
+    color: #793E21;
+    font-weight: bold;
+    font-size: 1.25rem;
+    min-width: 12rem;
 }
 
+.form-control-sm {
+	font-size: 1rem;
+}
+
+/* Icons */
 .fa-heart {
 	color: red;
 }
@@ -126,16 +131,11 @@ body {
 	color: #E85992;
 }
 
-.main-content {
-	padding-top: 110px;
-}
-
+/* Tables */
 .table {
-/*    min-width: 50%;*/
     width: auto;
-    font-size: 15px;
+    font-size: 1.rem;
     color: #000;
-/*    background-color: #FFF3F5;*/
 }
 
 .thead-dark {
@@ -146,10 +146,34 @@ body {
 .table-striped>tbody>tr:nth-child(odd)>td, 
 .table-striped>tbody>tr:nth-child(odd)>th {
    background-color: #FFF;
-   font-size: 15px;
+   font-size: 1.rem;
    color: #000;
  }
  
+#table-ul {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    text-align: right;
+}
+
+@media (min-width: 768px) {
+  .collapse.last-col {
+    display: block;
+    height: auto !important;
+    visibility: visible;
+  }
+  
+  .table-btn {
+    display: none;
+  }
+  
+  #table-ul li{
+    display: inline;
+	}
+}
+ 
+/* Buttons */
  .bottom-margin-5 {
 	 margin-bottom: 5px;
  }
@@ -188,14 +212,10 @@ body {
 }
 
 .btn {
-	font-size: 12px;
+	font-size: 1.rem;
 }
 
-.form-control-sm {
-	font-size: 12px;
-}
-
-/* Footer Area Start */
+/* Footer */
 .footer-area {
   position: relative;
 }
@@ -209,7 +229,7 @@ body {
 #copyright p {
   color: #793e21;
   text-align: center;
-  font-size: 14px;
+  font-size: 1rem;
 }
 
 #copyright p a {

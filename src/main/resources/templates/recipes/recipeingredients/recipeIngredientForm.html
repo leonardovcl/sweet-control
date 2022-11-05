@@ -65,8 +65,8 @@
 
 	    		<form method="POST" id="recipeIngredientForm" name="recipeIngredientForm">
 					<div class="row bottom-margin-5">
-						<div class="col-1">
-							<label for="ingredient">Ingredient:</label>
+						<div class="col-auto">
+							<label class="form-text" style="min-width: 8rem;" for="ingredient">Ingredient:</label>
 						</div>
 						<div class="col-auto">
 							<select class="form-select form-select-sm" th:value="${ingredient}" id="ingredient" name="ingredient" onchange="amountTypeSet(this)">
@@ -77,10 +77,10 @@
 					</div>
 					
 					<div class="row bottom-margin-5">						
-						<div class="col-1">
-							<label for="amount">Amount:</label>
+						<div class="col-auto">
+							<label class="form-text" style="min-width: 8rem;" for="amount">Amount:</label>
 						</div>
-						<div class="col-sm-2">
+						<div class="col-2">
 							<input class="form-control form-control-sm" type="text" name="amount" th:value="${amount}"/>
 						</div>
 						
