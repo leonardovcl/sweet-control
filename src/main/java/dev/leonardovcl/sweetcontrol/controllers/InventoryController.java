@@ -42,6 +42,7 @@ public class InventoryController {
 		Pageable pageable = PageRequest.of(page, size);
 		
 		model.addAttribute("idIngredient", idIngredient);
+		model.addAttribute("ingredient", ingredientRepository.findById(idIngredient).get());
 		model.addAttribute("inventoryList", inventoryRepository.findByIngredientIdAndActiveTrueOrderByExpirationDateAsc(idIngredient, pageable));
 		
 		System.out.println(inventoryRepository.findByIngredientIdAndActiveTrueOrderByExpirationDateAsc(idIngredient, pageable));
