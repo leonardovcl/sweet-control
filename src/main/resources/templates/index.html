@@ -8,9 +8,14 @@
     	<header th:insert="base.html :: header"></header>
     
     	<div class="main-content">
-    	<div class="container">
-    	<h3>Inventory control system for bakeries.</h3>
-    	</div>
+			<div class="container-fluid">
+    			<h3>Inventory control system for bakeries.</h3>
+    			
+    			<div>
+    				<a class="btn btn-outline-success btn-sm" th:href="@{/login}">Login</a>
+    				<a class="btn btn-outline-success btn-sm" th:href="@{/registration}">Registration</a>
+    			</div>
+    		</div>
     	</div>
     
     	<footer th:insert="base.html :: footer"></footer>

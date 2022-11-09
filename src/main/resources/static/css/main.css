@@ -58,12 +58,12 @@ body {
 
 /* Main Content */
 .container, .container-fluid {
-	margin-left: 1rem;
-	margin-right: 1rem;
+	padding-left: 1rem;
+	padding-right: 1rem;
 }
 
 .main-content {
-	padding-top: 100px;
+	padding-top: 6.5rem;
 }
 
 /* Texts */
@@ -179,7 +179,7 @@ body {
  }
  
   .top-margin-15 {
-	 margin-top: 15px;
+	 margin-top: 1.5rem;
  }
 
 .btn-outline-danger {
@@ -229,7 +229,7 @@ body {
 #copyright p {
   color: #793e21;
   text-align: center;
-  font-size: 1rem;
+  font-size: 0.95rem;
 }
 
 #copyright p a {
