@@ -35,7 +35,6 @@ public class UserController {
 		
 		if(userRepository.findByUsername(username).isPresent()) {
 			model.addAttribute("usernameError", true);
-			model.addAttribute("username", username);
 			return "/users/userForm";
 		}
 		
