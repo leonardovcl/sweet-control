@@ -3,7 +3,6 @@ package dev.leonardovcl.sweetcontrol.controllers;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,6 +17,7 @@ import dev.leonardovcl.sweetcontrol.model.Inventory;
 import dev.leonardovcl.sweetcontrol.model.repository.IngredientRepository;
 import dev.leonardovcl.sweetcontrol.model.repository.InventoryRepository;
 import dev.leonardovcl.sweetcontrol.model.repository.UsedInventoryRepository;
+import dev.leonardovcl.sweetcontrol.services.InventoryService;
 
 @Controller
 @RequestMapping("/inventories")
@@ -25,6 +25,9 @@ public class InventoryController {
 
 	@Autowired
 	private InventoryRepository inventoryRepository;
+	
+	@Autowired
+	InventoryService inventoryService;
 	
 	@Autowired
 	private IngredientRepository ingredientRepository;
@@ -39,13 +42,13 @@ public class InventoryController {
 			@RequestParam(value = "size", required = false, defaultValue = "5") int size,
 			Model model) {
 		
-		Pageable pageable = PageRequest.of(page, size);
+		Pageable pageable = inventoryService.pageableSorted(page, size);
 		
 		model.addAttribute("idIngredient", idIngredient);
 		model.addAttribute("ingredient", ingredientRepository.findById(idIngredient).get());
-		model.addAttribute("inventoryList", inventoryRepository.findByIngredientIdAndActiveTrueOrderByExpirationDateAsc(idIngredient, pageable));
+
 		
-		System.out.println(inventoryRepository.findByIngredientIdAndActiveTrueOrderByExpirationDateAsc(idIngredient, pageable));
+		model.addAttribute("inventoryList", inventoryRepository.findByIngredientIdAndActiveTrue(idIngredient, pageable));
 		
 		return "inventories/inventories";
 	}
@@ -75,6 +78,7 @@ public class InventoryController {
 	
 	@PostMapping("/register/{idIngredient}")
 	public String registerInventory(@PathVariable("idIngredient") Long idIngredient, @Valid Inventory inventory) {
+		inventory.setPricePerAmount();
 		inventoryRepository.save(inventory);
 		return "redirect:/inventories/" + idIngredient;
 	}
@@ -93,6 +97,7 @@ public class InventoryController {
 	@PostMapping("/edit/{idInventory}")
 	public String updateInventory(@PathVariable("idInventory") Long idInventory, @Valid Inventory inventory) {
 		String idIngredient = Long.toString(inventory.getIngredient().getId());
+		inventory.setPricePerAmount();
 		inventoryRepository.save(inventory);
 		return "redirect:/inventories/" + idIngredient;
 	}

@@ -38,6 +38,9 @@ public class RecipeService {
 	IngredientService ingredientService;
 	
 	@Autowired
+	InventoryService inventoryService;
+	
+	@Autowired
 	CookedRecipeRepository cookedRecipeRepository;
 	
 	@Autowired
@@ -132,7 +135,7 @@ public class RecipeService {
 			Long ingredientId = recipeIngredient.getIngredientEntry().getId();
 			Double ingredientAmount = recipeIngredient.getRecipeIngredientAmount();
 
-			List<Inventory> ingredientInventoryList = inventoryRepository.findByIngredientIdAndActiveTrueOrderByExpirationDateAsc(ingredientId);
+			List<Inventory> ingredientInventoryList = inventoryService.findByIngredientIdAndActiveTrueSorted(ingredientId);
 
 			for(Inventory ingredientInventory: ingredientInventoryList) {
 

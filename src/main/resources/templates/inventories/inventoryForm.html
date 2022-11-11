@@ -12,7 +12,7 @@
 	    
 	    		<p class="title-text">Register New Inventory</p>
   
-    	<form method="POST" th:object="${inventory}" id="inventoryForm">
+    	<form method="POST" th:action="@{/inventories/register/{ingredientId}(ingredientId=${inventory.ingredient.id})}" th:object="${inventory}" id="inventoryForm">
 
 					<div class="row bottom-margin-5">
 						<div class="col-auto">
@@ -34,7 +34,7 @@
 		      			</div>
 		      			<div class="col-auto">
 		      				<select class="form-select form-select-sm" id="amountType">
-								<option th:text="*{ingredient.amountType.name()}">
+								<option th:text="${inventory.ingredient.amountType.name()}">
 							</select>
 						</div>
 		      		</div>
@@ -48,7 +48,7 @@
 		      			</div>
 		      			<div class="col-auto">
 		      				<select class="form-select form-select-sm" id="amountTypeLeft">
-								<option th:text="*{ingredient.amountType.name()}">
+								<option th:text="${inventory.ingredient.amountType.name()}">
 							</select>
 						</div>
 		      		</div>
@@ -61,7 +61,7 @@
 		      				<p class="form-text" style="min-width: 0; margin: 0;">R$</p>
 		      			</div>
 						<div class="col-2">
-		      				<input class="form-control form-control-sm" type="text" th:field="*{price}">
+		      				<input class="form-control form-control-sm" type="text" th:field="*{price}" id="price">
 		      			</div>
 		      		</div>
 		      		

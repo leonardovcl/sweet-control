@@ -32,7 +32,7 @@
 							<td scope="row" th:text="'#' + ${inventory.id}"></td>
 	 						<td scope="row" th:text="${inventory.amountLeft} + ' / ' + ${inventory.amount} + ${inventory.ingredient.amountType.name()}"></td>
 	 						<td scope="row" th:text="'R$ ' + ${inventory.price}"></td>
-	 						<td scope="row" th:text="${inventory.getPricePerAmountAsString()} + ' /' + ${inventory.ingredient.amountType.name()}"></td>
+	 						<td scope="row" th:text="${#numbers.formatDecimal(inventory.getPricePerAmount(), 1, 2)} + ' /' + ${inventory.ingredient.amountType.name()}"></td>
 	 						<td scope="row" type="Date" th:text="${#dates.format(inventory.getExpirationDate(), 'dd/MM/yyyy')}" align="left"></td>
 	 						<td scope="row" align="right">
 	 							<div class="last-row">

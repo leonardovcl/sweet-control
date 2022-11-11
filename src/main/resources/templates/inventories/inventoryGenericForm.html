@@ -12,7 +12,7 @@
 	    
 	    		<p class="title-text">Register New Inventory</p>
   
-				<form method="POST" th:object="${inventory}" id="inventoryForm">
+				<form method="POST" th:action="@{/inventories/register}" th:object="${inventory}" id="inventoryForm">
 	
 					<div class="row bottom-margin-5">
 						<div class="col-auto">

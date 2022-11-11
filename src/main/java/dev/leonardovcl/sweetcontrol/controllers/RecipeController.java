@@ -151,7 +151,7 @@ public class RecipeController {
 	
 	@GetMapping("/edit/{idRecipe}")
 	public String showRecipeUpdateForm(@PathVariable("idRecipe") Long idRecipe, Model model) {
-		model.addAttribute("recipe", recipeRepository.findById(idRecipe));
+		model.addAttribute("recipe", recipeRepository.findById(idRecipe).get());
 		return "recipes/recipeUpdateForm";
 	}
 	

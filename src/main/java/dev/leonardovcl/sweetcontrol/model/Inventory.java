@@ -43,6 +43,9 @@ public class Inventory {
 	@Column(name = "ingredient_price")
 	private Double price;
 	
+	@Column(name = "price_per_amount")
+	private Double pricePerAmount;
+	
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	@Temporal(TemporalType.DATE)
 	private Date expirationDate;
@@ -62,15 +65,27 @@ public class Inventory {
 		this.setAmount(amount);
 		this.setAmountLeft(amount);
 		this.setPrice(price);
+		this.setPricePerAmount();
 	}
 	
-	public Inventory (Ingredient ingredient, Double amount, Double price, Date expirationDate) {
+	public Inventory (Ingredient ingredient, Double amount, Double amountLeft, Double price) {
 		this.inclusionDate = new Date();
 		this.active = true;
 		this.setIngredient(ingredient);
 		this.setAmount(amount);
-		this.setAmountLeft(amount);
+		this.setAmountLeft(amountLeft);
 		this.setPrice(price);
+		this.setPricePerAmount();
+	}
+	
+	public Inventory (Ingredient ingredient, Double amount, Double amountLeft, Double price, Date expirationDate) {
+		this.inclusionDate = new Date();
+		this.active = true;
+		this.setIngredient(ingredient);
+		this.setAmount(amount);
+		this.setAmountLeft(amountLeft);
+		this.setPrice(price);
+		this.setPricePerAmount();
 		this.setExpirationDate(expirationDate);
 	}
 	
@@ -129,6 +144,26 @@ public class Inventory {
 	public void setPrice(Double price) {
 		this.price = price;
 	}
+	
+	public Double getPricePerAmount() {
+		return pricePerAmount;
+	}
+	
+	public void setPricePerAmount() {
+		this.pricePerAmount = price / amount;
+	}
+	
+//	public String getPricePerAmountAsString() {
+//		
+//		price = getPricePerAmount();
+//		
+//		if (price != null) {
+//			String priceString = String.format("%.2f", price);
+//			return priceString;
+//		} else {
+//			return "";
+//		}
+//	}
 
 	public Date getExpirationDate() {
 		return expirationDate;
@@ -178,27 +213,6 @@ public class Inventory {
 		objString.append("]");
 				
 		return objString.toString();
-	}
-
-	public Double getPricePerAmount() {
-		
-		if (amount != 0.0) {
-			return price / amount;
-		} else {
-			return null;
-		}
-	}
-	
-	public String getPricePerAmountAsString() {
-		
-		price = getPricePerAmount();
-		
-		if (price != null) {
-			String priceString = String.format("%.2f", price);
-			return priceString;
-		} else {
-			return "";
-		}
 	}
 	
 }
