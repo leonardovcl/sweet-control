@@ -12,7 +12,7 @@
 	    
 	    		<p class="title-text">Edit Recipe</p>
   
-    			<form method="POST" th:object="${recipe}" id="recipeForm">
+    			<form method="POST" th:action="@{/recipes/edit/{idRecipe}(idRecipe=${recipe.id})}" th:object="${recipe}" id="recipeForm">
     			
 					<div class="row bottom-margin-5">
 						<div class="col-auto">

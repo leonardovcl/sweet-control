@@ -63,7 +63,7 @@
 	    		
 	    		<p class="subtitle-text">Add New Ingredient:</p>
 
-	    		<form method="POST" id="recipeIngredientForm" name="recipeIngredientForm">
+	    		<form method="POST" th:action="@{/recipes/{idRecipe}(idRecipe=${recipe.id})}" id="recipeIngredientForm" name="recipeIngredientForm">
 					<div class="row bottom-margin-5">
 						<div class="col-auto">
 							<label class="form-text" style="min-width: 8rem;" for="ingredient">Ingredient:</label>

@@ -28,7 +28,7 @@
     
 	    		<p class="title-text">Edit Ingredient:</p>
 
-	    		<form method="POST" th:object="${recipeIngredient}" id="recipeIngredientForm" name="recipeIngredientForm">
+	    		<form method="POST" th:action="@{/recipe_ingredients/edit/{idRecipeIngredient}(idRecipeIngredient=${recipeIngredient.id})}" th:object="${recipeIngredient}" id="recipeIngredientForm" name="recipeIngredientForm">
 					<div class="row bottom-margin-5">
 						<div class="col-auto">
 							<input type="text" name="id" th:field="*{id}" readonly hidden>

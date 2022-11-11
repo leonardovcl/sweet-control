@@ -16,6 +16,7 @@
 	    			<thead class="thead-dark">
 	    				<tr>
 	      					<th style="width:auto" scope="col">Recipe</th>
+	      					<th style="width:auto" scope="col">Making Date</th>
 	    				</tr>
 	  				</thead>
 	  				<tbody>
@@ -24,6 +25,7 @@
 	 							<span th:text="'[#' + ${recipe.id} + '] ' + ${recipe.name}"></span> 
 	 							<sup><i class="fa-solid fa-circle-info fa-lg" th:title="${recipe.description}"></i></sup>
 	 						</td>
+	 						<td scope="row" type="Date" th:text="${#dates.format(cookedRecipe.getMakingDate(), 'dd/MM/yyyy')}" align="left"></td>
 						</tr>
 					</tbody>
 	    		</table>
@@ -36,7 +38,8 @@
 	      					<th style="width:auto" scope="col">ID</th>
 	      					<th style="width:auto" scope="col">Ingredient</th>
 	      					<th style="width:auto" scope="col">Used Amount</th>
-	      					<th style="width:auto" scope="col">Inventory Cost</th>
+	      					<th style="width:auto" scope="col">Cost</th>
+	      					<th style="width:auto" scope="col">Exp. Date</th>
 	    				</tr>
 	  				</thead>
 	  				<tbody>
@@ -51,6 +54,8 @@
 							</td>
 	 						<td scope="row"
 	 							th:text="${usedInventory.getInventoryEntryAmount()} +
+										' / ' +
+										${usedInventory.getInventoryEntry.getAmount()} +
 										' ' +
 										${usedInventory.getInventoryEntry().getIngredient().getAmountType().name()}">
 							</td>
@@ -58,6 +63,7 @@
 								th:text="'R$ ' +
 										${#numbers.formatDecimal(usedInventory.getInventoryEntryAmount() * usedInventory.getInventoryEntry().getPricePerAmount(), 1, 2)}">
 							</td>
+							<td scope="row" type="Date" th:text="${#dates.format(usedInventory.getInventoryEntry.getExpirationDate(), 'dd/MM/yyyy')}" align="left"></td>
 						</tr>
 					</tbody>
 	    		</table>
