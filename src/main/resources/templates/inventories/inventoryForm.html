@@ -11,17 +11,16 @@
 	    	<div class="container">
 	    
 	    		<p class="title-text">Register New Inventory</p>
-  
-    	<form method="POST" th:action="@{/inventories/register/{ingredientId}(ingredientId=${inventory.ingredient.id})}" th:object="${inventory}" id="inventoryForm">
-
+		      		
+				<form class="was-validated" method="POST" th:action="@{/inventories/register/{ingredientId}(ingredientId=${inventory.ingredient.id})}" th:object="${inventory}" id="inventoryForm" novalidate>
+	
 					<div class="row bottom-margin-5">
 						<div class="col-auto">
 							<label class="form-text" for="ingredient">Ingredient:</label>
 						</div>
 						<div class="col-auto">
-		      				<select class="form-select form-select-sm" th:field="*{ingredient}" onchange="amountTypeSet(this)">
-								<option th:value="*{ingredient.id}" th:text="*{ingredient.name}" readonly="readonly">
-							</select>
+		      				<input type="text" id="ingredient" name="ingredient" th:value="*{ingredient.id}" hidden required>
+		      				<input class="form-control form-control-sm" th:value="${inventory.ingredient.name}" readonly>
 		      			</div>
 		      		</div>
 		      		
@@ -30,12 +29,13 @@
 							<label class="form-text" for="totalAmount">Total Amount:</label>
 						</div>
 						<div class="col-2">
-		      				<input class="form-control form-control-sm" type="text" th:field="*{amount}" id="amount" onchange="amountLeftSet()">
+		      				<input class="form-control form-control-sm" type="number" min="0.0" step=".01" th:field="*{amount}" onchange="amountLeftSet()" required>
+							<div class="invalid-feedback">
+								<span style="font-size: 1rem; color: red;" th:if="${#fields.hasErrors('amount')}" th:errors="*{amount}"></span>
+							</div>
 		      			</div>
-		      			<div class="col-auto">
-		      				<select class="form-select form-select-sm" id="amountType">
-								<option th:text="${inventory.ingredient.amountType.name()}">
-							</select>
+		      			<div class="col-1">
+		      				<input class="form-control form-control-sm" type="text" id="amountType" name="amountType" th:value="${inventory.ingredient.amountType}" readonly>
 						</div>
 		      		</div>
 		      		
@@ -44,12 +44,13 @@
 							<label class="form-text" for="amountLeft">Amount Left:</label>
 						</div>
 						<div class="col-2">
-							<input class="form-control form-control-sm" type="text" th:field="*{amountLeft}" id="amountLeft">
+							<input class="form-control form-control-sm" type="number" min="0.0" step=".01" th:field="*{amountLeft}" required>
+							<div class="invalid-feedback">
+								<span style="font-size: 1rem; color: red;" th:if="${#fields.hasErrors('amountLeft')}" th:errors="*{amountLeft}"></span>
+							</div>
 		      			</div>
-		      			<div class="col-auto">
-		      				<select class="form-select form-select-sm" id="amountTypeLeft">
-								<option th:text="${inventory.ingredient.amountType.name()}">
-							</select>
+		      			<div class="col-1">
+		      				<input class="form-control form-control-sm" type="text" id="amountType" name="amountType" th:value="${inventory.ingredient.amountType}" readonly>
 						</div>
 		      		</div>
 
@@ -61,7 +62,10 @@
 		      				<p class="form-text" style="min-width: 0; margin: 0;">R$</p>
 		      			</div>
 						<div class="col-2">
-		      				<input class="form-control form-control-sm" type="text" th:field="*{price}" id="price">
+		      				<input class="form-control form-control-sm" type="number" min="0.0" step=".01" th:field="*{price}" required>
+							<div class="invalid-feedback">
+								<span style="font-size: 1rem; color: red;" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></span>
+							</div>
 		      			</div>
 		      		</div>
 		      		
@@ -70,7 +74,10 @@
 							<label class="form-text" for="expirationDate">Expiration Date:</label>
 						</div>
 						<div class="col-auto">
-		      				<input class="form-control form-control-sm" type="date" th:field="*{expirationDate}">
+		      				<input class="form-control form-control-sm" type="date" th:field="*{expirationDate}" required>
+							<div class="invalid-feedback">
+								<span style="font-size: 1rem; color: red;" th:if="${#fields.hasErrors('expirationDate')}" th:errors="*{expirationDate}"></span>
+							</div>
 		      			</div>
 		      		</div>
 

@@ -12,17 +12,20 @@
 	    
 	    		<p class="title-text">Register New Inventory</p>
   
-				<form method="POST" th:action="@{/inventories/register}" th:object="${inventory}" id="inventoryForm">
+				<form class="was-validated" method="POST" th:action="@{/inventories/register}" th:object="${inventory}" id="inventoryForm" novalidate>
 	
 					<div class="row bottom-margin-5">
 						<div class="col-auto">
 							<label class="form-text" for="ingredient">Ingredient:</label>
 						</div>
 						<div class="col-auto">
-		      				<select class="form-select form-select-sm" th:field="*{ingredient}" onchange="amountTypeSet(this)">
+		      				<select class="form-select form-select-sm" th:field="*{ingredient}" onchange="amountTypeSet(this)" required>
 								<option value="">-- Ingredient --</option>
 								<option th:each = "i : ${ingredientList}" th:value="${i.id}" th:text="${i.name}" th:data-amount-type="${i.amountType.name()}">
 							</select>
+							<div class="invalid-feedback">
+								<span style="font-size: 1rem; color: red;" th:if="${#fields.hasErrors('ingredient')}" th:errors="*{ingredient}"></span>
+							</div>
 		      			</div>
 		      		</div>
 		      		
@@ -31,12 +34,13 @@
 							<label class="form-text" for="totalAmount">Total Amount:</label>
 						</div>
 						<div class="col-2">
-		      				<input class="form-control form-control-sm" type="text" th:field="*{amount}" id="amount" onchange="amountLeftSet()">
+		      				<input class="form-control form-control-sm" type="number" min="0.0" step=".01" th:field="*{amount}" onchange="amountLeftSet()" required>
+							<div class="invalid-feedback">
+								<span style="font-size: 1rem; color: red;" th:if="${#fields.hasErrors('amount')}" th:errors="*{amount}"></span>
+							</div>
 		      			</div>
-		      			<div class="col-auto">
-		      				<select class="form-select form-select-sm" id="amountType">
-								<option value = "">
-							</select>
+		      			<div class="col-1">
+		      				<input class="form-control form-control-sm" type="text" id="amountType" onfocus="amountTypeSetField()" readonly>
 						</div>
 		      		</div>
 		      		
@@ -45,12 +49,13 @@
 							<label class="form-text" for="amountLeft">Amount Left:</label>
 						</div>
 						<div class="col-2">
-							<input class="form-control form-control-sm" type="text" th:field="*{amountLeft}" id="amountLeft">
+							<input class="form-control form-control-sm" type="number" min="0.0" step=".01" th:field="*{amountLeft}" required>
+							<div class="invalid-feedback">
+								<span style="font-size: 1rem; color: red;" th:if="${#fields.hasErrors('amountLeft')}" th:errors="*{amountLeft}"></span>
+							</div>
 		      			</div>
-		      			<div class="col-auto">
-		      				<select class="form-select form-select-sm" id="amountTypeLeft">
-								<option value = "">
-							</select>
+		      			<div class="col-1">
+		      				<input class="form-control form-control-sm" type="text" id="amountTypeLeft" onfocus="amountTypeSetField()" readonly>
 						</div>
 		      		</div>
 
@@ -62,7 +67,10 @@
 		      				<p class="form-text" style="min-width: 0; margin: 0;">R$</p>
 		      			</div>
 						<div class="col-2">
-		      				<input class="form-control form-control-sm" type="text" th:field="*{price}">
+		      				<input class="form-control form-control-sm" type="number" min="0.0" step=".01" th:field="*{price}" required>
+							<div class="invalid-feedback">
+								<span style="font-size: 1rem; color: red;" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></span>
+							</div>
 		      			</div>
 		      		</div>
 		      		
@@ -71,7 +79,10 @@
 							<label class="form-text" for="expirationDate">Expiration Date:</label>
 						</div>
 						<div class="col-auto">
-		      				<input class="form-control form-control-sm" type="date" th:field="*{expirationDate}">
+		      				<input class="form-control form-control-sm" type="date" th:field="*{expirationDate}" required>
+							<div class="invalid-feedback">
+								<span style="font-size: 1rem; color: red;" th:if="${#fields.hasErrors('expirationDate')}" th:errors="*{expirationDate}"></span>
+							</div>
 		      			</div>
 		      		</div>
 
@@ -105,8 +116,18 @@
 			function amountTypeSet(ingredient) {
   				var opt = ingredient.options[ingredient.selectedIndex];
   				var amountType = opt.dataset.amountType
-  				document.getElementById("amountType").options[0].innerHTML = amountType;
-  				document.getElementById("amountTypeLeft").options[0].innerHTML = amountType;
+  				document.getElementById("amountType").value = amountType;
+  				document.getElementById("amountTypeLeft").value = amountType;
+			}
+		</script>
+		
+		<script>
+			function amountTypeSetField() {
+  				var ingredient = document.getElementById("ingredient");
+  				var opt = ingredient.options[ingredient.selectedIndex];
+  				var amountType = opt.dataset.amountType
+  				document.getElementById("amountType").value = amountType;
+  				document.getElementById("amountTypeLeft").value = amountType;
 			}
 		</script>
 

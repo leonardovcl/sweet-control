@@ -14,6 +14,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PositiveOrZero;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -28,24 +30,32 @@ public class Inventory {
 	@Temporal(TemporalType.DATE)
 	private Date inclusionDate;
 	
+	@NotNull(message = "Must not be Null!")
 	@ManyToOne
 	private Ingredient ingredient;
 	
 	@Column(name = "inventory_active")
 	private Boolean active;
 	
+	@NotNull(message = "Must not be Null!")
+	@PositiveOrZero(message = "Must be at least 0!")
 	@Column(name = "ingredient_amount")
 	private Double amount;
 	
+	@NotNull(message = "Must not be Null!")
+	@PositiveOrZero(message = "Must be at least 0!")
 	@Column(name = "ingredient_amount_left")
 	private Double amountLeft;
 	
+	@NotNull(message = "Must not be Null!")
+	@PositiveOrZero(message = "Must be at least 0!")
 	@Column(name = "ingredient_price")
 	private Double price;
 	
 	@Column(name = "price_per_amount")
 	private Double pricePerAmount;
 	
+	@NotNull(message = "Must not be Null!")
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	@Temporal(TemporalType.DATE)
 	private Date expirationDate;

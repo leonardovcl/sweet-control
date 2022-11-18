@@ -12,7 +12,7 @@
 	    
 	    		<p class="title-text">Edit Inventory</p>
   
-    			<form method="POST" th:action="@{/inventories/edit/{inventoryId}(inventoryId=${inventory.id})}" th:object="${inventory}" id="inventoryForm">
+    			<form class="was-validated" method="POST" th:action="@{/inventories/edit/{inventoryId}(inventoryId=${inventory.id})}" th:object="${inventory}" id="inventoryForm" novalidate>
     			
 					<div class="row bottom-margin-5">
 						<div class="col-auto">
@@ -22,35 +22,38 @@
 		      				<input class="form-control form-control-sm" type="text" th:field="*{id}" readonly>
 		      			</div>
 		      		</div>
-					
+		      		
 					<div class="row bottom-margin-5">
 						<div class="col-auto">
 							<label class="form-text" for="ingredient">Ingredient:</label>
 						</div>
 						<div class="col-auto">
-		      				<select class="form-select form-select-sm" th:field="*{ingredient}" id="ingredient">
-								<option th:value="*{ingredient.id}" th:text="*{ingredient.name}">
-							</select>
+		      				<input type="text" id="ingredient" name="ingredient" th:value="*{ingredient.id}" hidden required>
+		      				<input class="form-control form-control-sm" th:value="${inventory.ingredient.name}" readonly>
 		      			</div>
 		      		</div>
 		      		
 					<div class="row bottom-margin-5">
 		      			<div class="col-auto">
-							<label class="form-text" for="amountLeft">Amount:</label>
+							<label class="form-text" for="amount">Amount:</label>
 						</div>
 						<div class="col-2">
-							<input class="form-control form-control-sm" type="text" th:field="*{amountLeft}" id="amountLeft">
+		      				<input class="form-control form-control-sm" type="number" min="0.0" step=".01" th:field="*{amountLeft}" required>
+							<div class="invalid-feedback">
+								<span style="font-size: 1rem; color: red;" th:if="${#fields.hasErrors('amountLeft')}" th:errors="*{amountLeft}"></span>
+							</div>
 		      			</div>
 		      			<div class="col-auto">
 		      				<p style="margin-bottom: 0px;">/</p>
 		      			</div>
 		      			<div class="col-2">
-		      				<input class="form-control form-control-sm" type="text" th:field="*{amount}" id="amount">
+		      				<input class="form-control form-control-sm" type="number" min="0.0" step=".01" th:field="*{amount}" required>
+							<div class="invalid-feedback">
+								<span style="font-size: 1rem; color: red;" th:if="${#fields.hasErrors('amount')}" th:errors="*{amount}"></span>
+							</div>
 		      			</div>
-		      			<div class="col-auto">
-		      				<select class="form-select form-select-sm" id="amountType">
-								<option th:text="*{ingredient.amountType.name()}">
-							</select>
+		      			<div class="col-1">
+		      				<input class="form-control form-control-sm" type="text" id="amountType" name="amountType" th:value="${inventory.ingredient.amountType}" readonly>
 						</div>
 		      		</div>
 		      		
@@ -62,7 +65,10 @@
 		      				<p class="form-text" style="min-width: 0; margin: 0;">R$</p>
 		      			</div>
 						<div class="col-2">
-		      				<input class="form-control form-control-sm" type="text" th:field="*{price}">
+		      				<input class="form-control form-control-sm" type="number" min="0.0" step=".01" th:field="*{price}" required>
+							<div class="invalid-feedback">
+								<span style="font-size: 1rem; color: red;" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></span>
+							</div>
 		      			</div>
 		      		</div>
 		      		
@@ -71,7 +77,10 @@
 							<label class="form-text" for="expirationDate">Expiration Date:</label>
 						</div>
 						<div class="col-auto">
-		      				<input class="form-control form-control-sm" type="date" th:field="*{expirationDate}">
+		      				<input class="form-control form-control-sm" type="date" th:field="*{expirationDate}" required>
+							<div class="invalid-feedback">
+								<span style="font-size: 1rem; color: red;" th:if="${#fields.hasErrors('expirationDate')}" th:errors="*{expirationDate}"></span>
+							</div>
 		      			</div>
 		      		</div>
 

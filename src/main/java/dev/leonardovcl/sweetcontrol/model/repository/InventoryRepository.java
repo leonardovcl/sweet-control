@@ -10,6 +10,8 @@ import dev.leonardovcl.sweetcontrol.model.Inventory;
 
 public interface InventoryRepository extends JpaRepository<Inventory, Long> {
 
+	public List<Inventory> findByIngredientId(Long idIngredient);
+	
 	public List<Inventory> findByIngredientIdAndActiveTrue(Long idIngredient, Sort groupSort);
 	
 	public Page<Inventory> findByIngredientIdAndActiveTrue(Long idIngredient, Pageable pageable);

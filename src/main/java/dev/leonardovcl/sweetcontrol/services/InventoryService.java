@@ -1,6 +1,8 @@
 package dev.leonardovcl.sweetcontrol.services;
 
+import java.util.Date;
 import java.util.List;
+import java.util.function.Predicate;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -28,6 +30,23 @@ public class InventoryService {
 	
 	public Pageable pageableSorted(int page, int size) {
 		return PageRequest.of(page, size, sort);
+	}
+	
+	public void deleteExpiredInventories(Long ingredientId) {
+		
+		List<Inventory> inventoryList = inventoryRepository.findByIngredientId(ingredientId);
+		
+		Predicate<Inventory> isExpired = inventory -> {
+			return inventory.getExpirationDate().before(new Date());
+		};
+		
+		inventoryList.stream()
+						.filter(isExpired)
+							.forEach(
+								inventory -> {
+									inventoryRepository.delete(inventory);
+								}
+							);
 	}
 	
 }
