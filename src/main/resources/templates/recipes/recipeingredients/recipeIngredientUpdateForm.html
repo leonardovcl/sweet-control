@@ -28,27 +28,18 @@
     
 	    		<p class="title-text">Edit Ingredient:</p>
 
-	    		<form method="POST" th:action="@{/recipe_ingredients/edit/{idRecipeIngredient}(idRecipeIngredient=${recipeIngredient.id})}" th:object="${recipeIngredient}" id="recipeIngredientForm" name="recipeIngredientForm">
-					<div class="row bottom-margin-5">
-						<div class="col-auto">
-							<input type="text" name="id" th:field="*{id}" readonly hidden>
-						</div>
-					</div>
+	    		<form class="was-validated" method="POST" th:action="@{/recipe_ingredients/edit/{idRecipeIngredient}(idRecipeIngredient=${recipeIngredient.id})}" th:object="${recipeIngredient}" id="recipeIngredientForm" name="recipeIngredientForm" novalidate>
 					
-					<div class="row bottom-margin-5">
-						<div class="col-auto">
-							<input type="text" name="recipe" th:field="*{recipe.id}" readonly hidden>
-						</div>
-					</div>
+					<input type="text" name="id" th:field="*{id}" hidden required>
+					<input type="text" id="recipe" name="recipe" th:value="*{recipe.id}" hidden required>
 					
 					<div class="row bottom-margin-5">
 						<div class="col-auto">
 							<label class="form-text" style="min-width: 8rem;" for="ingredient">Ingredient:</label>
 						</div>
 						<div class="col-auto">
-							<select class="form-select form-select-sm" th:field="*{ingredientEntry}" id="ingredient" name="ingredient" required>
-								<option th:value="*{ingredientEntry.id}" th:text="*{ingredientEntry.name}">
-							</select>
+							<input type="text" id="ingredientEntry" name="ingredientEntry" th:value="*{ingredientEntry.id}" hidden required>
+							<input style="padding-left: 0.5rem;" th:value="${recipeIngredient.ingredientEntry.name}" readonly>
 						</div>
 					</div>
 					
@@ -57,13 +48,14 @@
 							<label class="form-text" style="min-width: 8rem;" for="amount">Amount:</label>
 						</div>
 						<div class="col-2">
-							<input class="form-control form-control-sm" type="text" name="amount" th:field="*{recipeIngredientAmount}"/>
+							<input class="form-control form-control-sm" type="number" min="0.0" step=".01" th:field="*{recipeIngredientAmount}" required/>
+							<div class="invalid-feedback">
+								<span style="font-size: 1rem; color: red;" th:if="${#fields.hasErrors('recipeIngredientAmount')}" th:errors="*{recipeIngredientAmount}"></span>
+							</div>
 						</div>
 						
-						<div class="col-auto">
-							<select class="form-select form-select-sm" th:field="*{recipeIngredientAmountType}" name="amountType" id="amountType" required>
-    							<option th:value="*{recipeIngredientAmountType}" th:text="*{recipeIngredientAmountType.name()}">
-							</select>
+						<div class="col-1">
+							<input class="form-control form-control-sm" type="text" th:field="*{recipeIngredientAmountType}" readonly required/>
 						</div>
 					</div>
 

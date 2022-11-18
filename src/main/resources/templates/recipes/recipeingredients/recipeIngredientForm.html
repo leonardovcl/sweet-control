@@ -26,53 +26,61 @@
 					</tbody>
 	    		</table>
 	    		
-	    		<p class="subtitle-text">Recipe Ingredients List:</p>
-	    		
-	    		<table class="table table-striped table-responsive">
-	    			<thead class="thead-dark">
-	    				<tr>
-	      					<th style="width:auto" scope="col">Ingredient</th>
-	      					<th style="width:auto" scope="col">Amount</th>
-	      					<th style="width:auto" scope="col"></th>
-	    				</tr>
-	  				</thead>
-	  				<tbody>
-						<tr th:each="recipeIngredient : ${recipeIngredientList}">
-							<td scope="row">
-								<span
-									th:text="'[#' + ${recipeIngredient.getIngredientEntry().id} + '] ' +
-										${recipeIngredient.getIngredientEntry().name}">
-								</span> 
-	 							<sup><i class="fa-solid fa-circle-info fa-lg" th:title="${recipeIngredient.getIngredientEntry().description}"></i></sup>
-							</td>
-	 						<td scope="row"
-	 							th:text="${recipeIngredient.getRecipeIngredientAmount()} +
-										' ' +
-										${recipeIngredient.getIngredientEntry().getAmountType().name()}">
-							</td>
-	 						<td scope="row" align="right">
-	 							<div class="last-row">
-		 							<a th:href="@{/inventories/{idIngredient}(idIngredient=${recipeIngredient.getIngredientEntry().id})}" class="btn btn-outline-danger btn-sm">Inventories</a> &nbsp;
-		    						<a th:href="@{/recipe_ingredients/edit/{idRecipeIngredient}(idRecipeIngredient=${recipeIngredient.id})}" title="Edit"><i class="fa-solid fa-pen-to-square fa-lg"></i></a> &nbsp;
-		    						<a th:href="@{/recipe_ingredients/delete/{idRecipeIngredient}(idRecipeIngredient=${recipeIngredient.id})}" title="Delete"><i class="fa-solid fa-xmark fa-lg"></i></a>
-	    						</div>
-	    					</td>
-						</tr>
-					</tbody>
-	    		</table>
+	    		<th:block th:if="${recipeIngredientList.size > 0}">
+		    		<p class="subtitle-text">Recipe Ingredients List:</p>
+		    		
+		    		<table class="table table-striped table-responsive">
+		    			<thead class="thead-dark">
+		    				<tr>
+		      					<th style="width:auto" scope="col">Ingredient</th>
+		      					<th style="width:auto" scope="col">Amount</th>
+		      					<th style="width:auto" scope="col"></th>
+		    				</tr>
+		  				</thead>
+		  				<tbody>
+							<tr th:each="recipeIngredient : ${recipeIngredientList}">
+								<td scope="row">
+									<span
+										th:text="'[#' + ${recipeIngredient.getIngredientEntry().id} + '] ' +
+											${recipeIngredient.getIngredientEntry().name}">
+									</span> 
+		 							<sup><i class="fa-solid fa-circle-info fa-lg" th:title="${recipeIngredient.getIngredientEntry().description}"></i></sup>
+								</td>
+		 						<td scope="row"
+		 							th:text="${recipeIngredient.getRecipeIngredientAmount()} +
+											' ' +
+											${recipeIngredient.getIngredientEntry().getAmountType().name()}">
+								</td>
+		 						<td scope="row" align="right">
+		 							<div class="last-row">
+			 							<a th:href="@{/inventories/{idIngredient}(idIngredient=${recipeIngredient.getIngredientEntry().id})}" class="btn btn-outline-danger btn-sm">Inventories</a> &nbsp;
+			    						<a th:href="@{/recipe_ingredients/edit/{idRecipeIngredient}(idRecipeIngredient=${recipeIngredient.id})}" title="Edit"><i class="fa-solid fa-pen-to-square fa-lg"></i></a> &nbsp;
+			    						<a th:href="@{/recipe_ingredients/delete/{idRecipeIngredient}(idRecipeIngredient=${recipeIngredient.id})}" title="Delete"><i class="fa-solid fa-xmark fa-lg"></i></a>
+		    						</div>
+		    					</td>
+							</tr>
+						</tbody>
+		    		</table>
+		    	</th:block>
 	    		
 	    		<p class="subtitle-text">Add New Ingredient:</p>
 
-	    		<form method="POST" th:action="@{/recipes/{idRecipe}(idRecipe=${recipe.id})}" id="recipeIngredientForm" name="recipeIngredientForm">
+	    		<form class="was-validated" method="POST" th:action="@{/recipes/{idRecipe}(idRecipe=${recipe.id})}" th:object="${recipeIngredient}" id="recipeIngredientForm" name="recipeIngredientForm" novalidate>
+					
+					<input type="text" id="recipe" name="recipe" th:value="*{recipe.id}" hidden required>
+					
 					<div class="row bottom-margin-5">
 						<div class="col-auto">
 							<label class="form-text" style="min-width: 8rem;" for="ingredient">Ingredient:</label>
 						</div>
 						<div class="col-auto">
-							<select class="form-select form-select-sm" th:value="${ingredient}" id="ingredient" name="ingredient" onchange="amountTypeSet(this)">
+							<select class="form-select form-select-sm" th:field="*{ingredientEntry}" onchange="amountTypeSet(this)" required>
     							<option value="">-- Ingredient --</option>
 								<option th:each = "i : ${ingredientList}" th:value="${i.id}" th:text="${i.name}" th:data-amount-type="${i.amountType.name()}">
 							</select>
+							<div class="invalid-feedback">
+								<span style="font-size: 1rem; color: red;" th:if="${#fields.hasErrors('ingredientEntry')}" th:errors="*{ingredientEntry}"></span>
+							</div>
 						</div>
 					</div>
 					
@@ -81,13 +89,14 @@
 							<label class="form-text" style="min-width: 8rem;" for="amount">Amount:</label>
 						</div>
 						<div class="col-2">
-							<input class="form-control form-control-sm" type="text" name="amount" th:value="${amount}"/>
+							<input class="form-control form-control-sm" type="number" min="0.0" step=".01" th:field="*{recipeIngredientAmount}" required/>
+							<div class="invalid-feedback">
+								<span style="font-size: 1rem; color: red;" th:if="${#fields.hasErrors('recipeIngredientAmount')}" th:errors="*{recipeIngredientAmount}"></span>
+							</div>
 						</div>
 						
-						<div class="col-auto">
-							<select class="form-select form-select-sm" id="amountType">
-    							<option value = ""></option>
-							</select>
+						<div class="col-1">
+							<input class="form-control form-control-sm" type="text" th:field="*{recipeIngredientAmountType}" readonly required/>
 						</div>
 					</div>
 
@@ -115,7 +124,8 @@
 			function amountTypeSet(ingredient) {
   				var opt = ingredient.options[ingredient.selectedIndex];
   				var amountType = opt.dataset.amountType
-  				document.getElementById("amountType").options[0].innerHTML = amountType;
+  				console.log(amountType);
+  				document.getElementById("recipeIngredientAmountType").value = amountType;
 			}
 		</script>
 

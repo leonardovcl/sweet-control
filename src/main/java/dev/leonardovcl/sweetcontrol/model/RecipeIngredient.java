@@ -7,6 +7,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PositiveOrZero;
+
 import dev.leonardovcl.sweetcontrol.model.Ingredient.AmountType;
 
 @Entity
@@ -16,14 +19,18 @@ public class RecipeIngredient {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
+	@NotNull(message = "Must not be Null!")
 	@ManyToOne
 	@JoinColumn(name = "recipe_id")
 	private Recipe recipe;
 	
+	@NotNull(message = "Must select an Ingredient!")
 	@ManyToOne
 	@JoinColumn(name = "ingredient_id")
 	private Ingredient ingredientEntry;
 	
+	@NotNull(message = "Must not be Null!")
+	@PositiveOrZero(message = "Must be at least 0!")
 	@Column(name = "recipe_ingredient_amount")
 	private Double recipeIngredientAmount;
 	
