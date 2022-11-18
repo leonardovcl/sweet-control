@@ -12,14 +12,17 @@
 	    
 	    		<p class="title-text">Register New Ingredient</p>
   
-				<form method="POST" th:action="@{/ingredients/register}" th:object="${ingredient}" id="ingredientForm">
+				<form class="was-validated" method="POST" th:action="@{/ingredients/register}" th:object="${ingredient}" id="ingredientForm" novalidate>
 					
 					<div class="row bottom-margin-5">
 						<div class="col-auto">
 							<label class="form-text" for="name">Ingredient Name:</label>
 						</div>
 						<div class="col-4">
-		      				<input class="form-control form-control-sm" type="text" th:field="*{name}">
+		      				<input class="form-control form-control-sm" type="text" th:field="*{name}" required>
+							<div class="invalid-feedback">
+								<span style="font-size: 1rem; color: red;" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+							</div>
 		      			</div>
 		      		</div>
 		      		
@@ -37,9 +40,13 @@
 							<label class="form-text" for="amountType">Measure Unity:</label>
 						</div>
 						<div class="col-auto">
-		      				<select class="form-select form-select-sm" th:field="*{amountType}" id="amountType">
+		      				<select class="form-select form-select-sm" th:field="*{amountType}" id="amountType" required>
+								<option value="">-- Select --</option>
 								<option th:each = "u : ${T(dev.leonardovcl.sweetcontrol.model.Ingredient.AmountType).values()}" th:value="${u}" th:text="${u.name()}">
 							</select>
+							<div class="invalid-feedback">
+								<span style="font-size: 1rem; color: red;" th:if="${#fields.hasErrors('amountType')}" th:errors="*{amountType}"></span>
+							</div>
 		      			</div>
 		      		</div>
 		      		

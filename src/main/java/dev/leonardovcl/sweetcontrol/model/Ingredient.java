@@ -10,7 +10,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 @Entity
 public class Ingredient {
@@ -19,13 +20,14 @@ public class Ingredient {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@NotBlank
+	@NotEmpty(message = "Must not be Empty!")
 	@Column(name = "ingredient_name", length = 200)
 	private String name;
 	
 	@Column(name = "ingredient_description", length = 200)
 	private String description;
 	
+	@NotNull(message = "Must not be Null!")
 	@Column(name = "ingredient_amount_type")
 	private AmountType amountType;
 	
