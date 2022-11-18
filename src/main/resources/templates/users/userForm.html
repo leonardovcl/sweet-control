@@ -12,7 +12,7 @@
   
     			<p class="title-text">Register New User</p>
     			
-    			<form method="POST" th:action="@{/registration}" th:object="${user}" id="userRegisterForm" autocomplete="off">
+    			<form class="was-validated" method="POST" th:action="@{/registration}" th:object="${user}" id="userRegisterForm" autocomplete="off" novalidate>
 
 	                <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
 			
@@ -21,18 +21,12 @@
 							<label class="form-text" style="min-width: 8rem;" for="username">Username:</label>
 						</div>
 						<div class="col-2">
-		      				<input class="form-control form-control-sm" type="text" required name ="username" th:value="${username}" id="username"
-		      						aria-describedby="validationServerUsernameFeedback">
-							<div id="validationServerUsernameFeedback" class="invalid-feedback">
-								Please choose a username.
+		      				<input class="form-control form-control-sm" type="text" th:field="*{username}" required>
+							<div class="invalid-feedback">
+								<span style="font-size: 1rem; color: red;" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></span>
 							</div>
+							<p style="font-size: 1rem; color: red; margin: 0.15rem 0;" th:if="${usernameUniqueConstrainError}">Username is already taken!</p>
 		      			</div>
-		      		</div>
-		      		
-					<div class="row bottom-margin-5">
-			      			<th:block th:if="${usernameError}">
-			      				<p class="subtitle-text" style="color: red; font-size: 0.9rem;"> Username is already taken, please, choose another one!</p>
-							</th:block>
 		      		</div>
 		      		
 					<div class="row bottom-margin-5">
@@ -40,7 +34,10 @@
 							<label class="form-text" style="min-width: 8rem;" for="password">Password:</label>
 						</div>
 						<div class="col-2">
-		      				<input class="form-control form-control-sm" type="password" required="required" name ="password" th:value="${password}" id="password"/>
+		      				<input class="form-control form-control-sm" type="password" th:field="*{password}" required>
+							<div class="invalid-feedback">
+								<span style="font-size: 1rem; color: red;" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
+							</div>
 		      			</div>
 		      		</div>
 

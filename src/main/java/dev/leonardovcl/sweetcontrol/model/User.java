@@ -16,10 +16,11 @@ public class User {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	
-	@NotEmpty
+	@NotEmpty(message = "Must not be empty!")
 	@Column(name = "user_name", unique=true)
 	private String username;
 	
+	@NotEmpty(message = "Must not be empty!")
 	@Column(name = "password")
 	private String password;
 	

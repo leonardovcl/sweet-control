@@ -1,12 +1,14 @@
 package dev.leonardovcl.sweetcontrol.controllers;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import dev.leonardovcl.sweetcontrol.model.User;
 import dev.leonardovcl.sweetcontrol.model.repository.UserRepository;
@@ -22,26 +24,38 @@ public class UserController {
 
 	@GetMapping("/registration")
 	public String showUserForm(Model model) {
-		model.addAttribute("usernameError", false);
+		model.addAttribute("user", new User());
 		return "/users/userForm";
 	}
 	
 	@PostMapping("/registration")
 	public String registerUser(
-			@RequestParam("username") String username,
-			@RequestParam("password") String password,
+			@Valid User user,
+			BindingResult bindingResult,
 			Model model
 	) {
-		
-		if(userRepository.findByUsername(username).isPresent()) {
-			model.addAttribute("usernameError", true);
+
+		if(userRepository.findByUsername(user.getUsername()).isPresent()) {
+			
+			System.out.println("Aqui");
+			
+			model.addAttribute("user", user);
+			model.addAttribute("usernameUniqueConstrainError", true);
 			return "/users/userForm";
+			
+		} else if(bindingResult.hasErrors()) {
+			
+			model.addAttribute("user", user);
+			return "/users/userForm";
+			
+		} else {
+			
+			User newUser = new User(user.getUsername(), passwordEncoder.encode(user.getPassword()));
+			userRepository.save(newUser);
+			
+			return "redirect:/login";
+			
 		}
-		
-		User newUser = new User(username, passwordEncoder.encode(password));
-		userRepository.save(newUser);
-		
-		return "redirect:/login";
 	}
 	
 }
