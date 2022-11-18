@@ -2,6 +2,7 @@ package dev.leonardovcl.sweetcontrol.controllers;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,13 +15,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import dev.leonardovcl.sweetcontrol.model.Ingredient;
 import dev.leonardovcl.sweetcontrol.model.Recipe;
 import dev.leonardovcl.sweetcontrol.model.RecipeIngredient;
 import dev.leonardovcl.sweetcontrol.model.repository.IngredientRepository;
@@ -120,7 +121,12 @@ public class RecipeController {
 	}
 	
 	@PostMapping("/register")
-	public String registerRecipe(@Valid Recipe recipe) {
+	public String registerRecipe(@Valid Recipe recipe, BindingResult bindingResult, Model model) {
+		
+		if(bindingResult.hasErrors()) {
+			return "recipes/recipeForm";
+		}
+		
 		recipeRepository.save(recipe);
 		return "redirect:/recipes";
 	}
@@ -128,8 +134,14 @@ public class RecipeController {
 	@GetMapping("/{idRecipe}")
 	public String showRecipeIngredientForm(@PathVariable("idRecipe") Long idRecipe, Model model) {
 		
+		Recipe recipe = recipeRepository.findById(idRecipe).get();
+		
+		RecipeIngredient recipeIngredient = new RecipeIngredient();
+		recipeIngredient.setRecipe(recipe);
+		
+		model.addAttribute("recipeIngredient", recipeIngredient);
 		model.addAttribute("recipeIngredientList", recipeIngredientRepository.findByRecipeId(idRecipe));
-		model.addAttribute("recipe", recipeRepository.findById(idRecipe).get());
+		model.addAttribute("recipe", recipe);
 		model.addAttribute("ingredientList", ingredientRepository.findAll());
 		
 		return "recipes/recipeingredients/recipeIngredientForm";
@@ -137,13 +149,18 @@ public class RecipeController {
 	
 	@PostMapping("/{idRecipe}")
 	public String registerRecipeIngredient(@PathVariable("idRecipe") Long idRecipe, 
-											@RequestParam("ingredient") Long idIngredient,
-											@RequestParam("amount") Double amount) {
+											@Valid RecipeIngredient recipeIngredient,
+											BindingResult bindingResult, Model model) {
 		
-		Recipe recipe = recipeRepository.findById(idRecipe).get();
-		Ingredient ingredient = ingredientRepository.findById(idIngredient).get();
+		if(bindingResult.hasErrors()) {
+			model.addAttribute("recipeIngredient",recipeIngredient);
+			model.addAttribute("recipeIngredientList", recipeIngredientRepository.findByRecipeId(idRecipe));
+			model.addAttribute("recipe", recipeRepository.findById(idRecipe).get());
+			model.addAttribute("ingredientList", ingredientRepository.findAll());
+			
+			return "recipes/recipeingredients/recipeIngredientForm";
+		}
 		
-		RecipeIngredient recipeIngredient = new RecipeIngredient(recipe, ingredient, amount);
 		recipeIngredientRepository.save(recipeIngredient);
 		
 		return "redirect:/recipes/" + idRecipe;
@@ -156,7 +173,13 @@ public class RecipeController {
 	}
 	
 	@PostMapping("/edit/{idRecipe}")
-	public String updateRecipe(@PathVariable("idRecipe") Long idRecipe, @Valid Recipe recipe) {
+	public String updateRecipe(@PathVariable("idRecipe") Long idRecipe, @Valid Recipe recipe, BindingResult bindingResult, Model model) {
+		
+		if(bindingResult.hasErrors()) {
+			model.addAttribute("recipe", recipe);
+			return "recipes/recipeUpdateForm";
+		}
+		
 		recipeRepository.save(recipe);
 		return "redirect:/recipes";
 	}

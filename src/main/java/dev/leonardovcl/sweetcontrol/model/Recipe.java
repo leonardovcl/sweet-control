@@ -19,7 +19,7 @@ public class Recipe {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@NotBlank
+	@NotBlank(message = "Must not be blank!")
 	@Column(name = "recipe_name", length = 200)
 	private String name;
 	

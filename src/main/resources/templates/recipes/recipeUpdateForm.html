@@ -12,7 +12,7 @@
 	    
 	    		<p class="title-text">Edit Recipe</p>
   
-    			<form method="POST" th:action="@{/recipes/edit/{idRecipe}(idRecipe=${recipe.id})}" th:object="${recipe}" id="recipeForm">
+    			<form class="was-validated" method="POST" th:action="@{/recipes/edit/{idRecipe}(idRecipe=${recipe.id})}" th:object="${recipe}" id="recipeForm" novalidate>
     			
 					<div class="row bottom-margin-5">
 						<div class="col-auto">
@@ -28,7 +28,10 @@
 							<label class="form-text"  style="min-width: 8rem;" for="name">Name:</label>
 						</div>
 						<div class="col-6">
-		      				<input class="form-control form-control-sm" type="text" th:field="*{name}">
+		      				<input class="form-control form-control-sm" type="text" th:field="*{name}" required>
+							<div class="invalid-feedback">
+								<span style="font-size: 1rem; color: red;" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+							</div>
 		      			</div>
 		      		</div>
 		      		
