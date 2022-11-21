@@ -5,9 +5,23 @@
 
 	<body>
   
-    	<header th:insert="base.html :: header"></header>
+	<!-- Header Area wrapper Starts -->
+	<header id="header-wrap" th:fragment="header-noauth">
+		<!-- Navbar Start -->
+		<nav class="navbar navbar-expand-md bg-inverse fixed-top scrolling-navbar">
+			<div class="container-fluid">
+				 <!-- Brand and toggle get grouped for better mobile display -->
+				<a th:href="@{/}" class="navbar-brand"><img class="img-fluid" th:src="@{/img/sweetControl.png}" alt="Sweet Control"></a>
+				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+					<i class="fa-solid fa-bars"></i>
+				</button>
+			</div>
+		</nav>
+		<!-- Navbar End -->
+	</header>
+	<!-- Header Area wrapper End -->
     
-    	<div class="main-content">
+    	<div class="main-content" th:fragment="index">
 			<div class="container-fluid">
     			<h3>Inventory control system for bakeries.</h3>
     			
