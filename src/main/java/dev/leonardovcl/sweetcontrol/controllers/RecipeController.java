@@ -13,6 +13,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -24,9 +25,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import dev.leonardovcl.sweetcontrol.model.Recipe;
 import dev.leonardovcl.sweetcontrol.model.RecipeIngredient;
+import dev.leonardovcl.sweetcontrol.model.SecurityUser;
+import dev.leonardovcl.sweetcontrol.model.User;
 import dev.leonardovcl.sweetcontrol.model.repository.IngredientRepository;
 import dev.leonardovcl.sweetcontrol.model.repository.RecipeIngredientRepository;
 import dev.leonardovcl.sweetcontrol.model.repository.RecipeRepository;
+import dev.leonardovcl.sweetcontrol.model.repository.UserRepository;
 import dev.leonardovcl.sweetcontrol.services.RecipeService;
 
 @Controller
@@ -43,20 +47,24 @@ public class RecipeController {
 	private RecipeIngredientRepository recipeIngredientRepository;
 	
 	@Autowired
+	private UserRepository userRepository;
+	
+	@Autowired
 	private RecipeService recipeService;
 	
 	@GetMapping
 	public String showRecipes(
 			@RequestParam(value = "page", required = false,  defaultValue = "0") int page,
 			@RequestParam(value = "size", required = false, defaultValue = "5") int size,
-			@RequestParam(value = "idFilter", required = false) Long idFilter,
 			@RequestParam(value = "nameLike", required = false, defaultValue = "") String nameLike,
 			@RequestParam(value = "idIngredientFilter", required = false) Long idIngredientFilter,
+			@AuthenticationPrincipal SecurityUser securityUser,
 			Model model) {
 		
-		model.addAttribute("ingredientList", ingredientRepository.findAll());
+		Long userId = userRepository.findByUsername(securityUser.getUsername()).get().getId();
 		
-		model.addAttribute("idFilter", idFilter);
+		model.addAttribute("ingredientList", ingredientRepository.findByIngredientOwnerId(userId));
+		
 		model.addAttribute("nameLike", nameLike);
 		model.addAttribute("idIngredientFilter", idIngredientFilter);
 		
@@ -68,24 +76,14 @@ public class RecipeController {
 		recipeListHolder.setSort(new MutableSortDefinition("id", true, true));
 		
 		List<Recipe> recipeArrayList = new ArrayList<>();
-		
-		if(idFilter != null) {
-			Recipe recipeById = recipeRepository.findById(idFilter).isPresent() ? recipeRepository.findById(idFilter).get() : null;
-			
-			if(recipeById != null) {
-				recipeArrayList.add(recipeById);
-			}
-			
-			recipeList = new PageImpl<Recipe>(recipeArrayList, pageable, recipeArrayList.size());
 
+		if (!nameLike.isBlank() && idIngredientFilter == null) {
 			
-		} else if (!nameLike.isBlank() && idIngredientFilter == null) {
-			
-			recipeList = recipeRepository.findByNameContainingIgnoreCase(nameLike, pageable);
+			recipeList = recipeRepository.findByNameContainingIgnoreCaseAndRecipeOwnerId(nameLike, userId, pageable);
 			
 		} else if (nameLike.isBlank() && idIngredientFilter != null) {
 			
-			recipeArrayList = recipeService.findRecipeByIngredient(idIngredientFilter);
+			recipeArrayList = recipeService.findRecipeByIngredient(idIngredientFilter,userId);
 			
 			recipeListHolder.setSource(recipeArrayList);
 			recipeListHolder.resort();
@@ -95,7 +93,7 @@ public class RecipeController {
 			
 		} else if (!nameLike.isBlank() && idIngredientFilter != null) {
 			
-			recipeArrayList = recipeService.findRecipeByIngredientAndNameContaining(idIngredientFilter, nameLike);
+			recipeArrayList = recipeService.findRecipeByIngredientAndNameContaining(idIngredientFilter, nameLike, userId);
 			
 			recipeListHolder.setSource(recipeArrayList);
 			recipeListHolder.resort();
@@ -105,7 +103,7 @@ public class RecipeController {
 			
 		} else {
 			
-			recipeList = recipeRepository.findAll(pageable);
+			recipeList = recipeRepository.findByRecipeOwnerId(userId, pageable);
 			
 		}
 		
@@ -121,20 +119,34 @@ public class RecipeController {
 	}
 	
 	@PostMapping("/register")
-	public String registerRecipe(@Valid Recipe recipe, BindingResult bindingResult, Model model) {
+	public String registerRecipe(@Valid Recipe recipe,
+								BindingResult bindingResult,
+								@AuthenticationPrincipal SecurityUser securityUser,
+								Model model) {
 		
 		if(bindingResult.hasErrors()) {
 			return "recipes/recipeForm";
 		}
 		
+		User user = userRepository.findByUsername(securityUser.getUsername()).get();
+		recipe.setRecipeOwner(user);
+
 		recipeRepository.save(recipe);
+		
 		return "redirect:/recipes";
 	}
 	
 	@GetMapping("/{idRecipe}")
-	public String showRecipeIngredientForm(@PathVariable("idRecipe") Long idRecipe, Model model) {
+	public String showRecipeIngredientForm(@PathVariable("idRecipe") Long idRecipe,
+											@AuthenticationPrincipal SecurityUser securityUser,
+											Model model) {
 		
+		Long userId = userRepository.findByUsername(securityUser.getUsername()).get().getId();
 		Recipe recipe = recipeRepository.findById(idRecipe).get();
+		
+		if(recipe.getRecipeOwner().getId() != userId) {
+			return "error/accessDenied";
+		}
 		
 		RecipeIngredient recipeIngredient = new RecipeIngredient();
 		recipeIngredient.setRecipe(recipe);
@@ -142,7 +154,7 @@ public class RecipeController {
 		model.addAttribute("recipeIngredient", recipeIngredient);
 		model.addAttribute("recipeIngredientList", recipeIngredientRepository.findByRecipeId(idRecipe));
 		model.addAttribute("recipe", recipe);
-		model.addAttribute("ingredientList", ingredientRepository.findAll());
+		model.addAttribute("ingredientList", ingredientRepository.findByIngredientOwnerId(userId));
 		
 		return "recipes/recipeingredients/recipeIngredientForm";
 	}
@@ -150,13 +162,22 @@ public class RecipeController {
 	@PostMapping("/{idRecipe}")
 	public String registerRecipeIngredient(@PathVariable("idRecipe") Long idRecipe, 
 											@Valid RecipeIngredient recipeIngredient,
-											BindingResult bindingResult, Model model) {
+											BindingResult bindingResult,
+											@AuthenticationPrincipal SecurityUser securityUser,
+											Model model) {
+		
+		Long userId = userRepository.findByUsername(securityUser.getUsername()).get().getId();
+		Recipe recipe = recipeRepository.findById(idRecipe).get();
+		
+		if(recipe.getRecipeOwner().getId() != userId) {
+			return "error/accessDenied";
+		}
 		
 		if(bindingResult.hasErrors()) {
 			model.addAttribute("recipeIngredient",recipeIngredient);
 			model.addAttribute("recipeIngredientList", recipeIngredientRepository.findByRecipeId(idRecipe));
-			model.addAttribute("recipe", recipeRepository.findById(idRecipe).get());
-			model.addAttribute("ingredientList", ingredientRepository.findAll());
+			model.addAttribute("recipe", recipe);
+			model.addAttribute("ingredientList", ingredientRepository.findByIngredientOwnerId(userId));
 			
 			return "recipes/recipeingredients/recipeIngredientForm";
 		}
@@ -167,13 +188,33 @@ public class RecipeController {
 	}
 	
 	@GetMapping("/edit/{idRecipe}")
-	public String showRecipeUpdateForm(@PathVariable("idRecipe") Long idRecipe, Model model) {
-		model.addAttribute("recipe", recipeRepository.findById(idRecipe).get());
+	public String showRecipeUpdateForm(@PathVariable("idRecipe") Long idRecipe,
+										@AuthenticationPrincipal SecurityUser securityUser,
+										Model model) {
+		
+		Long userId = userRepository.findByUsername(securityUser.getUsername()).get().getId();
+		Recipe recipe = recipeRepository.findById(idRecipe).get();
+		
+		if(recipe.getRecipeOwner().getId() != userId) {
+			return "error/accessDenied";
+		}
+		
+		model.addAttribute("recipe", recipe);
 		return "recipes/recipeUpdateForm";
 	}
 	
 	@PostMapping("/edit/{idRecipe}")
-	public String updateRecipe(@PathVariable("idRecipe") Long idRecipe, @Valid Recipe recipe, BindingResult bindingResult, Model model) {
+	public String updateRecipe(@PathVariable("idRecipe") Long idRecipe,
+								@Valid Recipe recipe,
+								BindingResult bindingResult,
+								@AuthenticationPrincipal SecurityUser securityUser,
+								Model model) {
+		
+		Long userId = userRepository.findByUsername(securityUser.getUsername()).get().getId();
+		
+		if(recipe.getRecipeOwner().getId() != userId) {
+			return "error/accessDenied";
+		}
 		
 		if(bindingResult.hasErrors()) {
 			model.addAttribute("recipe", recipe);
@@ -185,13 +226,31 @@ public class RecipeController {
 	}
 	
 	@GetMapping("/delete/{recipeId}")
-	public String deleteRecipe(@PathVariable("recipeId") Long recipeId) {
+	public String deleteRecipe(@PathVariable("recipeId") Long recipeId,
+								@AuthenticationPrincipal SecurityUser securityUser) {
+
+		Long userId = userRepository.findByUsername(securityUser.getUsername()).get().getId();
+		Recipe recipe = recipeRepository.findById(recipeId).get();
+		
+		if(recipe.getRecipeOwner().getId() != userId) {
+			return "error/accessDenied";
+		}
+		
 		recipeRepository.deleteById(recipeId);
 		return "redirect:/recipes";
 	}
 	
 	@GetMapping("/cook/{recipeId}")
-	public String cookRecipe(@PathVariable("recipeId") Long recipeId) {
+	public String cookRecipe(@PathVariable("recipeId") Long recipeId,
+							@AuthenticationPrincipal SecurityUser securityUser) {
+		
+		Long userId = userRepository.findByUsername(securityUser.getUsername()).get().getId();
+		Recipe recipe = recipeRepository.findById(recipeId).get();
+		
+		if(recipe.getRecipeOwner().getId() != userId) {
+			return "error/accessDenied";
+		}
+		
 		recipeService.cookRecipe(recipeId);
 		return "redirect:/cookedrecipes";
 	}

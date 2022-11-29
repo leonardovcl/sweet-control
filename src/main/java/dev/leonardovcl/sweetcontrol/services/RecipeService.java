@@ -46,13 +46,14 @@ public class RecipeService {
 	@Autowired
 	UsedInventoryRepository usedInventoryRepository;
 	
-	public List<Recipe> findRecipeByIngredient(Long idIngredientFilter) {
+	public List<Recipe> findRecipeByIngredient(Long idIngredientFilter, Long userId) {
 		
 		List<RecipeIngredient> recipeIngredientList = recipeIngredientRepository.findByIngredientEntryId(idIngredientFilter);
 		
 		List<Recipe> recipeByIngredientList = recipeIngredientList.stream()
-				.map(recipeIngredient -> recipeIngredient.getRecipe().getId())
-				.map(recipeId -> recipeRepository.findById(recipeId).get()).toList();
+				.map(recipeIngredient -> recipeIngredient.getRecipe())
+				.filter(recipe -> recipe.getRecipeOwner().getId() == userId)
+				.toList();
 		
 		Set<Recipe> recipeByIngredientUniqueList = new HashSet<>(recipeByIngredientList);
 		
@@ -61,9 +62,9 @@ public class RecipeService {
 		return recipeList;
 	}
 	
-	public List<Recipe> findRecipeByIngredientAndNameContaining(Long idIngredientFilter, String likePattern) {
+	public List<Recipe> findRecipeByIngredientAndNameContaining(Long idIngredientFilter, String likePattern, Long userId) {
 		
-		List<Recipe> recipeByIngredientList = findRecipeByIngredient(idIngredientFilter);
+		List<Recipe> recipeByIngredientList = findRecipeByIngredient(idIngredientFilter, userId);
 		
 		List<Recipe> recipeList = new ArrayList<>();
 		

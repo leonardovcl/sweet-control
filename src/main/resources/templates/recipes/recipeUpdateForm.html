@@ -14,14 +14,8 @@
   
     			<form class="was-validated" method="POST" th:action="@{/recipes/edit/{idRecipe}(idRecipe=${recipe.id})}" th:object="${recipe}" id="recipeForm" novalidate>
     			
-					<div class="row bottom-margin-5">
-						<div class="col-auto">
-							<label class="form-text" style="min-width: 8rem;" for="id">ID:</label>
-						</div>
-						<div class="col-2">
-		      				<input class="form-control form-control-sm" type="text" th:field="*{id}" readonly>
-		      			</div>
-		      		</div>
+					<input class="form-control form-control-sm" type="text" th:field="*{id}" hidden readonly>
+					<input class="form-control form-control-sm" type="text" id="recipeOwner" name="recipeOwner" th:value="*{recipeOwner.id}" hidden readonly>
 					
 					<div class="row bottom-margin-5">
 						<div class="col-auto">
