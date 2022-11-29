@@ -19,7 +19,7 @@
 	  				<tbody>
 	  					<tr>
 							<td scope="row">
-	 							<span th:text="'[#' + ${recipeIngredient.recipe.id} + '] ' + ${recipeIngredient.recipe.name}"></span> 
+	 							<span th:text="${recipeIngredient.recipe.name}"></span> 
 	 							<sup><i class="fa-solid fa-circle-info fa-lg" th:title="${recipeIngredient.recipe.description}"></i></sup>
 	 						</td>
 						</tr>

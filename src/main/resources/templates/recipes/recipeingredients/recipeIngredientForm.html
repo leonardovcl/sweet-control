@@ -19,7 +19,7 @@
 	  				<tbody>
 	  					<tr>
 							<td scope="row">
-	 							<span th:text="'[#' + ${recipe.id} + '] ' + ${recipe.name}"></span> 
+	 							<span th:text="${recipe.name}"></span> 
 	 							<sup><i class="fa-solid fa-circle-info fa-lg" th:title="${recipe.description}"></i></sup>
 	 						</td>
 						</tr>
@@ -41,8 +41,7 @@
 							<tr th:each="recipeIngredient : ${recipeIngredientList}">
 								<td scope="row">
 									<span
-										th:text="'[#' + ${recipeIngredient.getIngredientEntry().id} + '] ' +
-											${recipeIngredient.getIngredientEntry().name}">
+										th:text="${recipeIngredient.getIngredientEntry().name}">
 									</span> 
 		 							<sup><i class="fa-solid fa-circle-info fa-lg" th:title="${recipeIngredient.getIngredientEntry().description}"></i></sup>
 								</td>
