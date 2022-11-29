@@ -15,7 +15,6 @@
 	    		<table id="recipeTable" class="table table-striped table-responsive">
 	    			<thead class="thead-dark">
 	    				<tr>
-	      					<th style="width:auto" scope="col">ID</th>
 	      					<th style="width:auto" scope="col">Name</th>
 	      					<th style="width:auto" scope="col">Making Date</th>
 	      					<th style="width:auto" scope="col">Total Cost</th>
@@ -24,8 +23,7 @@
 	  				</thead>
 	  				<tbody>
 	  					<tr th:each="cookedRecipe : ${cookedRecipeList.content}">
-							<td scope="row" th:text="'#' + ${cookedRecipe.id}"></td>
-	 						<td scope="row">
+							<td scope="row">
 	 							<span th:text="${cookedRecipe.recipeEntry.name}"></span> 
 	 							<sup><i class="fa-solid fa-circle-info fa-lg" th:title="${cookedRecipe.recipeEntry.description}"></i></sup>
 	 						</td>
@@ -64,10 +62,6 @@
 
 				<form method="GET" th:action ="@{/cookedrecipes}" id="filterList">
 					<div class="row gx-1">
-						<div class="col-1">
-							<input class="form-control form-control-sm" type="text" name ="idFilter" th:value="${idFilter}" placeholder="Id">
-						</div>
-	      
 						<div class="col-2">
 							<input class="form-control form-control-sm" type="text" name ="nameLike" th:value="${nameLike}" placeholder="Name">
 						</div>

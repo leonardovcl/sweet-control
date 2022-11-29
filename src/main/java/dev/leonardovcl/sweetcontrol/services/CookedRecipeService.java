@@ -43,6 +43,32 @@ public class CookedRecipeService {
 	@Autowired
 	UsedInventoryRepository usedInventoryRepository;
 	
+	public List<CookedRecipe> findCookedRecipeByNameContaining(String likePattern, Long userId) {
+		
+		List<CookedRecipe> cookedRecipeByNameList = cookedRecipeRepository.findByRecipeEntryNameContaining(likePattern);
+		
+		List<CookedRecipe> cookedRecipeList = new ArrayList<>();
+		
+		cookedRecipeByNameList.stream()
+		.filter(cookedRecipe -> cookedRecipe.getRecipeEntry().getRecipeOwner().getId() == userId)
+		.forEach(cookedRecipe -> cookedRecipeList.add(cookedRecipe));
+		
+		return cookedRecipeList;
+	}
+	
+	public List<CookedRecipe> findAll(Long userId) {
+		
+		List<CookedRecipe> cookedRecipeByNameList = (List<CookedRecipe>) cookedRecipeRepository.findAll();
+		
+		List<CookedRecipe> cookedRecipeList = new ArrayList<>();
+		
+		cookedRecipeByNameList.stream()
+		.filter(cookedRecipe -> cookedRecipe.getRecipeEntry().getRecipeOwner().getId() == userId)
+		.forEach(cookedRecipe -> cookedRecipeList.add(cookedRecipe));
+		
+		return cookedRecipeList;
+	}
+	
 	public List<CookedRecipe> recipeListToCookedRecipeList(List<Recipe> recipeList) {
 		
 		List<List<CookedRecipe>> cookedRecipeLists = recipeList.stream()
@@ -63,13 +89,15 @@ public class CookedRecipeService {
 		return cookedRecipeList;
 	}
 	
-	public List<CookedRecipe> findCookedRecipeByIngredient(Long idIngredientFilter) {
+	public List<CookedRecipe> findCookedRecipeByIngredient(Long idIngredientFilter, Long userId) {
 		
 		List<RecipeIngredient> recipeIngredientList = recipeIngredientRepository.findByIngredientEntryId(idIngredientFilter);
 		
 		List<Recipe> recipeByIngredientList = recipeIngredientList.stream()
 				.map(recipeIngredient -> recipeIngredient.getRecipe().getId())
-				.map(recipeId -> recipeRepository.findById(recipeId).get()).toList();
+				.map(recipeId -> recipeRepository.findById(recipeId).get())
+				.filter(recipe -> recipe.getRecipeOwner().getId() == userId)
+				.toList();
 		
 		Set<Recipe> recipeByIngredientUniqueList = new HashSet<>(recipeByIngredientList);
 		
@@ -80,9 +108,9 @@ public class CookedRecipeService {
 		return cookedRecipeList;
 	}
 	
-	public List<CookedRecipe> findCookedRecipeByIngredientAndNameContaining(Long idIngredientFilter, String likePattern) {
+	public List<CookedRecipe> findCookedRecipeByIngredientAndNameContaining(Long idIngredientFilter, String likePattern, Long userId) {
 		
-		List<Recipe> recipeByIngredientList = recipeService.findRecipeByIngredient(idIngredientFilter);
+		List<Recipe> recipeByIngredientList = recipeService.findRecipeByIngredient(idIngredientFilter, userId);
 		
 		List<Recipe> recipeList = recipeByIngredientList.stream()
 				.filter(recipe -> recipe.getName().toLowerCase().contains(likePattern.toLowerCase()))

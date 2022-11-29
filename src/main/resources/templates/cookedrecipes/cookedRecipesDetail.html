@@ -10,7 +10,7 @@
 		<div class="main-content">
 	    	<div class="container">
 	    
-	    		<p class="title-text" th:text = "'Cooked Recipe #' + ${cookedRecipe.id}"></p>
+	    		<p class="title-text">Cooked Recipe</p>
 	    		
 	    		<table id="recipeTable" class="table table-striped table-responsive">
 	    			<thead class="thead-dark">
@@ -22,7 +22,7 @@
 	  				<tbody>
 	  					<tr>
 							<td scope="row">
-	 							<span th:text="'[#' + ${recipe.id} + '] ' + ${recipe.name}"></span> 
+	 							<span th:text="${recipe.name}"></span> 
 	 							<sup><i class="fa-solid fa-circle-info fa-lg" th:title="${recipe.description}"></i></sup>
 	 						</td>
 	 						<td scope="row" type="Date" th:text="${#dates.format(cookedRecipe.getMakingDate(), 'dd/MM/yyyy')}" align="left"></td>
@@ -35,7 +35,6 @@
 	    		<table class="table table-striped table-responsive">
 	    			<thead class="thead-dark">
 	    				<tr>
-	      					<th style="width:auto" scope="col">ID</th>
 	      					<th style="width:auto" scope="col">Ingredient</th>
 	      					<th style="width:auto" scope="col">Used Amount</th>
 	      					<th style="width:auto" scope="col">Cost</th>
@@ -44,11 +43,9 @@
 	  				</thead>
 	  				<tbody>
 						<tr th:each="usedInventory : ${usedInventoriesList}">
-							<td scope="row" th:text="'#' + ${usedInventory.getInventoryEntry().id}"></td>
 							<td scope="row">
 								<span
-									th:text="'[#' + ${usedInventory.getInventoryEntry().getIngredient().id} + '] ' +
-										${usedInventory.getInventoryEntry().getIngredient().name}">
+									th:text="${usedInventory.getInventoryEntry().getIngredient().name}">
 								</span> 
 	 							<sup><i class="fa-solid fa-circle-info fa-lg" th:title="${usedInventory.getInventoryEntry().getIngredient().description}"></i></sup>
 							</td>
