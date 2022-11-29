@@ -9,6 +9,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -40,6 +42,10 @@ public class Ingredient {
 	
 	@OneToMany(mappedBy = "ingredientEntry", cascade = CascadeType.ALL)
 	private List<RecipeIngredient> ingredientRecipes;
+	
+	@ManyToOne
+	@JoinColumn(name = "owner")
+	private User ingredientOwner;
 	
 	public Ingredient() {
 		
@@ -102,6 +108,14 @@ public class Ingredient {
 		this.ingredientRecipes = ingredientRecipes;
 	}
 	
+	public User getIngredientOwner() {
+		return ingredientOwner;
+	}
+
+	public void setIngredientOwner(User ingredientOwner) {
+		this.ingredientOwner = ingredientOwner;
+	}
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);

@@ -1,28 +1,24 @@
 package dev.leonardovcl.sweetcontrol.model;
 
-import java.util.UUID;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
-
-import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Table(name = "users")
 public class User {
 
 	@Id
-	@GeneratedValue(generator = "UUID")
-    @GenericGenerator(
-        name = "UUID",
-        strategy = "org.hibernate.id.UUIDGenerator"
-    )
-	@Column(name = "id", updatable = false, unique = true, nullable = false)
-	private UUID id;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 	
 	@NotEmpty(message = "Must not be empty!")
 	@Column(name = "user_name", unique=true)
@@ -31,6 +27,12 @@ public class User {
 	@NotEmpty(message = "Must not be empty!")
 	@Column(name = "password")
 	private String password;
+	
+	@OneToMany(mappedBy = "recipeOwner", cascade = CascadeType.ALL)
+	private List<Recipe> recipes;
+	
+	@OneToMany(mappedBy = "ingredientOwner", cascade = CascadeType.ALL)
+	private List<Ingredient> ingredients;
 	
 	public User() {
 		
@@ -41,11 +43,11 @@ public class User {
 		setPassword(password);
 	}
 	
-	public UUID getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(UUID id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 	
@@ -65,6 +67,22 @@ public class User {
 		this.password = password;
 	}
 	
+	public List<Recipe> getRecipes() {
+		return recipes;
+	}
+
+	public void setRecipes(List<Recipe> recipes) {
+		this.recipes = recipes;
+	}
+
+	public List<Ingredient> getIngredients() {
+		return ingredients;
+	}
+
+	public void setIngredients(List<Ingredient> ingredients) {
+		this.ingredients = ingredients;
+	}
+
 	@Override
 	public String toString() {
 		StringBuilder objString = new StringBuilder();

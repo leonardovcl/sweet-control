@@ -9,6 +9,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotBlank;
 
@@ -31,6 +33,10 @@ public class Recipe {
 	
 	@OneToMany(mappedBy = "recipeEntry", cascade = CascadeType.ALL)
 	private List<CookedRecipe> cookedRecipeList;
+	
+	@ManyToOne
+	@JoinColumn(name = "owner")
+	private User recipeOwner;
 	
 	 public Recipe() {
 		 
@@ -83,6 +89,14 @@ public class Recipe {
 
 	public void setRecipeMadeList(List<CookedRecipe> cookedRecipeList) {
 		this.cookedRecipeList = cookedRecipeList;
+	}
+
+	public User getRecipeOwner() {
+		return recipeOwner;
+	}
+
+	public void setRecipeOwner(User recipeOwner) {
+		this.recipeOwner = recipeOwner;
 	}
 
 	@Override
