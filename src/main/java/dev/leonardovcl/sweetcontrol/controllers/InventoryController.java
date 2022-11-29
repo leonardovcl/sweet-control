@@ -4,6 +4,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -15,9 +16,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import dev.leonardovcl.sweetcontrol.model.Ingredient;
 import dev.leonardovcl.sweetcontrol.model.Inventory;
+import dev.leonardovcl.sweetcontrol.model.SecurityUser;
 import dev.leonardovcl.sweetcontrol.model.repository.IngredientRepository;
 import dev.leonardovcl.sweetcontrol.model.repository.InventoryRepository;
 import dev.leonardovcl.sweetcontrol.model.repository.UsedInventoryRepository;
+import dev.leonardovcl.sweetcontrol.model.repository.UserRepository;
 import dev.leonardovcl.sweetcontrol.services.InventoryService;
 
 @Controller
@@ -28,7 +31,7 @@ public class InventoryController {
 	private InventoryRepository inventoryRepository;
 	
 	@Autowired
-	InventoryService inventoryService;
+	private InventoryService inventoryService;
 	
 	@Autowired
 	private IngredientRepository ingredientRepository;
@@ -36,58 +39,83 @@ public class InventoryController {
 	@Autowired
 	private UsedInventoryRepository usedInventoryRepository;
 	
+	@Autowired
+	private UserRepository userRepository;
+	
 	@GetMapping("/{idIngredient}")
 	public String showInventories(
 			@PathVariable("idIngredient") Long idIngredient,
 			@RequestParam(value = "page", required = false,  defaultValue = "0") int page,
 			@RequestParam(value = "size", required = false, defaultValue = "5") int size,
+			@AuthenticationPrincipal SecurityUser securityUser,
 			Model model) {
+		
+		Long userId = userRepository.findByUsername(securityUser.getUsername()).get().getId();
+		Ingredient ingredient = ingredientRepository.findById(idIngredient).get();
+		
+		if(ingredient.getIngredientOwner().getId() != userId) {
+			return "error/accessDenied";
+		}
 		
 		Pageable pageable = inventoryService.pageableSorted(page, size);
 		
-		model.addAttribute("idIngredient", idIngredient);
-		model.addAttribute("ingredient", ingredientRepository.findById(idIngredient).get());
-
-		
+		model.addAttribute("ingredient", ingredient);
 		model.addAttribute("inventoryList", inventoryRepository.findByIngredientIdAndActiveTrue(idIngredient, pageable));
 		
 		return "inventories/inventories";
 	}
 	
 	@GetMapping("/register")
-	public String showInventoryGenericRegisterForm(Model model) {
+	public String showInventoryGenericRegisterForm(@AuthenticationPrincipal SecurityUser securityUser,
+													Model model) {
+		
+		Long userId = userRepository.findByUsername(securityUser.getUsername()).get().getId();
+		
 		model.addAttribute("inventory", new Inventory());
-		model.addAttribute("ingredientList", ingredientRepository.findAll());
+		model.addAttribute("ingredientList", ingredientRepository.findByIngredientOwnerId(userId));
+		
 		return "inventories/inventoryGenericForm";
 	}
 	
 	@PostMapping("/register")
 	public String registerGenericInventory(@Valid Inventory inventory,
 											BindingResult bindingResult,
+											@AuthenticationPrincipal SecurityUser securityUser,
 											Model model) {
+										
+		Long userId = userRepository.findByUsername(securityUser.getUsername()).get().getId();
 		
 		if(bindingResult.hasErrors()) {
 			model.addAttribute("inventory", inventory);
-			model.addAttribute("ingredientList", ingredientRepository.findAll());
+			model.addAttribute("ingredientList", ingredientRepository.findByIngredientOwnerId(userId));
 			
 			return "inventories/inventoryGenericForm";
 		}
 		
 		String idIngredient = Long.toString(inventory.getIngredient().getId());
+		
+		inventory.setPricePerAmount();
 		inventoryRepository.save(inventory);
 		
 		return "redirect:/inventories/" + idIngredient;
 	}
 	
 	@GetMapping("/register/{idIngredient}")
-	public String showInventoryRegisterForm(@PathVariable("idIngredient") Long idIngredient, Model model) {
+	public String showInventoryRegisterForm(@PathVariable("idIngredient") Long idIngredient,
+											@AuthenticationPrincipal SecurityUser securityUser,
+											Model model) {
 		
-		Inventory inventoryObj = new Inventory();
-		Ingredient ingredientObj = ingredientRepository.findById(idIngredient).get();
+		Long userId = userRepository.findByUsername(securityUser.getUsername()).get().getId();
+		Ingredient ingredient = ingredientRepository.findById(idIngredient).get();
 		
-		inventoryObj.setIngredient(ingredientObj);
+		if(ingredient.getIngredientOwner().getId() != userId) {
+			return "error/accessDenied";
+		}
 		
-		model.addAttribute("inventory", inventoryObj);
+		Inventory inventory = new Inventory();
+		inventory.setIngredient(ingredient);
+		
+		model.addAttribute("inventory", inventory);
 		
 		return "inventories/inventoryForm";
 	}
@@ -96,9 +124,15 @@ public class InventoryController {
 	public String registerInventory(@PathVariable("idIngredient") Long idIngredient,
 									@Valid Inventory inventory,
 									BindingResult bindingResult,
+									@AuthenticationPrincipal SecurityUser securityUser,
 									Model model) {
 		
-		if(bindingResult.hasErrors()) {
+		Long userId = userRepository.findByUsername(securityUser.getUsername()).get().getId();
+		Ingredient ingredient = ingredientRepository.findById(idIngredient).get();
+		
+		if(ingredient.getIngredientOwner().getId() != userId) {
+			return "error/accessDenied";
+		} else if(bindingResult.hasErrors()) {
 			model.addAttribute("inventory", inventory);
 			return "inventories/inventoryForm";
 		}
@@ -110,7 +144,16 @@ public class InventoryController {
 	}
 	
 	@GetMapping("/edit/{idInventory}")
-	public String showInventoryUpdateForm(@PathVariable("idInventory") Long idInventory, Model model) {
+	public String showInventoryUpdateForm(@PathVariable("idInventory") Long idInventory,
+											@AuthenticationPrincipal SecurityUser securityUser,
+											Model model) {
+		
+		Long userId = userRepository.findByUsername(securityUser.getUsername()).get().getId();
+		Ingredient ingredient = inventoryRepository.findById(idInventory).get().getIngredient();
+		
+		if(ingredient.getIngredientOwner().getId() != userId) {
+			return "error/accessDenied";
+		}
 		
 		model.addAttribute("usedInventoryExists", usedInventoryRepository.existsByInventoryEntryId(idInventory));
 		
@@ -124,9 +167,15 @@ public class InventoryController {
 	public String updateInventory(@PathVariable("idInventory") Long idInventory,
 									@Valid Inventory inventory,
 									BindingResult bindingResult,
+									@AuthenticationPrincipal SecurityUser securityUser,
 									Model model) {
 		
-		if(bindingResult.hasErrors()) {
+		Long userId = userRepository.findByUsername(securityUser.getUsername()).get().getId();
+		Ingredient ingredient = inventoryRepository.findById(idInventory).get().getIngredient();
+		
+		if(ingredient.getIngredientOwner().getId() != userId) {
+			return "error/accessDenied";
+		} else if(bindingResult.hasErrors()) {
 			
 			model.addAttribute("inventory", inventory);
 			
@@ -142,15 +191,36 @@ public class InventoryController {
 	}
 	
 	@GetMapping("/delete/{idInventory}")
-	public String deleteInventory(@PathVariable("idInventory") Long idInventory) {
-		String idIngredient = Long.toString(inventoryRepository.findById(idInventory).get().getIngredient().getId());
+	public String deleteInventory(@PathVariable("idInventory") Long idInventory,
+									@AuthenticationPrincipal SecurityUser securityUser) {
+		
+		Long userId = userRepository.findByUsername(securityUser.getUsername()).get().getId();
+		Ingredient ingredient = inventoryRepository.findById(idInventory).get().getIngredient();
+		
+		if(ingredient.getIngredientOwner().getId() != userId) {
+			return "error/accessDenied";
+		}
+		
 		inventoryRepository.deleteById(idInventory);
+		
+		String idIngredient = Long.toString(inventoryRepository.findById(idInventory).get().getIngredient().getId());
+		
 		return "redirect:/inventories/" + idIngredient;
 	}
 	
 	@GetMapping("/deleteExpired/{ingredientId}")
-	public String deleteExpiredInventory(@PathVariable("ingredientId") Long ingredientId) {
+	public String deleteExpiredInventory(@PathVariable("ingredientId") Long ingredientId,
+											@AuthenticationPrincipal SecurityUser securityUser) {
+		
+		Long userId = userRepository.findByUsername(securityUser.getUsername()).get().getId();
+		Ingredient ingredient = ingredientRepository.findById(ingredientId).get();
+		
+		if(ingredient.getIngredientOwner().getId() != userId) {
+			return "error/accessDenied";
+		}
+		
 		inventoryService.deleteExpiredInventories(ingredientId);
+		
 		return "redirect:/inventories/" + ingredientId;
 	}
 	

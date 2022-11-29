@@ -12,7 +12,7 @@
 	    
 	    		<p class="title-text">Inventories List</p>
 	    		
-	    		<p class="subtitle-text" th:text="'[#' + ${ingredient.id} + '] ' + ${ingredient.name}" style="display: inline;"></p>
+	    		<p class="subtitle-text" th:text="${ingredient.name}" style="display: inline;"></p>
 	    		<sup><i class="fa-solid fa-circle-info fa-lg" th:title="${ingredient.description}"></i></sup>
 	    		<a class="btn btn-outline-danger btn-sm" style="margin-left: 1rem;"
 	    			th:href="@{/inventories/deleteExpired/{ingredientId}(ingredientId=${idIngredient})}"
@@ -22,7 +22,6 @@
 	    		<table class="table table-striped table-responsive">
 	    			<thead class="thead-dark">
 	    				<tr>
-	      					<th style="width:auto" scope="col">ID</th>
 	      					<th style="width:auto" scope="col">Amount</th>
 	      					<th style="width:auto" scope="col">Total Price</th>
 	      					<th style="width:auto" scope="col" th:text="'Price/' + ${ingredient.amountType.name()}"></th>
@@ -32,7 +31,6 @@
 	  				</thead>
 	  				<tbody>
 						<tr th:each="inventory : ${inventoryList.content}">
-							<td scope="row" th:text="'#' + ${inventory.id}"></td>
 	 						<td scope="row" th:text="${inventory.amountLeft} + ' / ' + ${inventory.amount} + ${inventory.ingredient.amountType.name()}"></td>
 	 						<td scope="row" th:text="'R$ ' + ${inventory.price}"></td>
 	 						<td scope="row" th:text="${#numbers.formatDecimal(inventory.getPricePerAmount(), 1, 2)} + ' /' + ${inventory.ingredient.amountType.name()}"></td>
