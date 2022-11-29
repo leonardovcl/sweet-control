@@ -32,15 +32,13 @@ public class UserController {
 	public String registerUser(
 			@Valid User user,
 			BindingResult bindingResult,
-			Model model
-	) {
+			Model model) {
 
 		if(userRepository.findByUsername(user.getUsername()).isPresent()) {
 			
-			System.out.println("Aqui");
-			
 			model.addAttribute("user", user);
 			model.addAttribute("usernameUniqueConstrainError", true);
+			
 			return "/users/userForm";
 			
 		} else if(bindingResult.hasErrors()) {
