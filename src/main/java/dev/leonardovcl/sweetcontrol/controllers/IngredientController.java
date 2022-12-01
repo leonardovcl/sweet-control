@@ -43,7 +43,7 @@ public class IngredientController {
 		
 		Long userId = userRepository.findByUsername(securityUser.getUsername()).get().getId();
 		
-		Pageable pageable = PageRequest.of(page, size, Sort.by("id"));
+		Pageable pageable = PageRequest.of(page, size, Sort.by("name"));
 		Page<Ingredient> ingredientList;
 		
 		if (!nameLike.isBlank()) {

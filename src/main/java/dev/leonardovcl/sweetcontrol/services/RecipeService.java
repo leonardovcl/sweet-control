@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import dev.leonardovcl.sweetcontrol.model.Inventory;
@@ -79,7 +80,7 @@ public class RecipeService {
 		
 		Integer recipesLeft = 100000;
 		
-		List<RecipeIngredient> recipeIngredientList = recipeIngredientRepository.findByRecipeId(recipeId);
+		List<RecipeIngredient> recipeIngredientList = recipeIngredientRepository.findByRecipeId(recipeId, Sort.by("ingredientEntry.name"));
 		
 		if(recipeIngredientList.size() == 0) {
 			recipesLeft = 0;
@@ -129,7 +130,7 @@ public class RecipeService {
 		
 		Double totalCost = 0.00;
 
-		List<RecipeIngredient> recipeIngredintList = recipeIngredientRepository.findByRecipeId(recipeId);
+		List<RecipeIngredient> recipeIngredintList = recipeIngredientRepository.findByRecipeId(recipeId, Sort.by("ingredientEntry.name"));
 
 		for(RecipeIngredient recipeIngredient: recipeIngredintList) {
 

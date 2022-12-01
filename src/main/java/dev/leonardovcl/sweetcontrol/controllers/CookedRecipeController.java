@@ -67,7 +67,7 @@ public class CookedRecipeController {
 		model.addAttribute("nameLike", nameLike);
 		model.addAttribute("idIngredientFilter", idIngredientFilter);
 		
-		Pageable pageable = PageRequest.of(page, size, Sort.by("id"));
+		Pageable pageable = PageRequest.of(page, size, Sort.by("recipeEntry.name"));
 		Page<CookedRecipe> cookedRecipeList = null;
 		
 		PagedListHolder<CookedRecipe> cookedRecipeListHolder = new PagedListHolder<>();

@@ -68,7 +68,7 @@ public class RecipeController {
 		model.addAttribute("nameLike", nameLike);
 		model.addAttribute("idIngredientFilter", idIngredientFilter);
 		
-		Pageable pageable = PageRequest.of(page, size, Sort.by("id"));
+		Pageable pageable = PageRequest.of(page, size, Sort.by("name"));
 		Page<Recipe> recipeList = null;
 		
 		PagedListHolder<Recipe> recipeListHolder = new PagedListHolder<>();
@@ -152,7 +152,7 @@ public class RecipeController {
 		recipeIngredient.setRecipe(recipe);
 		
 		model.addAttribute("recipeIngredient", recipeIngredient);
-		model.addAttribute("recipeIngredientList", recipeIngredientRepository.findByRecipeId(idRecipe));
+		model.addAttribute("recipeIngredientList", recipeIngredientRepository.findByRecipeId(idRecipe, Sort.by("ingredientEntry.name")));
 		model.addAttribute("recipe", recipe);
 		model.addAttribute("ingredientList", ingredientRepository.findByIngredientOwnerId(userId));
 		
@@ -175,7 +175,7 @@ public class RecipeController {
 		
 		if(bindingResult.hasErrors()) {
 			model.addAttribute("recipeIngredient",recipeIngredient);
-			model.addAttribute("recipeIngredientList", recipeIngredientRepository.findByRecipeId(idRecipe));
+			model.addAttribute("recipeIngredientList", recipeIngredientRepository.findByRecipeId(idRecipe, Sort.by("ingredientEntry.name")));
 			model.addAttribute("recipe", recipe);
 			model.addAttribute("ingredientList", ingredientRepository.findByIngredientOwnerId(userId));
 			
