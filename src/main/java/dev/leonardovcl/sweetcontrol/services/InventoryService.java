@@ -20,7 +20,7 @@ public class InventoryService {
 	InventoryRepository inventoryRepository;
 	
 	private Sort sort = Sort.by(Sort.Direction.ASC, "expirationDate")
-					.and(Sort.by(Sort.Direction.ASC, "amount"))
+					.and(Sort.by(Sort.Direction.ASC, "amountLeft"))
 					.and(Sort.by(Sort.Direction.ASC, "pricePerAmount"))
 					.and(Sort.by(Sort.Direction.ASC, "inclusionDate"));
 
