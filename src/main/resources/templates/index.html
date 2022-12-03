@@ -12,9 +12,6 @@
 			<div class="container-fluid">
 				 <!-- Brand and toggle get grouped for better mobile display -->
 				<a th:href="@{/}" class="navbar-brand"><img class="img-fluid" th:src="@{/img/sweetControl.png}" alt="Sweet Control"></a>
-				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-					<i class="fa-solid fa-bars"></i>
-				</button>
 			</div>
 		</nav>
 		<!-- Navbar End -->
@@ -23,13 +20,77 @@
     
     	<div class="main-content" th:fragment="index">
 			<div class="container-fluid">
-    			<h3>Inventory control system for bakeries.</h3>
     			
-    			<div>
-    				<a class="btn btn-outline-success btn-sm" th:href="@{/login}">Login</a>
-    				<a class="btn btn-outline-success btn-sm" th:href="@{/registration}">Registration</a>
-    			</div>
+    			<h1 class="welcome-text">Welcome<span style="color: #E85992;">!</span></h1>
+    			
+    			<p class="description-text" style="margin-bottom: 1rem;">
+    				<span class="logo-text">Sweet Control </span>
+    				is a web-based system designed to help with edible product inventory management.
+    			</p>
+
+    			<p class="description-text">
+    				You can register different
+    				<span class="emphasis-text"> Ingredients </span>
+    				types and their respective
+    				<span class="emphasis-text"> Inventories </span>
+    				 informations, including total and left amounts, price and expiration date.
+    			</p>
+    			
+    			<p class="description-text">
+    				Beyond that, You can register your own
+    				<span class="emphasis-text"> Recipes</span>
+    				, with informations about
+    				<span class="emphasis-text"> Ingredients </span> 
+    				and their amounts.<br>
+    				<span class="emphasis-text">Sweet Control </span>
+    				will keep track of how many times You can still cook your
+    				<span class="emphasis-text"> Recipes </span>
+    				and how much the next cooking will cost (
+					<span class="emphasis-text"> Ingredients </span>
+					wise).
+    			</p>
+    			
+    			<p class="description-text">
+    				Also, You can follow up your
+    				<span class="emphasis-text"> Cooked Recipes</span>
+    				, knowing which
+    				<span class="emphasis-text"> Inventories </span> 
+    				and amounts were used, making date and cost.
+    			</p>
+    			
+    			<p class="description-text" style="margin-top: 1.5rem;">
+    				Learn more about it&nbsp;
+    				<a href="https://github.com/leonardovcl/sweet-control/blob/main/README.md" title="Learn More"><i class="fa-brands fa-github fa-lg" style="color: #793E21;"></i></a>!
+    			</p>
+    			
     		</div>
+    	</div>
+    			
+    	<div class="container-fluid">
+    			
+			<div style="margin-top: 2rem;">
+		    			
+				<div>
+					<p class="caption-text">Want to taste the
+						<span style="color: #E85992;"> Sweet </span>
+						feeling of being in
+						<span style="color: #E85992;"> Control </span>
+						?
+					</p>
+					<a class="btn btn-outline-success btn-sm" th:href="@{/registration}">Registration</a>
+				</div>
+				
+				<div>
+					<p class="caption-text">
+						Already in
+		    			<span style="color: #E85992;"> Control </span>
+		    			?
+		    		</p>
+		    		<a class="btn btn-outline-success btn-sm" th:href="@{/login}">Login</a>
+		    	</div>
+		    			
+			</div>
+
     	</div>
     
     	<footer th:insert="base.html :: footer"></footer>

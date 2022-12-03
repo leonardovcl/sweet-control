@@ -67,6 +67,35 @@ body {
 }
 
 /* Texts */
+.welcome-text {
+	color: #793e21;
+	font-weight: bold;
+	font-size: 2.67rem;
+}
+
+.description-text {
+	color: #402212;
+	margin-bottom: 0.5rem;
+	margin-top: 0.5rem;
+}
+
+.logo-text {
+	color: #E85992;
+	font-weight: bold;
+	font-size: 1.25rem;
+}
+
+.emphasis-text {
+	color: #E85992;
+	font-weight: bold;
+	font-size: 1rem;
+}
+
+.caption-text{
+	margin-bottom: 0.5rem;
+	margin-top: 0.75rem;
+}
+
 .title-text {
 	color: #793E21;
 	font-weight: bold;
