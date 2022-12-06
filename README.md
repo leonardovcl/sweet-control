@@ -1,5 +1,5 @@
+![sweetControl](/src/main/resources/static/img/sweetControl_BG.png "Sweet Control")
 ##
-![sweetControl](/src/main/resources/static/img/sweetControl_BG.png "Sweet Control") 
 
 [Features](#features)
 :small_blue_diamond:
