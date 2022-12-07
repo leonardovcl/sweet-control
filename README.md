@@ -1,5 +1,4 @@
-![sweetControl](/src/main/resources/static/img/sweetControl_BG.png "Sweet Control")
-##
+![sweetControl](/src/main/resources/static/img/README/sweetControl_BG.png "Sweet Control")
 
 [Features](#features)
 :small_blue_diamond:
@@ -12,6 +11,7 @@
 [License](#license)
 :small_blue_diamond:
 [Authors](#authors-and-acknowledgment)
+##
 
 > Sweet Control is a web-based system designed to help with edible products inventory management.
 
@@ -26,25 +26,56 @@
 Wanna taste the Sweet feeling of being in Control?
 Try [Sweet Control](# "Live Demo Version")!
 
-
 # Features
 
-PRINTS
+![index](/src/main/resources/static/img/README/index.png)
+
+![registration](/src/main/resources/static/img/README/registration.png)
+
+![login](/src/main/resources/static/img/README/login.png)
+
+![ingredientRegister](/src/main/resources/static/img/README/registerIngredient.png)
+
+![ingredient](/src/main/resources/static/img/README/ingredient.png)
+
+![ingredientFilter](/src/main/resources/static/img/README/ingredientFilter.png)
+
+![registerGenericInventory](/src/main/resources/static/img/README/registerGenericInventory.png)
+
+![registerInventory](/src/main/resources/static/img/README/registerInventory.png)
+
+![inventory](/src/main/resources/static/img/README/inventory.png)
+
+![registerRecipe](/src/main/resources/static/img/README/registerRecipe.png)
+
+![recipe](/src/main/resources/static/img/README/recipe.png)
+
+![recipeDesc](/src/main/resources/static/img/README/recipeDesc.png)
+
+![recipeFilter1](/src/main/resources/static/img/README/recipeFilter1.png)
+
+![recipeFilter2](/src/main/resources/static/img/README/recipeFilter2.png)
+
+![recipeIngredient](/src/main/resources/static/img/README/recipeIngredient.png)
+
+![cookedRecipes](/src/main/resources/static/img/README/cookedRecipes.png)
 
 # Tech Stack
+
+Model View Controller (MVC) design pattern.
 
 ![Java](https://res.cloudinary.com/practicaldev/image/fetch/s--KR6jSVNe--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://img.shields.io/badge/Java-ED8B00%3Fstyle%3Dfor-the-badge%26logo%3Djava%26logoColor%3Dwhite)
 ![Hibernate](https://img.shields.io/badge/Hibernate-59666C?style=for-the-badge&logo=Hibernate&logoColor=white)
 ![MySQL](https://img.shields.io/badge/MySQL-005C84?style=for-the-badge&logo=mysql&logoColor=white)
-![Thymeleaf](https://img.shields.io/badge/Thymeleaf-%23005C0F.svg?style=for-the-badge&logo=Thymeleaf&logoColor=white)
 
 ![Spring](https://img.shields.io/badge/Spring-6DB33F?style=for-the-badge&logo=spring&logoColor=white)
 ![SpringBoot](	https://img.shields.io/badge/Spring_Boot-F2F4F9?style=for-the-badge&logo=spring-boot)
 ![SpringSecurity](https://img.shields.io/badge/Spring_Security-6DB33F?style=for-the-badge&logo=Spring-Security&logoColor=white)
 
+![Thymeleaf](https://img.shields.io/badge/Thymeleaf-%23005C0F.svg?style=for-the-badge&logo=Thymeleaf&logoColor=white)
+![JS](https://img.shields.io/badge/JavaScript-323330?style=for-the-badge&logo=javascript&logoColor=F7DF1E)
 ![HTML](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
 ![CSS](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)
-![JS](https://img.shields.io/badge/JavaScript-323330?style=for-the-badge&logo=javascript&logoColor=F7DF1E)
 
 ![Bootstrap](https://img.shields.io/badge/Bootstrap-563D7C?style=for-the-badge&logo=bootstrap&logoColor=white)
 ![FA](https://img.shields.io/badge/Font_Awesome-339AF0?style=for-the-badge&logo=fontawesome&logoColor=white)
@@ -73,6 +104,7 @@ Features:
 - [ ] Custom error Views;
 - [ ] Variable number of entries per page;
 - [ ] Variable sorting type of entries listing;
+- [ ] Recipe Directions;
 - [ ] Reports.
 
 
