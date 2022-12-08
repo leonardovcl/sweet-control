@@ -45,7 +45,9 @@ Try [Sweet Control](# "Live Demo Version")!
 The registration button can be found right on the index page (Fig. 1)!
 
 ![index](/src/main/resources/static/img/README/index.png)
-<font size= 1>**Fig. 1 - Index Page View.**</font>
+```json
+Fig. 1 - Index Page View.
+```
 
 But don't worry! You just need to set a username and a password, no personal information required!
 
@@ -62,7 +64,7 @@ After your registration, You're now able to log in (Fig. 3) and get access to al
 
 The first step is to click Ingredient menu and select "Register Ingredient" (Fig. 4).
 
-To register a new Ingredient You just need to set a "Name" and a "Measure Unity"(Fig. 5). Optionally, you can set a description as well. This last resource is useful to differentiate Ingredients with the same name.
+To register a new Ingredient You just need to set a "Name" and a "Measure Unity" (Fig. 5). Optionally, you can set a description as well. This last resource is useful to differentiate Ingredients with the same name.
 
 ![ingredientRegister](/src/main/resources/static/img/README/registerIngredient.png)
 <font size= 1>**Fig. 5 - Register Ingredient Page View.**</font>
@@ -91,6 +93,8 @@ The other option is click "Inventories" beside the desired Ingredient in the Ing
 Doing it so, You'll be lead to a Inventories List page (Fig. 9), detailing all the Inventories for that Ingredient.
 
 Note that they are sorted, in order, by "Expiration Date", "Amount Left", "Price Per Amount" and Inclusion Date and split in pages with five* entries each. <font size= 1>*[Check [Roadmap](#roadmap)]</font>
+
+The "Delete Expired" button allows to quickly remove all expired Inventories!
 
 ![inventory](/src/main/resources/static/img/README/inventory.png)
 <font size= 1>**Fig. 9 - Inventory List Page View.**</font>
@@ -123,7 +127,7 @@ To register a new Recipe Ingredient You just need to set an "Ingredient" and an 
 ![recipeIngredient](/src/main/resources/static/img/README/recipeIngredient.png)
 <font size= 1>**Fig. 13 - Recipe Ingredients List.**</font>
 
-Regarding Recipes still, you can filter them by their Ingredients (Fig. 14) and by their "Name" (Fig. 16)!
+Regarding Recipes still, you can filter them by their "Ingredients" (Fig. 14) and by their "Name" (Fig. 16)!
 
 ![recipeFilter1](/src/main/resources/static/img/README/recipeFilter1.png)
 <font size= 1>**Fig. 14 - Recipe Filtering By "Ingredient".**</font>
@@ -134,6 +138,8 @@ Regarding Recipes still, you can filter them by their Ingredients (Fig. 14) and 
 At the Recipe List Page (Fig. 12) it is possible to check if the Recipe is "cookable" with your current Inventories. If there is a "Cook!" button at the Recipe entry, that means there are enough Inventories to cook it, otherwise, it will display a "Can't Cook!" button.
 
 Clicking "Cook!" beside any "cookable" Recipe will register a cook event of that Recipe, updating Inventories that were used! You will be also redirect to the Cooked Recipes List (Fig. 16), where you can check the "Total Cost"s and "Making Date"s.
+
+:warning: The order of Inventories used is the same displayed at Inventories List Page (Fig. 9), sorted ascending, in order, by "Expiration Date", "Amount Left", "Price Per Amount" and Inclusion Date.
 
 ![cookedRecipes](/src/main/resources/static/img/README/cookedRecipes.png)
 <font size= 1>**Fig. 16 - Cooked Recipes List.**</font>
