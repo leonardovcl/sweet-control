@@ -253,7 +253,7 @@ Features:
 [Authors](#authors-and-acknowledgment)
 
 Licensed under the terms of the MIT License.
-See [LICENSE](LICENSE.md) for more information.
+See [LICENSE](https://github.com/leonardovcl/sweet-control/blob/main/LICENSE) for more information.
 
 # Authors and Acknowledgment
 
