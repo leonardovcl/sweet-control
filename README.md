@@ -40,14 +40,12 @@ Try [Sweet Control](# "Live Demo Version")!
 :small_blue_diamond:
 [Authors](#authors-and-acknowledgment)
 
-:warning: In order to get access to all [Sweet Control](# "Live Demo Version") features, You need to register yourself.
+:warning: In order to get access to all [Sweet Control](# "Live Demo Version") features, You need to register yourself. :warning:
 
 The registration button can be found right on the index page (Fig. 1)!
 
 ![index](/src/main/resources/static/img/README/index.png)
-```json
-Fig. 1 - Index Page View.
-```
+:pushpin: Fig. 1 - Index Page View.
 
 But don't worry! You just need to set a username and a password, no personal information required!
 
