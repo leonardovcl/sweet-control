@@ -117,7 +117,10 @@ public class CookedRecipeController {
 			cookedRecipeList = new PageImpl<>(cookedRecipeListHolder.getPageList(), pageable, cookedRecipeArrayList.size());
 		}
 		
-		model.addAttribute("cookedRecipeList", cookedRecipeList);
+		model.addAttribute("cookedRecipeList", cookedRecipeList.getContent());
+		model.addAttribute("hasPrevious", cookedRecipeList.hasPrevious());
+		model.addAttribute("hasNext", cookedRecipeList.hasNext());
+		model.addAttribute("totalPages", cookedRecipeList.getTotalPages());
 		
 		return "cookedrecipes/cookedRecipes";
 	}
