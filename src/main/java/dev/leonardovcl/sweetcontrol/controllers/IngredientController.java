@@ -51,8 +51,11 @@ public class IngredientController {
 		} else {
 			ingredientList = ingredientRepository.findByIngredientOwnerId(userId, pageable);
 		}
-		
-		model.addAttribute("ingredientList", ingredientList);
+
+		model.addAttribute("ingredientList", ingredientList.getContent());
+		model.addAttribute("hasPrevious", ingredientList.hasPrevious());
+		model.addAttribute("hasNext", ingredientList.hasNext());
+		model.addAttribute("totalPages", ingredientList.getTotalPages());
 		
 		model.addAttribute("nameLike", nameLike);
 		

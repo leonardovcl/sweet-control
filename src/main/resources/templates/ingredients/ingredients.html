@@ -21,7 +21,7 @@
 	    				</tr>
 	  				</thead>
 	  				<tbody>
-						<tr th:each="ingredient : ${ingredientList.content}">
+						<tr th:each="ingredient : ${ingredientList}">
 							<td scope="row">
 	 							<span th:text="${ingredient.name}"></span> 
 	 							<sup><i class="fa-solid fa-circle-info fa-lg" th:title="${ingredient.description}"></i></sup>
@@ -43,17 +43,17 @@
 	    		</table>
 	    		
 				<div>
-				<span th:if="${ingredientList.hasPrevious()}">
+				<span th:if="${hasPrevious}">
 					<a th:href="@{/ingredients(page=${ingredientList.number-1}, idFilter=${idFilter}, nameLike=${nameLike})}"><i class="fa-solid fa-angle-left fa-lg"></i></a>
 				</span>
 	 
-				<span th:if="${ingredientList.totalPages > 1}">
+				<span th:if="${totalPages > 1}">
 					<th:block th:each="i: ${#numbers.sequence(0, ingredientList.totalPages - 1)}"> 
 						<a class="badge bg-primary text-wrap" th:href="@{/ingredients(page=${i}, idFilter=${idFilter}, nameLike=${nameLike})}">[[ ${i} + 1 ]]</a>
 					</th:block>
 				</span>
 	    
-				<span th:if="${ingredientList.hasNext()}">
+				<span th:if="${hasNext}">
 					<a th:href="@{/ingredients(page=${ingredientList.number+1}, idFilter=${idFilter}, nameLike=${nameLike})}"><i class="fa-solid fa-angle-right fa-lg"></i></a>
 				</span>
 				</div>
