@@ -30,7 +30,7 @@
 	    				</tr>
 	  				</thead>
 	  				<tbody>
-						<tr th:each="inventory : ${inventoryList.content}">
+						<tr th:each="inventory : ${inventoryList}">
 	 						<td scope="row" th:text="${inventory.amountLeft} + ' / ' + ${inventory.amount} + ${inventory.ingredient.amountType.name()}"></td>
 	 						<td scope="row" th:text="'R$ ' + ${inventory.price}"></td>
 	 						<td scope="row" th:text="${#numbers.formatDecimal(inventory.getPricePerAmount(), 1, 2)} + ' /' + ${inventory.ingredient.amountType.name()}"></td>
@@ -46,17 +46,17 @@
 	    		</table>
 	    		
 				<div>
-				<span th:if="${inventoryList.hasPrevious()}">
+				<span th:if="${hasPrevious}">
 					<a th:href="@{/inventories/{idIngredient}(idIngredient=${idIngredient}, page=${inventoryList.number-1})}"><i class="fa-solid fa-angle-left fa-lg"></i></a>
 				</span>
 	 
-				<span th:if="${inventoryList.totalPages > 1}">
+				<span th:if="${totalPages > 1}">
 					<th:block th:each="i: ${#numbers.sequence(0, inventoryList.totalPages - 1)}"> 
 						<a class="badge bg-primary text-wrap" th:href="@{/inventories/{idIngredient}(idIngredient=${idIngredient}, page=${i})}">[[ ${i} + 1 ]]</a>
 					</th:block>
 				</span>
 	    
-				<span th:if="${inventoryList.hasNext()}">
+				<span th:if="${hasNext}">
 					<a th:href="@{/inventories/{idIngredient}(idIngredient=${idIngredient}, page=${inventoryList.number+1})}"><i class="fa-solid fa-angle-right fa-lg"></i></a>
 				</span>
 				</div>

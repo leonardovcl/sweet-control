@@ -3,6 +3,7 @@ package dev.leonardovcl.sweetcontrol.controllers;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -58,9 +59,13 @@ public class InventoryController {
 		}
 		
 		Pageable pageable = inventoryService.pageableSorted(page, size);
+		Page<Inventory> inventoryList = inventoryRepository.findByIngredientIdAndActiveTrue(idIngredient, pageable);
 		
 		model.addAttribute("ingredient", ingredient);
-		model.addAttribute("inventoryList", inventoryRepository.findByIngredientIdAndActiveTrue(idIngredient, pageable));
+		model.addAttribute("inventoryList", inventoryList.getContent());
+		model.addAttribute("hasPrevious", inventoryList.hasPrevious());
+		model.addAttribute("hasNext", inventoryList.hasNext());
+		model.addAttribute("totalPages", inventoryList.getTotalPages());
 		
 		return "inventories/inventories";
 	}
