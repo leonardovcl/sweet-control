@@ -26,7 +26,7 @@
 	    				</tr>
 	  				</thead>
 	  				<tbody>
-	  					<tr th:each="recipe : ${recipeList.content}">
+	  					<tr th:each="recipe : ${recipeList}">
 							<td scope="row">
 	 							<span th:text="${recipe.name}"></span> 
 	 							<sup><i class="fa-solid fa-circle-info fa-lg" th:title="${recipe.description}"></i></sup>
@@ -60,17 +60,17 @@
 	    		</table>
 
 				<div>
-				<span th:if="${recipeList.hasPrevious()}">
+				<span th:if="${hasPrevious}">
 					<a th:href="@{/recipes(page=${recipeList.number-1}, idFilter=${idFilter}, nameLike=${nameLike}, idIngredientFilter=${idIngredientFilter})}"><i class="fa-solid fa-angle-left fa-lg"></i></a>
 				</span>
 	 
-				<span th:if="${recipeList.totalPages > 1}">
+				<span th:if="${totalPages > 1}">
 					<th:block th:each="i: ${#numbers.sequence(0, recipeList.totalPages - 1)}"> 
 						<a class="badge bg-primary text-wrap" th:href="@{/recipes(page=${i}, idFilter=${idFilter}, nameLike=${nameLike}, idIngredientFilter=${idIngredientFilter})}">[[ ${i} + 1 ]]</a>
 					</th:block>
 				</span>
 	    
-				<span th:if="${recipeList.hasNext()}">
+				<span th:if="${hasNext}">
 					<a th:href="@{/recipes(page=${recipeList.number+1}, idFilter=${idFilter}, nameLike=${nameLike}, idIngredientFilter=${idIngredientFilter})}"><i class="fa-solid fa-angle-right fa-lg"></i></a>
 				</span>
 				</div>

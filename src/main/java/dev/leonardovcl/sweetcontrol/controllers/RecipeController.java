@@ -107,7 +107,10 @@ public class RecipeController {
 			
 		}
 		
-		model.addAttribute("recipeList", recipeList);
+		model.addAttribute("recipeList", recipeList.getContent());
+		model.addAttribute("hasPrevious", recipeList.hasPrevious());
+		model.addAttribute("hasNext", recipeList.hasNext());
+		model.addAttribute("totalPages", recipeList.getTotalPages());
 		
 		return "recipes/recipes";
 	}
