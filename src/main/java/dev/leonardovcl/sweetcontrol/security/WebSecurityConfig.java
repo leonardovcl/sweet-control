@@ -59,7 +59,7 @@ public class WebSecurityConfig {
 	    return (web) -> {
 	    	web
 	    		.ignoring()
-	    		.antMatchers("/css/**", "/js/**", "/img/**", "/lib/**", "/favicon.ico");
+	    		.antMatchers("/css/**", "/js/**", "/img/**", "/lib/**", "/favicon.ico", "/error");
 	    };
 	}
 	
