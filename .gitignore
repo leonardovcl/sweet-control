@@ -13,3 +13,4 @@ target/
 .sts4-cache
 
 env.properties
+fly.toml
