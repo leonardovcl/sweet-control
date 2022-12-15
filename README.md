@@ -24,7 +24,9 @@
 * Follow up your Cooked Recipes with Inventories and amounts were used, making date and cost.
 
 Wanna taste the Sweet feeling of being in Control?
-Try [Sweet Control](# "Live Demo Version")!
+Try [Sweet Control](http://sweet-control.fly.dev "Live Demo Version")!
+
+:pick: [Sweet Control](http://sweet-control.fly.dev) is a responsive application, so You can try it on your computer or phone browser!
 
 # Overview and Features
 
@@ -40,7 +42,7 @@ Try [Sweet Control](# "Live Demo Version")!
 :small_blue_diamond:
 [Authors](#authors-and-acknowledgment)
 
-:warning: In order to get access to all [Sweet Control](# "Live Demo Version") features, You need to register yourself. :warning:
+:warning: In order to get access to all [Sweet Control](http://sweet-control.fly.dev) features, You need to register yourself. :warning:
 
 The registration button can be found right on the index page (Fig. 1)!
 
@@ -58,7 +60,7 @@ After your registration, You're now able to log in (Fig. 3) and get access to al
 :pushpin: Fig. 3 - Login Page View.
 
 ![home](/src/main/resources/static/img/README/home.png)
-:pushpin: *Fig. 4 - Home Page View.
+:pushpin: Fig. 4 - Home Page View.
 
 The first step is to click Ingredient menu and select "Register Ingredient" (Fig. 4).
 
@@ -168,20 +170,26 @@ The "magnifier" icon will display the event details (Fig. 17), where the used In
 :small_blue_diamond:
 [Authors](#authors-and-acknowledgment)
 
-Model View Controller (MVC) design pattern.
+[Sweet Control](http://sweet-control.fly.dev) was built in Java with the Spring framework (Spring Boot & Spring Security) and MVC design pattern.
 
 ![Java](https://res.cloudinary.com/practicaldev/image/fetch/s--KR6jSVNe--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://img.shields.io/badge/Java-ED8B00%3Fstyle%3Dfor-the-badge%26logo%3Djava%26logoColor%3Dwhite)
-![Hibernate](https://img.shields.io/badge/Hibernate-59666C?style=for-the-badge&logo=Hibernate&logoColor=white)
-![MySQL](https://img.shields.io/badge/MySQL-005C84?style=for-the-badge&logo=mysql&logoColor=white)
-
 ![Spring](https://img.shields.io/badge/Spring-6DB33F?style=for-the-badge&logo=spring&logoColor=white)
 ![SpringBoot](	https://img.shields.io/badge/Spring_Boot-F2F4F9?style=for-the-badge&logo=spring-boot)
 ![SpringSecurity](https://img.shields.io/badge/Spring_Security-6DB33F?style=for-the-badge&logo=Spring-Security&logoColor=white)
 
+Data are stored in a MySQL database. Persistence and validation was done with Hibernate (through Spring Data).
+
+![MySQL](https://img.shields.io/badge/MySQL-005C84?style=for-the-badge&logo=mysql&logoColor=white)
+![Hibernate](https://img.shields.io/badge/Hibernate-59666C?style=for-the-badge&logo=Hibernate&logoColor=white)
+
+Application front-end was built with Thymeleaf template engine along with HTML, CSS and JavaScript.
+
 ![Thymeleaf](https://img.shields.io/badge/Thymeleaf-%23005C0F.svg?style=for-the-badge&logo=Thymeleaf&logoColor=white)
-![JS](https://img.shields.io/badge/JavaScript-323330?style=for-the-badge&logo=javascript&logoColor=F7DF1E)
 ![HTML](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
 ![CSS](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)
+![JS](https://img.shields.io/badge/JavaScript-323330?style=for-the-badge&logo=javascript&logoColor=F7DF1E)
+
+Bootstrap framework was used for more complex styling and responsiveness. Font Awesome provided icons.
 
 ![Bootstrap](https://img.shields.io/badge/Bootstrap-563D7C?style=for-the-badge&logo=bootstrap&logoColor=white)
 ![FA](https://img.shields.io/badge/Font_Awesome-339AF0?style=for-the-badge&logo=fontawesome&logoColor=white)
@@ -226,7 +234,7 @@ The project is still under development and the next updates will focus on the fo
 User:
 
 - [ ] Add User Roles;
-- [ ] Add User Company;
+- [ ] Add User Company/Group;
 - [ ] Add User Password Reset;
 
 Features:
