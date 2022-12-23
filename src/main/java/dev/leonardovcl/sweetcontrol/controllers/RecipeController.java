@@ -107,8 +107,57 @@ public class RecipeController {
 			
 		}
 		
-		model.addAttribute("recipeList", recipeList.getContent());
-//		model.addAttribute("RecipesLeft", recipeService.calculateRecipesLeft(recipe.id));
+		List<Recipe> recipeListContent = recipeList.getContent();
+		
+		class RecipeStatus {
+			
+			private Recipe recipe;
+			private Double recipeTotalCost;
+			private Integer recipesLeft;
+			
+			RecipeStatus(Recipe recipe, Double recipeTotalCost, Integer recipesLeft) {
+				setRecipe(recipe);
+				setRecipeTotalCost(recipeTotalCost);
+				setRecipesLeft(recipesLeft);
+			}
+
+			@SuppressWarnings("unused")
+			public Recipe getRecipe() {
+				return recipe;
+			}
+
+			public void setRecipe(Recipe recipe) {
+				this.recipe = recipe;
+			}
+
+			@SuppressWarnings("unused")
+			public Double getRecipeTotalCost() {
+				return recipeTotalCost;
+			}
+
+			public void setRecipeTotalCost(Double recipeTotalCost) {
+				this.recipeTotalCost = recipeTotalCost;
+			}
+
+			@SuppressWarnings("unused")
+			public Integer getRecipesLeft() {
+				return recipesLeft;
+			}
+
+			public void setRecipesLeft(Integer recipesLeft) {
+				this.recipesLeft = recipesLeft;
+			}
+
+		}
+		
+		List<RecipeStatus> recipeStatusList = recipeListContent.stream()
+												.map(recipe -> new RecipeStatus(recipe,
+																recipeService.calculateRecipeTotalCost(recipe.getId()).getRecipeTotalCost(),
+																recipeService.calculateRecipesLeft(recipe.getId())))
+												.toList();
+		
+		model.addAttribute("recipeStatusList", recipeStatusList);
+		
 		model.addAttribute("hasPrevious", recipeList.hasPrevious());
 		model.addAttribute("hasNext", recipeList.hasNext());
 		model.addAttribute("totalPages", recipeList.getTotalPages());

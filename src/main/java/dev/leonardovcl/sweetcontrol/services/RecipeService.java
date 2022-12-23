@@ -101,7 +101,7 @@ public class RecipeService {
 		return recipesLeft;
 	}
 	
-	private class RecipeTotalCostReturn {
+	public class RecipeTotalCostReturn {
 		
 		private Double recipeTotalCost;
 		

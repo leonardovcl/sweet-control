@@ -26,31 +26,36 @@
 	    				</tr>
 	  				</thead>
 	  				<tbody>
-	  					<tr th:each="recipe : ${recipeList}">
+	  					<tr th:each="recipeStatus : ${recipeStatusList}">
 							<td scope="row">
-	 							<span th:text="${recipe.name}"></span> 
-	 							<sup><i class="fa-solid fa-circle-info fa-lg" th:title="${recipe.description}"></i></sup>
+	 							<span th:text="${recipeStatus.recipe.name}"></span> 
+	 							<sup><i class="fa-solid fa-circle-info fa-lg" th:title="${recipeStatus.recipe.description}"></i></sup>
 	 						</td>
+	 						<th:block th:if="${recipeStatus.recipeTotalCost > 0.0}">
+		 						<td scope="row"
+		 							th:text="'R$ ' + ${#numbers.formatDecimal(recipeStatus.recipeTotalCost, 1, 2)}">
+								</td>
+							</th:block>
+	 						<th:block th:unless="${recipeStatus.recipeTotalCost > 0.0}">
+		 						<td scope="row">R$ -----</td>
+							</th:block>
 	 						<td scope="row"
-	 							th:text="'R$ ' + ${#numbers.formatDecimal(@recipeService.calculateRecipeTotalCost(recipe.id).recipeTotalCost, 1, 2)}">
-							</td>
-	 						<td scope="row"
-	 							id="recipesLeft" th:text="${@recipeService.calculateRecipesLeft(recipe.id)}">
+	 							id="recipesLeft" th:text="${recipeStatus.recipesLeft}">
 							</td>
 	 						<td scope="row" align="right">
 	 							<div class="collapse last-col" id="columnCollapse">
 		 							<ul id="table-ul">
 		 								<li>
-		 									<a th:href="@{/recipes/{idRecipe}(idRecipe=${recipe.id})}" class="btn btn-outline-danger btn-sm">Ingredients</a> &nbsp;
+		 									<a th:href="@{/recipes/{idRecipe}(idRecipe=${recipeStatus.recipe.id})}" class="btn btn-outline-danger btn-sm">Ingredients</a> &nbsp;
 		 								</li>
 		 								
 		 								<li>
-		 									<a id="cookButton" th:href="@{/recipes/cook/{idRecipe}(idRecipe=${recipe.id})}" class="btn btn-outline-success btn-sm">Cook!</a> &nbsp;
+		 									<a id="cookButton" th:href="@{/recipes/cook/{idRecipe}(idRecipe=${recipeStatus.recipe.id})}" class="btn btn-outline-success btn-sm">Cook!</a> &nbsp;
 		 								</li>
 		 								
 		 								<li>
-		    								<a th:href="@{/recipes/edit/{idRecipe}(idRecipe=${recipe.id})}" title="Edit"><i class="fa-solid fa-pen-to-square fa-lg"></i></a>
-		    								<a th:href="@{/recipes/delete/{idRecipe}(idRecipe=${recipe.id})}" title="Delete"><i class="fa-solid fa-xmark fa-lg"></i></a>
+		    								<a th:href="@{/recipes/edit/{idRecipe}(idRecipe=${recipeStatus.recipe.id})}" title="Edit"><i class="fa-solid fa-pen-to-square fa-lg"></i></a>
+		    								<a th:href="@{/recipes/delete/{idRecipe}(idRecipe=${recipeStatus.recipe.id})}" title="Delete"><i class="fa-solid fa-xmark fa-lg"></i></a>
 		 								</li>
 		 							</ul>
 	    						</div>
