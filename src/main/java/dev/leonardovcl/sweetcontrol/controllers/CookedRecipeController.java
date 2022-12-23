@@ -121,6 +121,7 @@ public class CookedRecipeController {
 		model.addAttribute("hasPrevious", cookedRecipeList.hasPrevious());
 		model.addAttribute("hasNext", cookedRecipeList.hasNext());
 		model.addAttribute("totalPages", cookedRecipeList.getTotalPages());
+		model.addAttribute("pageNumber", cookedRecipeList.getNumber());
 		
 		return "cookedrecipes/cookedRecipes";
 	}

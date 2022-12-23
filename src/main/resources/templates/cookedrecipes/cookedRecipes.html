@@ -44,17 +44,17 @@
 
 				<div>
 				<span th:if="${hasPrevious}">
-					<a th:href="@{/cookedrecipes(page=${cookedRecipeList.number-1}, idFilter=${idFilter}, nameLike=${nameLike}, idIngredientFilter=${idIngredientFilter})}"><i class="fa-solid fa-angle-left fa-lg"></i></a>
+					<a th:href="@{/cookedrecipes(page=${pageNumber-1}, idFilter=${idFilter}, nameLike=${nameLike}, idIngredientFilter=${idIngredientFilter})}"><i class="fa-solid fa-angle-left fa-lg"></i></a>
 				</span>
 	 
 				<span th:if="${totalPages > 1}">
-					<th:block th:each="i: ${#numbers.sequence(0, cookedRecipeList.totalPages - 1)}"> 
+					<th:block th:each="i: ${#numbers.sequence(0, totalPages - 1)}"> 
 						<a class="badge bg-primary text-wrap" th:href="@{/cookedrecipes(page=${i}, idFilter=${idFilter}, nameLike=${nameLike}, idIngredientFilter=${idIngredientFilter})}">[[ ${i} + 1 ]]</a>
 					</th:block>
 				</span>
 	    
 				<span th:if="${hasNext}">
-					<a th:href="@{/cookedrecipes(page=${cookedRecipeList.number+1}, idFilter=${idFilter}, nameLike=${nameLike}, idIngredientFilter=${idIngredientFilter})}"><i class="fa-solid fa-angle-right fa-lg"></i></a>
+					<a th:href="@{/cookedrecipes(page=${pageNumber+1}, idFilter=${idFilter}, nameLike=${nameLike}, idIngredientFilter=${idIngredientFilter})}"><i class="fa-solid fa-angle-right fa-lg"></i></a>
 				</span>
 				</div>
 	    

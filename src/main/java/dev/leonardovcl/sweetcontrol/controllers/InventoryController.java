@@ -66,6 +66,7 @@ public class InventoryController {
 		model.addAttribute("hasPrevious", inventoryList.hasPrevious());
 		model.addAttribute("hasNext", inventoryList.hasNext());
 		model.addAttribute("totalPages", inventoryList.getTotalPages());
+		model.addAttribute("pageNumber", inventoryList.getNumber());
 		
 		return "inventories/inventories";
 	}

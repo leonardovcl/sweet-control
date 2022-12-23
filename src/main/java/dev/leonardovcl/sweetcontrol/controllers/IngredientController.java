@@ -56,6 +56,7 @@ public class IngredientController {
 		model.addAttribute("hasPrevious", ingredientList.hasPrevious());
 		model.addAttribute("hasNext", ingredientList.hasNext());
 		model.addAttribute("totalPages", ingredientList.getTotalPages());
+		model.addAttribute("pageNumber", ingredientList.getNumber());
 		
 		model.addAttribute("nameLike", nameLike);
 		
