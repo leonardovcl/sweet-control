@@ -1,7 +1,7 @@
 ![sweetControl](/src/main/resources/static/img/README/sweetControl_BG.png "Sweet Control")
 #
 
-[Overview](#features)
+[Overview](#overview-and-features)
 :small_blue_diamond:
 [Tech Stack](#tech-stack)
 :small_blue_diamond:
@@ -160,7 +160,7 @@ The "magnifier" icon will display the event details (Fig. 17), where the used In
 
 [⬆ Top](#)
 :small_blue_diamond:
-[Overview](#features)
+[Overview](#overview-and-features)
 :small_blue_diamond:
 [Update History](#update-history)
 :small_blue_diamond:
@@ -198,7 +198,7 @@ Bootstrap framework was used for more complex styling and responsiveness. Font A
 
 [⬆ Top](#)
 :small_blue_diamond:
-[Overview](#features)
+[Overview](#overview-and-features)
 :small_blue_diamond:
 [Tech Stack](#tech-stack)
 :small_blue_diamond:
@@ -215,7 +215,7 @@ Bootstrap framework was used for more complex styling and responsiveness. Font A
 
 [⬆ Top](#)
 :small_blue_diamond:
-[Overview](#features)
+[Overview](#overview-and-features)
 :small_blue_diamond:
 [Tech Stack](#tech-stack)
 :small_blue_diamond:
@@ -250,7 +250,7 @@ Features:
 
 [⬆ Top](#)
 :small_blue_diamond:
-[Overview](#features)
+[Overview](#overview-and-features)
 :small_blue_diamond:
 [Tech Stack](#tech-stack)
 :small_blue_diamond:
@@ -267,7 +267,7 @@ See [LICENSE](https://github.com/leonardovcl/sweet-control/blob/main/LICENSE) fo
 
 [⬆ Top](#)
 :small_blue_diamond:
-[Overview](#features)
+[Overview](#overview-and-features)
 :small_blue_diamond:
 [Tech Stack](#tech-stack)
 :small_blue_diamond:
