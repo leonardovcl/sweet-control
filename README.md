@@ -15,7 +15,7 @@
 
 > Sweet Control is a web-based system designed to help with food ingredients inventory management.
 
-* Register different Ingredients types and their respective Inventories informations, including total and left amounts, price and expiration date.
+* Register different Ingredients and their respective Inventories informations, including total and left amounts, price and expiration date.
 
 * Register your own Recipes, with informations about Ingredients and their amounts.
 
