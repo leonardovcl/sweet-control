@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotBlank;
 
 @Entity
@@ -27,6 +28,12 @@ public class Recipe {
 	
 	@Column(name = "recipet_description", length = 200)
 	private String description;
+	
+	@Transient
+	private Double recipeTotalCost;
+	
+	@Transient
+	private Integer recipesLeft;
 	
 	@OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
 	private List<RecipeIngredient> recipeIngredients;
@@ -75,6 +82,22 @@ public class Recipe {
 		this.description = description;
 	}
 	
+	public Double getRecipeTotalCost() {
+		return recipeTotalCost;
+	}
+
+	public void setRecipeTotalCost(Double recipeTotalCost) {
+		this.recipeTotalCost = recipeTotalCost;
+	}
+
+	public Integer getRecipesLeft() {
+		return recipesLeft;
+	}
+
+	public void setRecipesLeft(Integer recipesLeft) {
+		this.recipesLeft = recipesLeft;
+	}
+
 	public List<RecipeIngredient> getRecipeIngredients() {
 		return recipeIngredients;
 	}

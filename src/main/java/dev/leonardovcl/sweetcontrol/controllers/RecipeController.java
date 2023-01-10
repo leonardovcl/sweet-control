@@ -108,55 +108,14 @@ public class RecipeController {
 		}
 		
 		List<Recipe> recipeListContent = recipeList.getContent();
+											
+		recipeListContent.stream()
+							.forEach(recipe -> {
+								recipe.setRecipeTotalCost(recipeService.calculateRecipeTotalCost(recipe.getId()).getRecipeTotalCost());
+								recipe.setRecipesLeft(recipeService.calculateRecipesLeft(recipe.getId()));
+							});
 		
-		class RecipeStatus {
-			
-			private Recipe recipe;
-			private Double recipeTotalCost;
-			private Integer recipesLeft;
-			
-			RecipeStatus(Recipe recipe, Double recipeTotalCost, Integer recipesLeft) {
-				setRecipe(recipe);
-				setRecipeTotalCost(recipeTotalCost);
-				setRecipesLeft(recipesLeft);
-			}
-
-			@SuppressWarnings("unused")
-			public Recipe getRecipe() {
-				return recipe;
-			}
-
-			public void setRecipe(Recipe recipe) {
-				this.recipe = recipe;
-			}
-
-			@SuppressWarnings("unused")
-			public Double getRecipeTotalCost() {
-				return recipeTotalCost;
-			}
-
-			public void setRecipeTotalCost(Double recipeTotalCost) {
-				this.recipeTotalCost = recipeTotalCost;
-			}
-
-			@SuppressWarnings("unused")
-			public Integer getRecipesLeft() {
-				return recipesLeft;
-			}
-
-			public void setRecipesLeft(Integer recipesLeft) {
-				this.recipesLeft = recipesLeft;
-			}
-
-		}
-		
-		List<RecipeStatus> recipeStatusList = recipeListContent.stream()
-												.map(recipe -> new RecipeStatus(recipe,
-																recipeService.calculateRecipeTotalCost(recipe.getId()).getRecipeTotalCost(),
-																recipeService.calculateRecipesLeft(recipe.getId())))
-												.toList();
-		
-		model.addAttribute("recipeStatusList", recipeStatusList);
+		model.addAttribute("recipeListContent", recipeListContent);
 		
 		model.addAttribute("hasPrevious", recipeList.hasPrevious());
 		model.addAttribute("hasNext", recipeList.hasNext());
@@ -205,8 +164,11 @@ public class RecipeController {
 		RecipeIngredient recipeIngredient = new RecipeIngredient();
 		recipeIngredient.setRecipe(recipe);
 		
+		List<RecipeIngredient> recipeIngredientList = recipeIngredientRepository.findByRecipeId(idRecipe, Sort.by("ingredientEntry.name"));
+		
 		model.addAttribute("recipeIngredient", recipeIngredient);
-		model.addAttribute("recipeIngredientList", recipeIngredientRepository.findByRecipeId(idRecipe, Sort.by("ingredientEntry.name")));
+		model.addAttribute("recipeIngredientList", recipeIngredientList);
+		model.addAttribute("recipeIngredientListSize", recipeIngredientList.size());
 		model.addAttribute("recipe", recipe);
 		model.addAttribute("ingredientList", ingredientRepository.findByIngredientOwnerId(userId));
 		
