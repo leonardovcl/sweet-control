@@ -25,7 +25,7 @@
 	 							<span th:text="${recipe.name}"></span> 
 	 							<sup><i class="fa-solid fa-circle-info fa-lg" th:title="${recipe.description}"></i></sup>
 	 						</td>
-	 						<td scope="row" type="Date" th:text="${#dates.format(cookedRecipe.getMakingDate(), 'dd/MM/yyyy')}" align="left"></td>
+	 						<td scope="row" type="Date" th:text="${#dates.format(cookedRecipe.makingDate, 'MM-dd-yyyy HH:mm:ss')}" align="left"></td>
 						</tr>
 					</tbody>
 	    		</table>

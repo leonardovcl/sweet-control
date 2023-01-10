@@ -31,20 +31,22 @@ public class CookedRecipe {
 	@Column(name = "recipe_total_cost")
 	private Double recipeEntryTotalCost;
 	
-	@DateTimeFormat(pattern = "yyyy-MM-dd 'at' HH:mm:ss z")
-	@Temporal(TemporalType.DATE)
+	@Column(name = "making_date", columnDefinition="TIMESTAMP")
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date makingDate;
 	
 	@OneToMany(mappedBy = "cookedRecipeEntry", cascade = CascadeType.ALL)
 	private List<UsedInventory> usedInventoryList;
 
 	public CookedRecipe() {
-		
+		this.setMakingDate(new Date());
 	}
 	
 	public CookedRecipe(Recipe recipeEntry, Double recipeEntryTotalCost) {
 		this.setRecipeEntry(recipeEntry);
 		this.setRecipeEntryTotalCost(recipeEntryTotalCost);
+		this.setMakingDate(new Date());
 	}
 	
 

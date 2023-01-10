@@ -179,6 +179,8 @@ public class RecipeService {
 		RecipeTotalCostReturn recipeEntryTotalCostReturn = calculateRecipeTotalCost(recipeId);
 		Date makingDate = new Date();
 		
+		System.out.println(makingDate);
+		
 		if(recipeEntryTotalCostReturn.getRecipeTotalCost() == 0.0) {
 			return;
 		}

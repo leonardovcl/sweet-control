@@ -62,17 +62,17 @@ public class CookedRecipeController {
 		
 		Long userId = userRepository.findByUsername(securityUser.getUsername()).get().getId();
 		
-		model.addAttribute("ingredientList", ingredientRepository.findAll());
+		model.addAttribute("ingredientList", ingredientRepository.findByIngredientOwnerId(userId));
 		
 		model.addAttribute("nameLike", nameLike);
 		model.addAttribute("idIngredientFilter", idIngredientFilter);
 		
-		Pageable pageable = PageRequest.of(page, size, Sort.by("recipeEntry.name"));
+		Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "makingDate"));
 		Page<CookedRecipe> cookedRecipeList = null;
 		
 		PagedListHolder<CookedRecipe> cookedRecipeListHolder = new PagedListHolder<>();
 		cookedRecipeListHolder.setPageSize(size);
-		cookedRecipeListHolder.setSort(new MutableSortDefinition("id", true, true));
+		cookedRecipeListHolder.setSort(new MutableSortDefinition("makingDate", true, false));
 		
 		List<CookedRecipe> cookedRecipeArrayList = new ArrayList<>();
 		

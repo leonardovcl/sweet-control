@@ -27,7 +27,7 @@
 	 							<span th:text="${cookedRecipe.recipeEntry.name}"></span> 
 	 							<sup><i class="fa-solid fa-circle-info fa-lg" th:title="${cookedRecipe.recipeEntry.description}"></i></sup>
 	 						</td>
-	 						<td scope="row" th:text="${cookedRecipe.makingDate}"></td>
+	 						<td scope="row" th:text="${#dates.format(cookedRecipe.makingDate, 'MM-dd-yyyy hh:mm:ss')}"></td>
 	 						<td scope="row"
 	 							th:text="'R$ ' + ${#numbers.formatDecimal(cookedRecipe.recipeEntryTotalCost, 1, 2)}">
 							</td>
