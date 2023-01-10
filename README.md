@@ -13,7 +13,7 @@
 :small_blue_diamond:
 [Authors](#authors-and-acknowledgment)
 
-> Sweet Control is a web-based system designed to help with edible products inventory management.
+> Sweet Control is a web-based system designed to help with food ingredients inventory management.
 
 * Register different Ingredients types and their respective Inventories informations, including total and left amounts, price and expiration date.
 
@@ -42,119 +42,118 @@ Try [Sweet Control](http://sweet-control.fly.dev "Live Demo Version")!
 :small_blue_diamond:
 [Authors](#authors-and-acknowledgment)
 
+## :hammer: User Authentication
+
 :warning: In order to get access to all [Sweet Control](http://sweet-control.fly.dev) features, You need to register yourself. :warning:
 
-The registration button can be found right on the index page (Fig. 1)!
+Don't worry! You just need to set a username and a password, no personal information required!
 
-![index](/src/main/resources/static/img/README/index.png)
-:pushpin: Fig. 1 - Index Page View.
+> :information_source: The registration button can be found right at the [index page](http://sweet-control.fly.dev).
 
-But don't worry! You just need to set a username and a password, no personal information required!
+After registration, You can log in and get access to all features shown at the top menu of your home page!
 
-![registration](/src/main/resources/static/img/README/registration.png)
-:pushpin: Fig. 2 - Registration Page View.
+![registration-login](/src/main/resources/static/img/README/registration2login.gif)
+:pushpin: Registration and Log in.
 
-After your registration, You're now able to log in (Fig. 3) and get access to all the features shown at the top menu of your home page (Fig. 4).
+## :hammer: Ingredients and Inventories
 
-![login](/src/main/resources/static/img/README/login.png)
-:pushpin: Fig. 3 - Login Page View.
+> :information_source: To deal with ingredients, the first step is to click Ingredient menu and select "Register Ingredient".
 
-![home](/src/main/resources/static/img/README/home.png)
-:pushpin: Fig. 4 - Home Page View.
+To register a new Ingredient You just need to set a "Name" and a "Measure Unity". Optionally, you can set a description as well. This last resource is useful to differentiate Ingredients with the same name.
 
-The first step is to click Ingredient menu and select "Register Ingredient" (Fig. 4).
+![ingredientRegister](/src/main/resources/static/img/README/registerIngredient.gif)
+:pushpin: How to Register Ingredients.
 
-To register a new Ingredient You just need to set a "Name" and a "Measure Unity" (Fig. 5). Optionally, you can set a description as well. This last resource is useful to differentiate Ingredients with the same name.
+> :information_source: Selecting "View Ingredients" on the Ingredient menu, You'll see the list of registered Ingredients with their total amount.
 
-![ingredientRegister](/src/main/resources/static/img/README/registerIngredient.png)
-:pushpin: Fig. 5 - Register Ingredient Page View.
-
-Selecting "View Ingredients" on the Ingredient menu, You'll see the list of registered Ingredients with their total amount (Fig. 6).
-
-Note that they are sorted by alphabetical* order and split in pages with five* entries each. [[Check Roadmap](#roadmap)]
-
-![ingredient](/src/main/resources/static/img/README/ingredient.png)
-:pushpin: Fig. 6 - Ingredient List Page View.
+:bookmark_tabs: Note that they are sorted by alphabetical* order and split in pages with five* entries each. *[[Check Roadmap](#roadmap)]
 
 You can filter Ingredients by their name! The filter searches by names containing the typed words/letters.
 
-![ingredientFilter](/src/main/resources/static/img/README/ingredientFilter.png)
-:pushpin: Fig. 7 - Ingredient Filtering.
+![ingredient](/src/main/resources/static/img/README/viewIngrdient.gif)
+:pushpin: Ingredient Listing and Filtering.
 
-The second step is to add some Inventories to your registered Ingredients! There are two options for that.
+Next step is to add some Inventories to your registered Ingredients! There are two options for that!
 
-First one is to click "Register Inventory" at the bottom of the Ingredient List page (Fig. 6), opening a Generic Inventory Registration page (Fig. 8), where You need to select the Ingredient from a drop-down list. 
+In order to register an Inventory, It's needed to set "Total Amount" (i.e. the package total), "Amount Left" (i.e. the left amount in the package), total "Price" and "Expiration Date".
 
-![registerGenericInventory](/src/main/resources/static/img/README/registerGenericInventory.png)
-:pushpin: Fig. 8 - Register Generic Inventory Page View.
+> :information_source: By clicking "Register Inventory" at the bottom of the Ingredient List page, a Generic Inventory Registration page will be loaded, where You need to select the Ingredient type from a drop-down list.
 
-The other option is click "Inventories" beside the desired Ingredient in the Ingredient List page (Fig. 6).
+![registerGenericInventory](/src/main/resources/static/img/README/registerInventory1.gif)
+:pushpin: How to Register a Generic Inventory.
 
-Doing it so, You'll be lead to a Inventories List page (Fig. 9), detailing all the Inventories for that Ingredient.
+> :information_source: By clicking "Inventories" beside the desired Ingredient in the Ingredient List page, You'll be also lead to a Inventories List page, detailing all the Inventories for that Ingredient.
 
-Note that they are sorted, in order, by "Expiration Date", "Amount Left", "Price Per Amount" and Inclusion Date and split in pages with five* entries each. [[Check Roadmap](#roadmap)]
+:bookmark_tabs: Note that they are sorted, in order, by "Expiration Date", "Amount Left", "Price Per Amount" and Inclusion Date and split in pages with five* entries each. *[[Check Roadmap](#roadmap)]
 
-The "Delete Expired" button allows to quickly remove all expired Inventories!
+> :information_source: The "Delete Expired" button allows to quickly remove all expired Inventories!
 
-![inventory](/src/main/resources/static/img/README/inventory.png)
-:pushpin: Fig. 9 - Inventory List Page View.
+![inventory](/src/main/resources/static/img/README/viewInventory.gif)
+:pushpin: Inventory Listing and Delete Expired.
 
-By clicking "Register Inventory" at the bottom of the Inventories List page (Fig. 9), You'll be redirect to an Inventory Registration page (Fig. 10) for that specific Ingredient.
+> :information_source: By clicking "Inventories" beside the desired Ingredient and then clicking "Register Inventory" at the bottom of the page, You'll be redirect to an Inventory Registration page for that specific Ingredient. And there You go, your second registration option!
 
-![registerInventory](/src/main/resources/static/img/README/registerInventory.png)
-:pushpin: Fig. 10 - Register Inventory Page View.
+![registerGenericInventory](/src/main/resources/static/img/README/registerInventory2.gif)
+:pushpin: How to Register an Inventory.
 
-In both cases (Figs. 8 and 10), It's needed to set "Total Amount" (i.e. the package total), "Amount Left" (i.e. the left amount in the package), total "Price" and "Expiration Date".
+## :hammer: Recipes
 
-Next step is to register a Recipe! This can be done by selecting "Register Recipe" at the Recipe menu.
+Next, keep going and register some of your Recipes!
 
-To register a new Recipe You just need to set a "Name" (Fig. 11). Optionally, you can set a description* as well. [[Check Roadmap](#roadmap)]
+> :information_source: This can be done by selecting "Register Recipe" at the Recipe menu.
 
-![registerRecipe](/src/main/resources/static/img/README/registerRecipe.png)
-:pushpin: Fig. 11 - Register Recipe Page View.
+To register a new Recipe You just need to set a "Name". Optionally, you can set a description* as well. *[[Check Roadmap](#roadmap)]
 
-Selecting "View Recipes" on the Recipe menu, You'll see the list of registered Recipes (Fig. 12), where You can check the Recipes next cooking  total cost as also how many more time You can cook it.
+![registerRecipe](/src/main/resources/static/img/README/registerRecipe.gif)
+:pushpin: How to Register a Recipe.
 
-Note that they are, as well, sorted by alphabetical* order and split in pages with five* entries each. [[Check Roadmap](#roadmap)]
+> :information_source: Selecting "View Recipes" on the Recipe menu, You'll see the list of registered Recipes, where You can check the Recipes next cooking total cost as also how many more time You can cook it!
 
-![recipe](/src/main/resources/static/img/README/recipe.png)
-:pushpin: Fig. 12 - Recipe List Page View.
+:bookmark_tabs: Note that they are, as well, sorted by alphabetical* order and split in pages with five* entries each. *[[Check Roadmap](#roadmap)]
 
-Clicking "Ingredients" beside any Recipe will display its list of Ingredients and will let You register new Ingredients to that Recipe!
+Also, You can filter them by their "Ingredients" and by their "Name"!
 
-To register a new Recipe Ingredient You just need to set an "Ingredient" and an "Amount" (Fig. 13).
+![recipe](/src/main/resources/static/img/README/viewRecipe.gif)
+:pushpin: Recipe Listing and Filtering.
 
-![recipeIngredient](/src/main/resources/static/img/README/recipeIngredient.png)
-:pushpin: Fig. 13 - Recipe Ingredients List.
+> :information_source: Clicking "Ingredients" beside any Recipe will display its list of Ingredients and will let You register Ingredients to that Recipe!
 
-Regarding Recipes still, you can filter them by their "Ingredients" (Fig. 14) and by their "Name" (Fig. 16)!
+To register a new Recipe Ingredient You just need to set an "Ingredient" and an "Amount".
 
-![recipeFilter1](/src/main/resources/static/img/README/recipeFilter1.png)
-:pushpin: Fig. 14 - Recipe Filtering By "Ingredient".
+![recipeIngredient](/src/main/resources/static/img/README/detailRecipe.gif)
+:pushpin: How to register Recipe Ingredients.
 
-![recipeFilter2](/src/main/resources/static/img/README/recipeFilter2.png)
-:pushpin: Fig. 15 - Recipe Filtering By "Name".
+## :hammer: Cooked Recipes
 
-At the Recipe List Page (Fig. 12) it is possible to check if the Recipe is "cookable" with your current Inventories. If there is a "Cook!" button at the Recipe entry, that means there are enough Inventories to cook it, otherwise, it will display a "Can't Cook!" button.
+> :information_source: At the Recipe List Page it is possible to check if the Recipe is "cookable" with your current Inventories. If there is a "Cook!" button at the Recipe entry, that means there are enough Inventories to cook it, otherwise, it will display a "Can't Cook!" button.
 
-Clicking "Cook!" beside any "cookable" Recipe will register a cook event of that Recipe, updating Inventories that were used! You will be also redirect to the Cooked Recipes List (Fig. 16), where you can check the "Total Cost"s and "Making Date"s.
+Clicking "Cook!" beside any "cookable" Recipe will register a cook event of that Recipe, updating Inventories that were used! You will be also redirect to the Cooked Recipes List page, where you can check the "Total Cost"s and "Making Date"s.
 
-:warning: The order of Inventories used is the same displayed at Inventories List Page (Fig. 9), sorted ascending, in order, by "Expiration Date", "Amount Left", "Price Per Amount" and Inclusion Date.
+:bookmark_tabs: Note that they are sorted by "Making Date" and split in pages with five* entries each. *[[Check Roadmap](#roadmap)]
 
-![cookedRecipes](/src/main/resources/static/img/README/cookedRecipes.png)
-:pushpin: Fig. 16 - Cooked Recipes List.
+> :information_source: The "magnifier" icon will display the event details, where the used Inventories can be seen.
 
-The "anti clockwise" icon lets You revert the cooking event, restoring the used Inventories.
+:warning: The order of Inventories used is the same displayed at Inventories List Page, sorted ascending, in order, by "Expiration Date", "Amount Left", "Price Per Amount" and Inclusion Date.
 
-The "magnifier" icon will display the event details (Fig. 17), where the used Inventories can be seen.
+![cookedRecipes](/src/main/resources/static/img/README/viewCookedRecipe.gif)
+:pushpin: How to Register a Cook Recipe Event.
 
-![cookedRecipes](/src/main/resources/static/img/README/cookedRecipesDetails.png)
-:pushpin: Fig. 17 - Cooked Recipes Details.
+You can filter Cooked Recipes by their "Ingredients" and by their "Name", just like with Recipes!
 
-:pick: Hovering over the :information_source: icon (Fig. 18) at any page will display the entry description if it was set during the registration. This is useful to differentiate same name entries.
+![cookedRecipes](/src/main/resources/static/img/README/filterCookedRecipe.gif)
+:pushpin: Cooked Recipe Listing and Filtering.
 
-![recipeDesc](/src/main/resources/static/img/README/recipeDesc.png)
-:pushpin: Fig. 18 - Hovering over :information_source: icon.
+> :information_source: The "anti clockwise" icon lets You revert the cooking event, restoring the used Inventories.
+
+![cookedRecipes](/src/main/resources/static/img/README/revertCookedRecipe.gif)
+:pushpin: Revert Cooked Recipe.
+
+## :pick: Information Icons
+
+> :information_source: Hovering over the :information_source: icon at any page will display the entry description if it was set during the registration. This is useful to differentiate same name entries.
+
+![recipeDesc](/src/main/resources/static/img/README/detailsIcon.gif)
+:pushpin: Hovering over :information_source: icon.
 
 # Tech Stack
 
