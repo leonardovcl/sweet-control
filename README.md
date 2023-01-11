@@ -1,6 +1,9 @@
 ![sweetControl](/src/main/resources/static/img/README/sweetControl_BG.png "Sweet Control")
 #
 
+![license](https://img.shields.io/github/license/leonardovcl/sweet-control)
+![status](https://img.shields.io/static/v1?label=status&message=Developing&color=red)
+
 [Overview](#overview-and-features)
 :small_blue_diamond:
 [Tech Stack](#tech-stack)
